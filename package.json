@@ -1,0 +1,33 @@
+{
+  "name": "assoc-app",
+  "version": "0.0.1",
+  "description": "Web app permettant de gérer des adhérents, un planning, et une présentation du projet sous-jacent",
+  "main": "back/bin/root",
+  "scripts": {
+    "test": "run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pietrog/AssocApp.git"
+  },
+  "keywords": [
+    "planning",
+    "event",
+    "association"
+  ],
+  "author": "Silessio Consulting",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pietrog/AssocApp/issues",
+    "email": "silessio.consulting@gmail.com"
+  },
+  "homepage": "https://github.com/pietrog/AssocApp#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mocha": "latest",
+    "mongoose": "^5.0.12"
+  },
+  "devDependencies": {
+    "jasmine-core": "^3.1.0"
+  }
+}
