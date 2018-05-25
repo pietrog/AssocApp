@@ -4,7 +4,7 @@
   "description": "Web app permettant de gérer des adhérents, un planning, et une présentation du projet sous-jacent",
   "main": "back/bin/root",
   "scripts": {
-    "test": "run"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
