@@ -8,20 +8,33 @@ function name_validation(val)
 
 function email_validation(email)
 {
-    return email.match(/.*@.+\..*/);
+    return true;
+    //return email.match(/.*@.+\..*/);
 }
+
+function role_validation(role)
+{
+    return (
+	role === 'student'
+	    || role === 'staff'
+	    || role === 'teacher'
+	    || role === 'manager'
+    );
+}
+
 
 function list_email_validation(email_array)
 {
     let res = true;
-    for (var email in email_array)
+    for (i = 0 ; i < email_array.length ; ++i)
     {
-	res &= email_validation(email)
+	res &= email_validation(email_array[i]);
+	
     }
     return res;
 }
 
-let User = new Schema({
+let UserSchema = new Schema({
     firstname: {
 	type: String,
 	require: true,
@@ -37,6 +50,11 @@ let User = new Schema({
 	require: true,
 	default: Date.now
     },
+    role: {
+	type: String,
+	require: true,
+	validate: role_validation
+    },
     birthday: {
 	type: Date,
 	require: true
@@ -50,3 +68,5 @@ let User = new Schema({
     }
     
 });
+
+module.exports = mongoose.model('UserSchema', UserSchema);
