@@ -29,10 +29,10 @@ const findUserById =  (userId) => {
 };
 module.exports.findUserById = findUserById;
 
-const findUserByCritera =  (firstname, lastname, role, mail, phone) => {    
-    return UserDAL.findUserById(firstname, lastname, role, mail, phone);
+const findUsersByCritera =  (firstname, lastname, role, mail, phone) => {    
+    return UserDAL.findUsersByCritera(firstname, lastname, role, mail, phone);
 };
-module.exports.findUserById = findUserById;
+module.exports.findUsersByCritera = findUsersByCritera;
 
 
 /*
@@ -55,3 +55,8 @@ module.exports.countStudents = countStudents;
 module.exports.countStaffs = countStaffs;
 module.exports.countTeachers = countTeachers;
 module.exports.countManagers = countManagers;
+
+const updateUserByID = (userID, userDef) => {
+    return UserDAL.modifyUser(userID, userDef);
+};
+module.exports.updateUserByID = updateUserByID;

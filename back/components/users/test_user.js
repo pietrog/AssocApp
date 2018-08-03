@@ -9,7 +9,7 @@ const UserAPI = require('./UserAPI.js'),
       Logger = require('../logger').logger;
 
 
-describe('Array', function() {
+describe('User Component', function() {
     before(() => {
 	mongoose.connect(config.testdatabase, { useNewUrlParser: true});
 	//Logger.setLevel('silent');
@@ -155,14 +155,35 @@ describe('Array', function() {
 	    assert.equal(await UserAPI.countManagers(), 1);
 	});
 
-	if('should return 5 students', async() => {
-	    const list_of_students = await UserAPI.findUserByCritera(null, null, 'student', null, null);
+	it('should return 5 students', async() => {
+	    const list_of_students = await UserAPI.findUsersByCritera(null, null, 'student', null, null);
 	    assert.equal(list_of_students.length, 5);
 	});
 
+	it('should modify the firstname of the user', async () => {
+	    const initial_user = await UserAPI.findUsersByCritera("Jean");
+	    assert.equal(initial_user[0].firstname, "Jean");
+	    assert.equal(initial_user[0].lastname, "Valjean");
+	    const modified_user = await UserAPI.updateUserByID(initial_user[0]._id, {firstname: "Patrick"});
+	    assert.equal(modified_user.firstname, "Patrick");
+	    assert.equal(modified_user.lastname, "Valjean");
+	    const found_user = await UserAPI.findUsersByCritera(null, "Valjean");
+	    assert.equal(found_user[0].firstname, "Patrick");    
+	});
+
+	it('should modify the lastname of the user', async () => {
+	    const initial_user = await UserAPI.findUsersByCritera("Jean");
+	    assert.equal(initial_user[0].firstname, "Jean");
+	    assert.equal(initial_user[0].lastname, "Valjean");
+	    const modified_user = await UserAPI.updateUserByID(initial_user[0]._id, {lastname: "Segafredo"});
+	    assert.equal(modified_user.firstname, "Jean");
+	    assert.equal(modified_user.lastname, "Segafredo");
+	    const found_user = await UserAPI.findUsersByCritera("Jean");
+	    assert.equal(found_user[0].lastname, "Segafredo");    
+	});
+
+	
+	
     });
     
 });
-
-
-	 

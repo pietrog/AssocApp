@@ -33,7 +33,7 @@ class UserDAL {
      * 
      * @returns {Object} Json object representing the user if found, null otherwise
      */
-    findUserByCritera(firstname, lastname, role, mail, phone) {
+    findUsersByCritera(firstname, lastname, role, mail, phone) {
 	//build the criteras
 
 	const user_crit = {};
@@ -47,9 +47,7 @@ class UserDAL {
 
 	    user_crit.role = role;
 	}
-
-
-	    	
+	
 	return UserSchema.find(user_crit);
     }
 
@@ -142,7 +140,7 @@ class UserDAL {
 	};
 
 	//check if an user with same firstname/lastname already exists
-	const user_exists = await this.findUserByCritera(_user.firstname, _user.lastname);
+	const user_exists = await this.findUsersByCritera(_user.firstname, _user.lastname);
 	assert.equal(user_exists.length, 0, error_messages.error_user_already_exists + "(" +user.firstname + ")");
 	
 	//insert user
@@ -182,9 +180,44 @@ class UserDAL {
     async countUsers(role) {
 	assert.equal( typeof(role), 'string', error_messages.error_no_role);
 
-	const users = await this.findUserByCritera(null, null, role);
+	const users = await this.findUsersByCritera(null, null, role);
 
 	return users.length;
+    }
+
+    /*
+     * Modify an existing user
+     *
+     * @param {string} userID User id
+     * @param {object} userDef New user definition, containing fields we want to update
+     *
+     * @returns {object} Returns modified user
+     */
+    async modifyUser(userID, userDef) {
+	assert.equal( typeof(userID), 'object', error_messages.error_bad_user_data + "(user id)" + userID);
+	
+	let user_update = {};
+	
+	if (typeof(userDef.firstname) === 'string') {
+	    user_update.firstname = userDef.firstname;
+	}
+	if (typeof(userDef.lastname) === 'string') {
+	    user_update.lastname = userDef.lastname;
+	}
+	if (typeof(userDef.inscription_date) === 'object') {
+	    user_update.inscription_date = userDef.inscription_date;
+	}
+	if (typeof(userDef.role) === 'string') {
+	    user_update.role = userDef.role;
+	}
+	if (typeof(userDef.birthday) === 'object') {
+	    user_update.birthday = userDef.birthday;
+	}
+	if (typeof(userDef.emails) === 'object') {
+	    user_update.emails = userDef.emails;
+	}
+
+	return UserSchema.findOneAndUpdate({_id: userID}, user_update, {new: true});
     }
     
 };
@@ -192,5 +225,3 @@ class UserDAL {
 module.exports = {
     UserDAL: new UserDAL()
 }
-
-
