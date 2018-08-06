@@ -44,13 +44,8 @@ describe('User Component', function() {
 		firstname: "Vlad",
 		lastname: "Poutine"
 	    };
-	    try {
-		const res = await UserAPI.addStudent(user_to_add);
-		assert.deepEqual(res.firstname, user_to_add.firstname);
-	    }
-	    catch (err) {
-		assert.equal(1,2);
-	    }
+	    const res = await UserAPI.addStudent(user_to_add);
+	    assert.deepEqual(res.firstname, user_to_add.firstname);
 	});
 
 	it('should add the staff member', async () => {
@@ -58,13 +53,8 @@ describe('User Component', function() {
 		firstname: "Henry",
 		lastname: "Lesquin"
 	    };
-	    try {
-		const res = await UserAPI.addStaff(user_to_add);
-		assert.deepEqual(res.firstname, user_to_add.firstname);
-	    }
-	    catch (err) {
-		assert.equal(1,2);
-	    }
+	    const res = await UserAPI.addStaff(user_to_add);
+	    assert.deepEqual(res.firstname, user_to_add.firstname);
 	});
 
 	it('should add the teacher', async () => {
@@ -72,13 +62,8 @@ describe('User Component', function() {
 		firstname: "Guillermo",
 		lastname: "Deltorro"
 	    };
-	    try {
-		const res = await UserAPI.addTeacher(user_to_add);
-		assert.deepEqual(res.firstname, user_to_add.firstname);
-	    }
-	    catch (err) {
-		assert.equal(1,2);
-	    }
+	    const res = await UserAPI.addTeacher(user_to_add);
+	    assert.deepEqual(res.firstname, user_to_add.firstname);
 	});
 	
 	it('should add the manager', async () => {
@@ -86,13 +71,8 @@ describe('User Component', function() {
 		firstname: "Pierre",
 		lastname: "Gaulard"
 	    };
-	    try {
-		const res = await UserAPI.addManager(user_to_add);
-		assert.deepEqual(res.firstname, user_to_add.firstname);
-	    }
-	    catch (err) {
-		assert.equal(1,2);
-	    }
+	    const res = await UserAPI.addManager(user_to_add);
+	    assert.deepEqual(res.firstname, user_to_add.firstname);
 	});
 	
 
