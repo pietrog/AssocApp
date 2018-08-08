@@ -12,12 +12,12 @@ const EventAPI = require('./EventAPI.js'),
 describe('Event Component', function() {
     before(() => {
 	mongoose.connect(config.testdatabase, { useNewUrlParser: true});
+	//mongoose.set('debug', true);
 	//Logger.setLevel('silent');
     });
 
     beforeEach( async () => {
-	await EventSchema.deleteMany({});
-
+	await EventSchema.deleteMany();
 	//insert few events
 	await EventAPI.addEvent("Event1", "Event1 Brief", "Event1 Description",
 				Date.parse('01 Sept 2018 08:00 GMT'), Date.parse('01 Sept 2018 09:00 GMT'));
@@ -118,10 +118,11 @@ describe('Event Component', function() {
 	});
 
 	it('should not add the event (same event name on same dates (or overlaping) found)', async () => {
-	    const begin_date = new Date(2018, 09, 14, 11, 00);
-	    const end_date = new Date(2018, 09, 14, 13, 00);
+	    const begin_date = Date.parse('01 Sept 2018 08:59 GMT');
+	    const end_date = Date.parse('01 Sept 2018 10:00 GMT');
+
 	    try {
-		const res = await EventAPI.addEvent("Event2", "Un évènement", "Desc", begin_date.getTime(), end_date.getTime());
+		const res = await EventAPI.addEvent("Event1", "Un évènement", "Desc", begin_date, end_date);
 		assert.equal(1, 10);
 	    }
 	    catch(err) {
@@ -131,9 +132,9 @@ describe('Event Component', function() {
 	});
 
 	it('should add the event (same name, same day but not overlaping)', async () => {
-	    const begin_date = new Date(2018, 09, 14, 11, 00);
-	    const end_date = new Date(2018, 09, 14, 12, 00);
-	    const res = await EventAPI.addEvent("Event2", "Un évènement", "Desc", begin_date.getTime(), end_date.getTime());
+	    const begin_date = Date.parse('01 Sept 2018 09:00 GMT');
+	    const end_date = Date.parse('01 Sept 2018 10:00 GMT');
+	    const res = await EventAPI.addEvent("Event1", "Un évènement", "Desc", begin_date, end_date);
 	    assert.equal(typeof(res), 'object');
 	    assert.ok(typeof(res._id) === 'object', "Expects an id !");
 	    

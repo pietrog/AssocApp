@@ -73,9 +73,41 @@ class EventDAL {
 	};
 	
 	//check if an event with the same name and same dates exists
-	const found_same_event = await this.lookForExistingEvent({
-	    name: name,
-	    //begin_date: {$gt: }
+	const found_same_event = await EventSchema.find({
+	    "$and": [
+		{ "name": name },
+		{
+		    "$or": [
+			//event inside this one
+			{
+			    "$and": [
+				{
+				    "begin_date": { "$gte": begin_date },
+				    "end_date": { "$lte": end_date }
+				}
+			    ]
+			},
+			//overleaping by begin date
+			{
+			    "$and": [
+				{
+				    "begin_date": { "$lt": begin_date },
+				    "end_date": { "$gt": begin_date },
+				}
+			    ]			    
+			},
+			//overleaping by begin date
+			{
+			    "$and": [
+				{
+				    "begin_date": { "$lt": end_date },
+				    "end_date": { "$gt": end_date },
+				}
+			    ]			    
+			}
+		    ]
+		}
+	    ]
 	});
 	assert.equal(found_same_event.length, 0, error_messages.error_event_already_exists);
 
