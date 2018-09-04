@@ -10,6 +10,7 @@ const EventAPI = require('./EventAPI.js'),
 
 
 describe('Event Component', function() {
+    
     before(() => {
 	mongoose.connect(config.testdatabase, { useNewUrlParser: true});
 	//mongoose.set('debug', true);
@@ -34,10 +35,7 @@ describe('Event Component', function() {
 	await EventAPI.addEvent("Event6", "Event6 Brief", "Event6 Description",
 				Date.parse('25 Sept 2018 04:00 GMT'), Date.parse('25 Sept 2018 19:00 GMT'));
 	await EventAPI.addEvent("Event7", "Event7 Brief", "Event7 Description",
-				Date.parse('25 Sept 2018 08:54 GMT'), Date.parse('25 Sept 2018 13:52 GMT'));
-
-	
-	
+				Date.parse('25 Sept 2018 08:54 GMT'), Date.parse('25 Sept 2018 13:52 GMT'));	
     });
 
     after(async () => {
@@ -79,7 +77,6 @@ describe('Event Component', function() {
 	    assert.equal(inserted_end.getMinutes(), 30);
 	});
 
-
 	it('should add the event from 15/09/2018 12:00 to 15/09/2018 14:30', async () => {
 	    const event_to_add = {
 		name: "EventTest",
@@ -117,7 +114,7 @@ describe('Event Component', function() {
 	    assert.equal(inserted_end.getMinutes(), 29);
 	});
 
-	it('should not add the event (same event name on same dates (or overlaping) found)', async () => {
+	it('should not add the event (begin before the end of an event with the same name)', async () => {
 	    const begin_date = Date.parse('01 Sept 2018 08:59 GMT');
 	    const end_date = Date.parse('01 Sept 2018 10:00 GMT');
 
@@ -127,8 +124,20 @@ describe('Event Component', function() {
 	    }
 	    catch(err) {
 		assert.ok(err.message.includes(error_messages.error_event_already_exists));
-	    }	    
-	    
+	    }	    	    
+	});
+
+	it('should not add the event (end after the begining of an event with the same name)', async () => {
+	    const begin_date = Date.parse('01 Sept 2018 07:00 GMT');
+	    const end_date = Date.parse('01 Sept 2018 08:39 GMT');
+
+	    try {
+		const res = await EventAPI.addEvent("Event1", "Un évènement", "Desc", begin_date, end_date);
+		assert.equal(1, 10);
+	    }
+	    catch(err) {
+		assert.ok(err.message.includes(error_messages.error_event_already_exists));
+	    }	    	    
 	});
 
 	it('should add the event (same name, same day but not overlaping)', async () => {
@@ -136,12 +145,17 @@ describe('Event Component', function() {
 	    const end_date = Date.parse('01 Sept 2018 10:00 GMT');
 	    const res = await EventAPI.addEvent("Event1", "Un évènement", "Desc", begin_date, end_date);
 	    assert.equal(typeof(res), 'object');
-	    assert.ok(typeof(res._id) === 'object', "Expects an id !");
-	    
+	    assert.ok(typeof(res._id) === 'object', "Expects an id !");	    
 	});
 
-
-	
+	it('should add the event (different name,  overlaping with other event)', async () => {
+	    const begin_date = Date.parse('01 Sept 2018 08:00 GMT');
+	    const end_date = Date.parse('01 Sept 2018 10:00 GMT');
+	    const res = await EventAPI.addEvent("Event0", "Un évènement", "Desc", begin_date, end_date);
+	    assert.equal(typeof(res), 'object');
+	    assert.ok(typeof(res._id) === 'object', "Expects an id !");
+	});	
     
     });
+    
 })

@@ -14,10 +14,10 @@ class EventDAL {
     /*
      * Look for an event given some critera
      *
-     * @param {string} name Event name
-     * @param {string} brief Event brief description
-     * @param {string} description Event detailed description
-     * @param {number} 
+     * @param {object} eventCrit JSon object describing the event we are looking for
+     *
+     * @returns {object} An array of json objects
+     * @throws {BadTypeException} If the eventCrit object is not an object
      */
     lookForExistingEvent(eventCrit) {
 	//check input

@@ -11,5 +11,7 @@ module.exports = {
     error_event_already_exists: "Un évènement similaire existe déjà",
     error_event_insertion: 'Evènement non inséré',
     error_begin_less_than_end_date: "La date de début doit être nécessairement inférieure à la date de fin.",
+
+    error_bad_frequency: "La fréquence de l'évènement n'est pas valide",
         
 };
