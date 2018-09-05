@@ -13,5 +13,6 @@ module.exports = {
     error_begin_less_than_end_date: "La date de début doit être nécessairement inférieure à la date de fin.",
 
     error_bad_frequency: "La fréquence de l'évènement n'est pas valide",
-        
+
+    error_event_list_creation: "Erreur pendant la création d'un évènement récurrent",
 };

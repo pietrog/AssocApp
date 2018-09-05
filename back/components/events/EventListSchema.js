@@ -6,7 +6,7 @@ const EventListSchema = new Schema({
     name: {
 	type: String,
 	require: true,
-	validate: name_validation
+	//validate: name_validation
     },
     brief: {
 	type: String,
