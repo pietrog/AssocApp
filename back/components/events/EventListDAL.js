@@ -1,6 +1,6 @@
 'use strict';
 
-const EventListSchema = require('./EventSchema'),
+const EventListSchema = require('./EventListSchema'),
       assert = require('assert').strict,
       error_messages = require('./error_messages'),
       Logger = require('../logger').logger,
@@ -17,7 +17,6 @@ class EventListDAL {
 	for (let i = 0; i < array.length; ++i) {
 	    
 	    if (value == array[i]){
-		console.log("value: " + value + ", array: " + array[i]);
 		return true;
 	    }
 	}
@@ -85,6 +84,9 @@ class EventListDAL {
 	    while (!this.checkIfValueInArray(current_start_date.getDay(), days_of_week)) {
 		current_start_date = new Date(current_start_date.getTime() + millisecs_to_next_day);
 	    }
+
+	    if (current_start_date > final_event_date.getTime())
+		break;
 	    
 	    list_of_starts.push(current_start_date);
 	    list_of_ends.push(new Date(current_start_date.getTime() + duration_in_millisecs));
@@ -94,7 +96,7 @@ class EventListDAL {
 	//create all the events and save corresponding ids
 	let list_of_ids = [];
 	for (let i = 0; i < list_of_starts.length; ++i) {
-	    const event = await EventAPI.addEvent(name, brief, description, list_of_starts[i].getTime(), list_of_ends[i].getTime());
+	    const event = await EventAPI.addEvent(name + i, brief, description, list_of_starts[i].getTime(), list_of_ends[i].getTime());
 	    list_of_ids.push(event._id);
 	}
 
@@ -109,8 +111,8 @@ class EventListDAL {
 	const event_list_db = new EventListSchema(_event_list);
 
 	try {
-	    const inserted = event_list_db.save();
-	    Logger.error('EventList ' + name + ' created (' + list_of_starts.length + " events)");
+	    const inserted = await event_list_db.save();
+	    Logger.info('EventList ' + name + ' created (' + list_of_starts.length + " events)");
 	    return inserted;
 	}
 	catch (err) {
