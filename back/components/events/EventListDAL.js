@@ -73,25 +73,33 @@ class EventListDAL {
 
 	let current_start_date = new Date(first_start_date.getTime());
 	let current_end_date = new Date(first_start_date.getTime() + duration_in_millisecs);
-	list_of_starts.push(current_start_date);
-	list_of_ends.push(current_end_date);
+
+	//add the first event if it matches (greater or equal than now date) and day of week matching the expected frequency
+	if (/*current_end_date.getTime() >= Date.now() && */this.checkIfValueInArray(current_start_date.getDay(), days_of_week)) {
+	    list_of_starts.push(current_start_date);
+	    list_of_ends.push(current_end_date);
+	}
 
 	//increment to next day, same hour
 	current_start_date = new Date(current_start_date.getTime() + millisecs_to_next_day);
 	
 	while (current_start_date.getTime() < final_event_date.getTime()) {
-	    
-	    while (!this.checkIfValueInArray(current_start_date.getDay(), days_of_week)) {
+
+	    //check for the matching day of week
+	    while (!this.checkIfValueInArray(current_start_date.getDay(), days_of_week)) { 
 		current_start_date = new Date(current_start_date.getTime() + millisecs_to_next_day);
 	    }
 
-	    if (current_start_date > final_event_date.getTime())
+	    if (current_start_date > final_event_date.getTime()) // break if we pass through the final date
 		break;
 	    
-	    list_of_starts.push(current_start_date);
-	    list_of_ends.push(new Date(current_start_date.getTime() + duration_in_millisecs));
-	    current_start_date = new Date(current_start_date.getTime() + millisecs_to_next_day);
+	    list_of_starts.push(current_start_date); // push the start date of the current event matching
+	    list_of_ends.push(new Date(current_start_date.getTime() + duration_in_millisecs)); // push the end date of the current event matching
+	    current_start_date = new Date(current_start_date.getTime() + millisecs_to_next_day); //go to next day
 	}
+
+	if (list_of_starts.length === 0)
+	    return null;
 
 	//create all the events and save corresponding ids
 	let list_of_ids = [];

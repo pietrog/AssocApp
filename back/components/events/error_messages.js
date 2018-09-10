@@ -7,6 +7,7 @@ module.exports = {
     error_event_end_date_validity: "Date de fin de l'évènement non valide",
 
     error_event_critera_validity: "JSon attendu pour décrire un évènement à chercher",
+    error_event_id_seeking: "ID d'evenement non valide",
 
     error_event_already_exists: "Un évènement similaire existe déjà",
     error_event_insertion: 'Evènement non inséré',

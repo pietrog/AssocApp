@@ -5,6 +5,11 @@ const findEventByCritera = (event_description) => {
 };
 module.exports.findEventByCritera = findEventByCritera;
 
+const findEventByID = (id) => {
+    return EventDAL.lookForExistingEventByID(id);
+};
+module.exports.findEventByID = findEventByID;
+
 const addEvent = (name, brief, description, begin_date, end_date) => {
     return EventDAL.addEvent(name, brief, description, begin_date, end_date);
 };

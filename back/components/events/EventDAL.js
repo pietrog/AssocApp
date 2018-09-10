@@ -41,6 +41,18 @@ class EventDAL {
 	    }*/
 	return EventSchema.find(crit);
     }
+
+    /*
+     * @param {object} id id eventually corresponding to an existing event
+     *
+     * @returns {object} Json object describing the event
+     * @throws {} 
+     */
+    lookForExistingEventByID(id) {
+	assert.equal(typeof(id), 'object', error_messages.error_event_critera_validity);
+
+	return EventSchema.findById(id);
+    }
     
     /*
      * Create a new event 
