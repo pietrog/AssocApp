@@ -13,6 +13,13 @@ class EventListDAL {
     constructor() {}
 
 
+    /*
+     * Check if a value is in the array
+     * @param {number} value value to search
+     * @param {array} array array of number where we want to seek for value
+     * 
+     * @returns {boolean} true if value has been found in array, false otherwise
+     */
     checkIfValueInArray(value, array) {
 	for (let i = 0; i < array.length; ++i) {
 	    

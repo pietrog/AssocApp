@@ -174,7 +174,6 @@ describe('Event List Component', function() {
 	    assert.equal(begin_date_1, expected_begin_date_1.getTime());
 	    assert.equal(end_date_1, expected_end_date_1.getTime());
 
-	    
 	});
 
 

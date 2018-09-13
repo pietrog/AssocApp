@@ -22,12 +22,7 @@ const EventListSchema = new Schema({
     listOfEvents: {
 	type: [ Schema.Types.ObjectId ],
 	require: true
-    },
-    gg: {
-	type: String,
-	require: true
     }
-    
 });
 
 module.exports = mongoose.model('EventListSchema', EventListSchema);
