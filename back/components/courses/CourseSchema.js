@@ -25,7 +25,7 @@ const CourseSchema = new Schema({
     event_id: {
 	type: Schema.Types.ObjectId,
 	require: true
-    }
+    },
     //List of users able to take the course
     user_list: {
 	type: [ Schema.Types.ObjectId ]

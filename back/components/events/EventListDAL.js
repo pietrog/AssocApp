@@ -58,7 +58,8 @@ class EventListDAL {
 	assert.equal(typeof(name), 'string', error_messages.error_event_name_validity);
 	assert.equal(typeof(name), 'string', error_messages.error_event_brief_validity);
 	assert.equal(typeof(description), 'string', error_messages.error_event_description_validity);
-	assert.equal(typeof(frequency), 'string', error_messages.error_event_description_validity);
+	assert.equal(typeof(frequency), 'string', error_messages.error_bad_frequency);
+	assert.equal(typeof(first_start_date), 'object', error_messages.error_event_begin_date_validity);
 
 	//build all the events given the frequency
 	const decomposition = frequency.split(" ");

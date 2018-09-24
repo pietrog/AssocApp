@@ -5,8 +5,8 @@ const CourseSchema = require('./CourseSchema'),
       error_messages = require('./error_messages'),
       Logger = require('../logger').logger;
 
-const EventListAPI = require('../events/index').EventListAPI,
-      EventAPI = require('../events/index').EventAPI;
+const EventAPI = require('../events').EventAPI,
+      EventListAPI = require('../events').EventListAPI;
 
 const util = require('util');
 
@@ -31,25 +31,40 @@ class CourseDAL {
      */
     async createRecurrentCourse(name, description, first_start_date, duration, final_course_date, cron_frequency, intensity) {
 
-	const event_list_object = null;
+	let event_list_object = null;
 
 	//inputs are checked inside event or event list apis
 	try {
 	    //create event list
 	    event_list_object =
-		await EventListAPI.createRecurrentEvent(name, description, description, first_start_date, duration, cron_frequency, final_course_date);
+		await EventListAPI.createRecurrentEvent(
+		    name,
+		    description,
+		    description,
+		    first_start_date,
+		    duration,
+		    cron_frequency,
+		    final_course_date);
 
 	    //create the course
-	    
+	    let course = {
+		name: name,
+		description: description,
+		frequency: "Implémenter la decomposition de la fréquence",
+		event_list_id: event_list_object._id,
+		user_list: []
+	    };
+
+	    const course_db = new CourseSchema(course);
+	    course_db.save();
 	    Logger.info('Course ' + name + ' successfully created');
-	    return course_db;
-	    
+	    return course_db;	    
 	}
 	catch(err) {
-	    Logger.error('Course ' + event_inserted.name + ' failed to insert');
+	    Logger.error('Course ' + name + ' failed to insert ' + err);
 	    
 	    // clean corresponding event list and event in case of course creation failure
-	    if (event_list_object !=== null) {
+	    if (event_list_object !== null) {
 		Logger.error('Failure while creating  course ' + event_inserted.name + ': delete all corresponding events');
 	    }
 	}

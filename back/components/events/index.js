@@ -1,5 +1,6 @@
-const EventAPI = require('./EventAPI'),
-      EventListAPI = require('./EventListAPI');;
+'use strict';
 
-exports.module.EventAPI = EventAPI;
-exports.module.EventListAPI = EventListAPI;
+module.exports = {
+    EventAPI: require('./EventAPI'),
+    EventListAPI: require('./EventListAPI')
+};
