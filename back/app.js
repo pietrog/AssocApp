@@ -4,6 +4,8 @@ const express     = require('express'),
 const http        = require('http'),
       http_server = http.Server(express_app);
 
+const logger      = require('./components/logger').logger;
+
 //tools
 const env         = process.env.NODE_ENV || 'development',
       bodyParser  = require('body-parser'),
@@ -14,59 +16,55 @@ const env         = process.env.NODE_ENV || 'development',
 
 const util = require('util');
 
-global.App = {
-    font_red : '\x1b[31m%s\x1b[0m',
-    font_green : "\x1b[32m%s\x1b[0m",
-    appname : "AdminWebSiteBack",
-    app : express_app,
-    server: http_server,
-    version: "0.1",
-    mongoose_connection: mongoose.connect(config.database, { })
-	.then(
-	    () => {
-		tools.green_log(global.appname + " is running...");
-	    },
-	    (err) => {
-		tools.red_log("Connection to a MongoDB server failed. Check if a MongoDB daemon is running. ");
-		process.exit(1);
-	    }
-	),
-    port : tools.normalizePort(process.env.PORT || '3000'),
-    root : path.join(__dirname, '..'),
-    front_end: path.join(__dirname, '../dist'),
-    appPath : function(path){
-	return this.root + '/' + path;
-    },
-    require : function(path){
-	return require(this.appPath(path));
-    },
-    env : env,
-    start : function(){
-	if (!this.started){
-	    this.started = true;
-	    this.server.listen(this.port);
-	    tools.log('Running node server version ' + this.version + ' on port ' + this.port + ' in env ' + this.env ); 
+class NodeServer {
+
+    constructor(port, env) {
+	this.m_app_name = "AssocAppServer";
+	this.m_listening_port = tools.normalizePort(port) || '3000';
+	this.m_version = "0.1";
+	this.m_front_end_path = path.join(__dirname, '../dist');
+	this.m_env = "env";
+	this.m_server_started = false;
+	this.m_http_server = http_server;
+	this.m_express_app = express_app;
+	
+	//mongoose connection
+	try {
+	    const connection = mongoose.connect(config.testdatabase, { useNewUrlParser: true});
+	    logger.info(global.appname + " is running");
+	}
+	catch(err) {
+	    logger.error("Connection to a MongoDB server failed. Check if a MongoDB daemon is running. ");
+	    process.exit(1);
+	}
+	logger.info('Running node server version ' + this.m_version + ' on port ' + this.m_listening_port + ' in env ' + this.m_env ); 
+    }
+
+    start_server() {
+	if (!this.m_server_started) {
+	    this.m_http_server.listen(this.m_listening_port);
+	    this.m_server_started = true;
+	    logger.info("Server is now listening on " + this.m_listening_port); 
 	}
     }
-}
+
+    init_middleware() {
+	//this.m_express_app.use(bodyParser.json());
+	this.m_express_app.use(express.static(__dirname + "/../dist"));
+	this.m_express_app.get('/', (req, res) => {
+	    res.send('helloooooo !!!');
+	});
+    }
+};
 
 //database connection
 //App.app.set('superSecret', config.secret);
 
-
-App.app.use(bodyParser.json());
-App.app.use(express.static(App.front_end));
-//App.app.use("/scripts", express.static(__dirname + "/node_modules/bootstrap/dist/js/"));
-//App.app.use("/scripts", express.static(__dirname + "/../node_modules/bootstrap/dist/"));
-
-//App.app.use('/api/device', r_device);
-
 // Catch all other routes and return the index file
-App.app.get('*', (req, res) => {
+/*App.app.get('*', (req, res) => {
     console.log("Not caught by routes ! " + req.url);
     res.sendFile(path.join(App.front_end, 'index.html'));
 });
+*/
 
-
-
-module.exports = App;
+module.exports.NodeServer = NodeServer;
