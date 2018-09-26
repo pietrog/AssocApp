@@ -8,5 +8,4 @@ var Server = require('../app').NodeServer;
 var debug = require('debug')('testServer:server');
 
 const server = new Server();
-server.start_server();
-server.init_middleware();
+server.full_start_server();

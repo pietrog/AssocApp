@@ -16,6 +16,9 @@ const env         = process.env.NODE_ENV || 'development',
 
 const util = require('util');
 
+/*
+ * NodeServer class: use to configure and start the web server
+ */
 class NodeServer {
 
     constructor(port, env) {
@@ -27,19 +30,28 @@ class NodeServer {
 	this.m_server_started = false;
 	this.m_http_server = http_server;
 	this.m_express_app = express_app;
-	
-	//mongoose connection
-	try {
-	    const connection = mongoose.connect(config.testdatabase, { useNewUrlParser: true});
-	    logger.info(global.appname + " is running");
-	}
-	catch(err) {
-	    logger.error("Connection to a MongoDB server failed. Check if a MongoDB daemon is running. ");
-	    process.exit(1);
-	}
-	logger.info('Running node server version ' + this.m_version + ' on port ' + this.m_listening_port + ' in env ' + this.m_env ); 
     }
 
+    /*
+     * Start the http server, connect to database, and call and the middleware methods
+     */
+    async full_start_server() {
+	try {
+	    this.start_server();
+	    await this.connect_to_database();
+	    this.init_database();
+	    this.init_static();
+	    logger.info(this.m_app_name + " has been successfully fully started ");
+	}
+	catch(err) {
+	    logger.error("Error during " + this.m_app_name + " full start: " + err);
+	    process.exit(1);
+	}
+    }
+    
+    /*
+     * Start the web server, initially stopped
+     */
     start_server() {
 	if (!this.m_server_started) {
 	    this.m_http_server.listen(this.m_listening_port);
@@ -48,15 +60,34 @@ class NodeServer {
 	}
     }
 
+    /*
+     * Connect to database
+     */
+    async connect_to_database() {
+	const connection = await mongoose.connect(config.testdatabase, { useNewUrlParser: true});
+	logger.info(this.m_app_name + " is now connected to database " + config.testdatabase);
+    }
+
+    
+    /*
+     * Init database access
+     */
     init_database() {
-	
 	this.m_express_app.set('superSecret', config.secret);
     }
-    
-    init_middleware() {
-	//this.m_express_app.use(bodyParser.json());
+
+    /*
+     * Init static directories 
+     */
+    init_static(options) {
 	this.m_express_app.use(express.static(__dirname + "/../front"));
-	this.m_express_app.use("/scripts", express.static(__dirname + "/../node_modules/vue/dist/"));
+	this.m_express_app.use("/scripts", express.static(__dirname + "/../node_modules/vue/dist/"));	
+    }
+
+    /*
+     * Init express routing
+     */
+    init_middleware() {
     }
 };
 
