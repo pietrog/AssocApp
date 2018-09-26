@@ -48,17 +48,20 @@ class NodeServer {
 	}
     }
 
+    init_database() {
+	
+	this.m_express_app.set('superSecret', config.secret);
+    }
+    
     init_middleware() {
 	//this.m_express_app.use(bodyParser.json());
-	this.m_express_app.use(express.static(__dirname + "/../dist"));
-	this.m_express_app.get('/', (req, res) => {
-	    res.send('helloooooo !!!');
-	});
+	this.m_express_app.use(express.static(__dirname + "/../front"));
+	this.m_express_app.use("/scripts", express.static(__dirname + "/../node_modules/vue/dist/"));
     }
 };
 
 //database connection
-//App.app.set('superSecret', config.secret);
+//
 
 // Catch all other routes and return the index file
 /*App.app.get('*', (req, res) => {
