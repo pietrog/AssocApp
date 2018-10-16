@@ -4,7 +4,7 @@ class Logger extends pino {
 
     constructor() {
 	super();
-	this.level = 'info';
+	this.level = 'error';
     }
     
     setLevel(level) {

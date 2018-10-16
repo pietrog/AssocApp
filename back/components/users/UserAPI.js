@@ -34,6 +34,24 @@ const findUsersByCritera =  (firstname, lastname, role, mail, phone) => {
 };
 module.exports.findUsersByCritera = findUsersByCritera;
 
+const getAllUsers = () => {
+    return findUsersByCritera();
+};
+module.exports.getAllUsers = getAllUsers;
+
+module.exports.getAllStudents = () => {
+    return findUsersByCritera(null, null, "student");
+};
+module.exports.getAllTeachers = () => {
+    return findUsersByCritera(null, null, "teacher");
+};
+module.exports.getAllManagers = () => {
+    return findUsersByCritera(null, null, "manager");
+};
+module.exports.getAllStaffs = () => {
+    return findUsersByCritera(null, null, "staff");
+};
+
 
 /*
  * Count functions

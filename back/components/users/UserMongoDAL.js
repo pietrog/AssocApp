@@ -44,7 +44,6 @@ class UserDAL {
 	    user_crit.lastname = lastname;
 	}
 	if (typeof(role) === 'string') {
-
 	    user_crit.role = role;
 	}
 	

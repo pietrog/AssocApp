@@ -162,7 +162,31 @@ describe('User Component', function() {
 	    assert.equal(found_user[0].lastname, "Segafredo");    
 	});
 
+	it('should return 11 users', async () => {
+	    const users = await UserAPI.getAllUsers();
+	    assert.equal(users.length, 11);
+	});
+
+	it('should return 5 students', async () => {
+	    const users = await UserAPI.getAllStudents();
+	    assert.equal(users.length, 5);
+	});
 	
+	it('should return 2 teachers', async () => {
+	    const users = await UserAPI.getAllTeachers();
+	    assert.equal(users.length, 2);
+	});
+
+	it('should return 3 staffs', async () => {
+	    const users = await UserAPI.getAllStaffs();
+	    assert.equal(users.length, 3);
+	});
+
+	it('should return 1 manager', async () => {
+	    const users = await UserAPI.getAllManagers();
+	    assert.equal(users.length, 1);
+	});
+
 	
     });
     

@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var Server = require('../app').NodeServer;
+var Server = require('../back/server').NodeServer;
 var debug = require('debug')('testServer:server');
 
 const server = new Server();
