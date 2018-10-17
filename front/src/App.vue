@@ -1,13 +1,23 @@
 <template>
-  <div id="app">
-    <!--img src="./assets/logo.png"-->
-    <router-view/>
-  </div>
+<div id="app">
+  <control-panel/>
+  <footer/>
+  <router-view/>
+
+  <img src="./assets/logo.png">
+</div>
 </template>
 
-<script>
+<script lang='js'>
+  import ControlPanel from './components/ControlPanel';
+  import Footer from './components/Footer';
+  
 export default {
-  name: 'App'
+    name: 'app',
+    components: {
+	ControlPanel,
+	Footer
+	}
 }
 </script>
 
