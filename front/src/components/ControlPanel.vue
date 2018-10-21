@@ -1,14 +1,26 @@
 <template>
   <nav id="control-panel" class="group display">
-    <a class="base-button">Adhérents</a>
-    <a class="base-button">Calendrier</a>
-    <a class="base-button">Galerie photo</a>
+    <router-link to="/users" class="base-button" v-on:click="goTo">Adhérents</router-link>
+    <router-link to="/calendar" class="base-button" v-on:click="">Calendrier</router-link>
+    <router-link to="/photos" class="base-button" v-on:click="">Galerie photo</router-link>
+    {{msg}}
   </nav>
 </template>
 
 <script>
   export default {
       name: 'control-panel',
+      data() {
+	  return {
+	      msg: "coucou"
+	  }
+      },
+      methods: {
+	  goTo: function(link) {
+	      this.msg = "hehe"
+	  }
+      }
+
   }
 </script>
 

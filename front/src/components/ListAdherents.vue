@@ -18,7 +18,7 @@ export default {
 		{ firstname: "Woodz", lastname: "LeFou" }
 	    ]
 	}
-    }
+    },
 }
 </script>
 
