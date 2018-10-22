@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <control-panel/>
-  <router-view/>
+  <router-view class="main-view"/>
   <contact-panel/>
 </div>
 </template>
@@ -22,6 +22,12 @@ export default {
 </script>
 
 <style>
+* {
+    box-sizing: border-box;
+    font-size: 25px;
+    text-decoration: none;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -31,8 +37,7 @@ export default {
 body {
     /* Set a specific height */
     height: 100%;
-    margin: 30px;
-    background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);    
+    background-color: #c2c2d6;
 }
 
 /*  */
@@ -40,14 +45,27 @@ a {
     float: left;
 }
 
+.main-view {
+    margin: 2vh;
+}
+
 .base-button {
-    background-color: #cddef9;
-    margin: 0.5%;
-    padding: 0.3%;
     width: 15%;
-    border-radius: 6px;
     text-align: center;
 }
+.base-button:hover {
+    background-color: white;
+    text-decoration: none;
+    zoom: 1.15;
+}
+
+/* CSS default class for router-link when active */
+.router-link-active {
+    background-color: #c2c2d6;
+    text-decoration: none;
+    zoom: 1.15;
+}
+
 
 /* group class, can contain floating elements (cf https://lear.shayhowe.com/advanced-html-css/detailed-css-positioning/ */
 .group:before,
@@ -62,12 +80,17 @@ a {
 
 .display {
     border: 2px solid red;
-    margin: 5px;
+    margin: 1vh;
 }
 
 .display-blue {
     border: 2px solid blue;
-    margin: 5px;
+    margin: 1vh;
+}
+
+.display-black {
+    border: 2px solid black;
+    margin: 1vh;
 }
 
 

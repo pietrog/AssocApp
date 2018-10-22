@@ -1,12 +1,12 @@
 <template>
-<div id="adherents" class="group display">
-  <div id="exploration-bar" class="display">{{msg}}</div>
-  <ddd class="display"></ddd>
+<div id="adherents" class="group">
+  <div id="exploration-bar" class="">{{msg}}</div>
+  <list-adherents id="main-view" class=""></list-adherents>
 </div>
 </template>
 
 <script>
-import ddd from './ListAdherents';
+import ListAdherents from './ListAdherents';
   
 export default {
     name: 'adherents',
@@ -17,28 +17,28 @@ export default {
     },
 
     components: {
-	ddd
+	ListAdherents
     }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 #adherents {
-    width: 100%;
-    height: 70vh;
+    left: 0;
+    right: 0;
 }
 
 #exploration-bar {
     float: left;
     width: 19%;
-    height: 98%;
 }
 
 #main-view {
     float: left;
-    width: 79%;
-    height: 98%;
+    width: 78%;
+    border-left: 2px solid lightgrey;
 }
 
 </style>

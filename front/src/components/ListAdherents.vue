@@ -1,24 +1,33 @@
 <template>
-<ul id="iadherents-list" class="group display-blue">
-  <li v-for="user in users">
-    {{ user.firstname }} - {{ user.lastname }}
-  </li>
+<ul id="iadherents-list" class="group">
+  <one-adherent
+    v-for="user in users"
+    v-bind:adherent="user"
+    v-bind:key="user.id">
+  </one-adherent>
+
 </ul>
 </template>
 
 <script>
+import OneAdherent from './OneAdherent'
 export default {
-    name: 'ddd',
+    name: 'list-adherents',
     data () {
 	return {
 	    msg: 'Filters',
 	    users: [
 		{ firstname: "Odile", lastname: "Deray" },
 		{ firstname: "Yann", lastname: "Dupuis" },
-		{ firstname: "Woodz", lastname: "LeFou" }
+		{ firstname: "Woodz", lastname: "LeFou" },
+		{ firstname: "Odile", lastname: "Deray" },
+		{ firstname: "Yann", lastname: "Dupuis" }
 	    ]
 	}
     },
+    components: {
+	OneAdherent
+    }
 }
 </script>
 
@@ -26,8 +35,6 @@ export default {
 <style scoped>
 #iadherents-list {
     float: left;
-    width: 60%;
-    height: 98%;
 }
 
 </style>
