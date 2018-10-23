@@ -26,6 +26,7 @@ export default {
     box-sizing: border-box;
     font-size: 25px;
     text-decoration: none;
+    text-align: center;
 }
 
 #app {
@@ -80,7 +81,7 @@ a {
 
 .display {
     border: 2px solid red;
-    margin: 1vh;
+    /*margin: 1vh;*/
 }
 
 .display-blue {
