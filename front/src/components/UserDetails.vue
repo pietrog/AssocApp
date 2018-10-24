@@ -23,7 +23,7 @@
 <script>
 export default {
     name: 'user-details',
-    data() {
+    data: function() {
 	return {
 	    hiddenDetails: false
 	}

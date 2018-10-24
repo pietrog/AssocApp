@@ -11,7 +11,7 @@ import ListAdherents from './ListAdherents';
 
 export default {
     name: 'adherents',
-    data () {
+    data: function () {
 	return {
 	    msg: 'Filters'
 	}

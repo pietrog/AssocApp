@@ -28,7 +28,7 @@ import UserDetails from './UserDetails';
 
 export default {
     name: 'list-adherents',
-    data () {
+    data: function() {
 	return {
 	    users: [
 		{ firstname: "Odile", lastname: "Deray", id: 5 },
