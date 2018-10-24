@@ -1,6 +1,6 @@
 <template>
-<tr id="adherent">
-  <td v-on:click="displayUser">
+<tr id="adherent" v-on:click="$emit('send-user-details', adherent)">
+  <td>
     {{ adherent.firstname }}
   </td>
   <td>
@@ -17,8 +17,8 @@ export default {
     name: 'one-adherent',
     props: ['adherent'],
     methods: {
-	displayUser: function() {
-	    console.log( "coucou");
+	displayUserDetails: function() {
+
 	}
     }
 }

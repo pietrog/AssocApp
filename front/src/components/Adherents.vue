@@ -1,14 +1,13 @@
 <template>
 <div id="adherents" class="group">
-  <div id="exploration-bar" class="">{{msg}}</div>
-  <list-adherents id="main-view" class=""></list-adherents>
-  <user-details></user-details>
+  <div id="exploration-bar">{{msg}}</div>
+  <list-adherents id="main-view"></list-adherents>
 </div>
 </template>
 
 <script>
 import ListAdherents from './ListAdherents';
-import UserDetails from './UserDetails';
+
 
 export default {
     name: 'adherents',
@@ -18,8 +17,7 @@ export default {
 	}
     },
     components: {
-	ListAdherents,
-	UserDetails
+	ListAdherents
     }
 }
 </script>
