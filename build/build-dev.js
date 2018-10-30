@@ -12,4 +12,4 @@ const config = require('../config');
 //start the build here !
 const spinner = ora('building for development...');
 spinner.start();
-build(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), webpackDevConfig, spinner);
+build(config.build.assetsRoot, webpackDevConfig, spinner);

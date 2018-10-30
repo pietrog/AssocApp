@@ -1,24 +1,23 @@
 <template>
 <div id="app">
-  COUCOU
-  <!--<control-panel/>
+  <control-panel/>
   <router-view class="main-view"/>
-  <contact-panel/-->
+  <contact-panel/>
 </div>
 </template>
 
 <script lang='js'>
-//import ControlPanel from './components/ControlPanel'
-//import ContactPanel from './components/ContactPanel'
-//import ListAdherents from './components/ListAdherents';
+import ControlPanel from './components/ControlPanel'
+import ContactPanel from './components/ContactPanel'
+import ListAdherents from './components/ListAdherents';
 
 export default {
     name: 'app',
-    /*components: {
+    components: {
 	ContactPanel,
 	ControlPanel,
 	ListAdherents
-	}*/
+	}
 }
 </script>
 
