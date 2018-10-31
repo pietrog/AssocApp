@@ -22,8 +22,6 @@ export default new Router({
 	    path: '/photos',
 	    name: Photos,
 	    component: Photos
-	}
-
-	
+	}	
     ]
 })

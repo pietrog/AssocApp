@@ -20,7 +20,7 @@ const webpackConfig = merge(baseWebpackConfig, {
 	    filename: 'index.html',
 	    inject: true
 	}),
-	new BundleAnalyzerPlugin()
+	//new BundleAnalyzerPlugin()
     ]
 })
 
