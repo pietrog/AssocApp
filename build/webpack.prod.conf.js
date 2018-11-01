@@ -14,6 +14,12 @@ const env = process.env.NODE_ENV === 'testing'
 
 const webpackConfig = merge(baseWebpackConfig, {
     mode: 'production',
+    module: {
+	rules: [
+
+	]
+    },
+    devtool: 'inline-source-map',
     plugins: [
 	new HtmlWebpackPlugin({
 	    title: "Assoc App",
