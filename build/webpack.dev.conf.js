@@ -7,10 +7,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const devWebpackConfig = merge(baseWebpackConfig, {
     mode: 'development',
-    module: {
-	rules: [
-	]
-    },
     devtool: 'inline-source-map',
     plugins: [
 	new webpack.HotModuleReplacementPlugin(),

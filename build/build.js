@@ -3,17 +3,17 @@
 const rm = require('rimraf') // remove node module folder
 const chalk = require('chalk') // terminal string styling
 const webpack = require('webpack')
+const config = require('../config');
 
-
-module.exports = (path, config, spinner) => {
-    rm(path, err => {
+module.exports = (webpackConfig, spinner) => {
+    rm(config.build.assetsRoot, err => {
 
 	if (err) {
 	    throw err;
 	}
 
 	//launch webpack
-	webpack(config, (err, stats) => {
+	webpack(webpackConfig, (err, stats) => {
 
 	    //stop the spinner, build is finished
 	    spinner.stop()

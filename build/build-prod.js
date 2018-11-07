@@ -1,15 +1,14 @@
 'use strict';
 
-process.env.NODE_ENV = 'development';
+process.env.NODE_ENV = 'production';
 
 const path = require('path');
 const ora = require('ora')  // nice displaying of a text (animation)
 const build = require('./build');
-const webpackDevConfig = require('./webpack.prod.conf');
-const config = require('../config');
+const webpackProdConfig = require('./webpack.prod.conf');
 
 
 //start the build here !
 const spinner = ora('building for production...');
 spinner.start();
-build(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), webpackDevConfig, spinner);
+build(webpackProdConfig, spinner);

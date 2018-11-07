@@ -15,9 +15,6 @@ const env = process.env.NODE_ENV === 'testing'
 const webpackConfig = merge(baseWebpackConfig, {
     mode: 'production',
     module: {
-	rules: [
-
-	]
     },
     devtool: 'inline-source-map',
     plugins: [
@@ -25,7 +22,7 @@ const webpackConfig = merge(baseWebpackConfig, {
 	    title: "Assoc App",
 	    filename: 'index.html',
 	    inject: true
-	}),
+	})	
 	//new BundleAnalyzerPlugin()
     ]
 })
