@@ -11,8 +11,7 @@
       v-bind:adherent="current"
       v-bind:key="current.id"
       v-on:send-user-details="setUser">
-    </one-adherent>
-    
+    </one-adherent>    
   </table>
   <user-details
     v-if="user"

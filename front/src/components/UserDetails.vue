@@ -1,6 +1,6 @@
 <template>
-<div id="back-user-details" v-if="user.firstname" v-on:click="hide" v-bind:class="{'hidden': hiddenDetails}">
-  <div id="user-details" >
+<div id="back-popup-box" v-if="user.firstname" v-on:click="hide" v-bind:class="{'hidden': hiddenDetails}">
+  <div id="popup-box" >
     <table>
       <tr>
 	<td>Prenom</td>
@@ -14,8 +14,8 @@
 	<td>Date de naissance</td>
 	<td><input/></td>
       </tr>
-
     </table>
+    <button class= "base-button" v-on:click="saveAndExit">Appliquer</button>
   </div>
 </div>
 </template>
@@ -32,8 +32,13 @@ export default {
     methods: {
 	//hide details vue when user clicks on back user details div
 	hide: function(event) {
-	    if (event.srcElement.id === "back-user-details")
+	    if (event.srcElement.id === "back-popup-box")
 		this.hiddenDetails = true;
+	},
+	saveAndExit: function() {
+	    //@todo envoyer les résultats au back
+	    //this.hiddenDetails = true;
+	    this.hiddenDetails = true;	    
 	}
     }
 }
@@ -41,33 +46,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#back-user-details {
-    z-index: 100;
-    position: absolute;
-    top: 0%;
-    bottom: 0%;
-    left: 0%;
-    right: 0%;
-
-    background-color: rgba(31, 31, 46, 0.5);
-    /*filter: blur(5px);*/
-}
-
-#user-details {
-    display: block;
-    z-index: 150;
-    position: absolute;
-    top: 20%;
-    bottom: 20%;
-    left: 20%;
-    right: 20%;
-
-    background-color: black;
-    color: white;
-}
-
-.hidden {
-    display: none;
-}
-
 </style>

@@ -1,9 +1,10 @@
 <template>
-<div id="calendar" class="group">
-  <div id="left-cal">
+<div id="child-view" class="group">
+  <div id="toolbar-view">
+    <button v-on:click="hideBox(false)">+</button>
     Filters
   </div>
-  <div id="right-cal">
+  <div id="main-view" class="calendar-container">
     <calendar-view
       :show-date="showDate"
       class="theme-default holiday-us-traditional holiday-us-official"
@@ -12,7 +13,7 @@
       <calendar-view-header slot="header" slot-scope="t" :header-props="t.headerProps" @input="setShowDate"/>
     </calendar-view>
   </div>
-  <new-event v-bind:events="events"/>
+  <new-event v-bind:events="events" v-bind:class="{'hidden': hiddenBox}" v-on:hide-box="hideBox"/>
 </div>
 </template>
 
@@ -30,48 +31,26 @@ export default {
     },
     data: function() {
 	return {
+	    hiddenBox: true,
 	    showDate: new Date(),
-	    events:  
-	    [
-		{
-		    startDate: "2018-11-08 00:00:00",
-		    endDate: "2018-11-09 12:00:00",
-		    title: "test",
-		    id: "sdkjhvliuzehv"
-		},
-		{
-		    startDate: "2018-11-11 13:00:00",
-		    endDate: "2018-11-11 18:00:00",
-		    title: "test2",
-		    id: "sdkjhvliuzehv"
-		}
-	    ]
+	    events: []
 	}
     },
     methods: {
 	setShowDate(d) {
 	    this.showDate = d;
 	},
+	hideBox: function(hide) {
+	    this.hiddenBox = hide;
+	}
+
     }
 }
 </script>
 
 <style scoped>
-#calendar {
-    left: 0;
-    right: 0;
 
-}
-
-#left-cal {
-    float: left;
-    width: 19%;
-}
-
-#right-cal {
-    float: left;
-    width: 78%;
-
+.calendar-container {
     display: flex;
     flex-direction: column;
     flex-grow: 1;

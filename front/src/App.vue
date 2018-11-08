@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <control-panel/>
-  <router-view class="main-view"/>
+  <router-view class="router-main-view"/>
   <contact-panel/>
 </div>
 </template>
@@ -22,19 +22,24 @@ export default {
 </script>
 
 <style>
+/* All elements base style*/
 * {
+    /* box sizing includes margin */
     box-sizing: border-box;
+
+    /* default font style */
     font-size: 25px;
     text-decoration: none;
     text-align: center;
+    
+    /* Default font */
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
 }
 
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
+/* Global body style */
 body {
     /* Set a specific height */
     height: 100%;
@@ -46,18 +51,19 @@ a {
     float: left;
 }
 
-.main-view {
+.router-main-view {
     margin: 2vh;
 }
 
+/* Button base style */ 
 .base-button {
     width: 15%;
     text-align: center;
 }
-.base-button:hover {
+base-button:hover {
     background-color: white;
     text-decoration: none;
-    zoom: 1.15;
+    zoom: 1.05;
 }
 
 /* CSS default class for router-link when active */
@@ -79,19 +85,51 @@ a {
     clear: both;
 }
 
-.display {
-    border: 2px solid red;
-    /*margin: 1vh;*/
+/* Base style for all child views coming inside router-view. These child views include a toolbar and a mainview */
+#child-view {
+    left: 0;
+    right: 0;
 }
 
-.display-blue {
-    border: 2px solid blue;
-    margin: 1vh;
+#toolbar-view {
+    float: left;
+    width: 19%;
 }
 
-.display-black {
-    border: 2px solid black;
-    margin: 1vh;
+#main-view {
+    float: left;
+    width: 78%;
+    border-left: 2px solid lightgrey;
+}
+
+/* Base style for all popup style box */
+#back-popup-box {
+    z-index: 100;
+    position: absolute;
+    top: 0%;
+    bottom: 0%;
+    left: 0%;
+    right: 0%;
+
+    background-color: rgba(31, 31, 46, 0.5);
+    /*filter: blur(5px);*/
+}
+
+#popup-box {
+    display: block;
+    z-index: 150;
+    position: absolute;
+    top: 20%;
+    bottom: 20%;
+    left: 20%;
+    right: 20%;
+
+    background-color: black;
+    color: white;
+}
+
+.hidden {
+    display: none;
 }
 
 

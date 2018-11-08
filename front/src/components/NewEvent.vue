@@ -1,21 +1,22 @@
 <template>
-<div>
-  COUCOU
-  <table>
-    <tr>
-      <td>Nom de l'évènement</td>
-      <td><input v-model="event.title" /></td>
-    </tr>
-    <tr>
-      <td>Date de début</td>
-      <td><input v-model="event.startDate" type="date"/></td>
-    </tr>
-    <tr>
-      <td>Date de fin</td>
-      <td><input v-model="event.endDate" type="date"/></td>
-    </tr>    
-  </table>
-  <button v-on:click="saveEvent">Créer</button>
+<div id="back-popup-box">
+  <div id="popup-box">
+    <table>
+      <tr>
+	<td>Nom de l'évènement</td>
+	<td><input v-model="event.title" /></td>
+      </tr>
+      <tr>
+	<td>Date de début</td>
+	<td><input v-model="event.startDate" type="date"/></td>
+      </tr>
+      <tr>
+	<td>Date de fin</td>
+	<td><input v-model="event.endDate" type="date"/></td>
+      </tr>    
+    </table>
+    <button v-on:click="saveEvent">Créer</button>
+  </div>
 </div>
 </template>
 
@@ -31,6 +32,7 @@ export default {
     methods: {
 	saveEvent: function() {
 	    this.events.push(this.event);
+	    this.$emit('hide-box', true);
 	}
     }
 }
