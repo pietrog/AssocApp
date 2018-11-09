@@ -1,6 +1,7 @@
 <template>
-<div id="back-popup-box" v-if="user.firstname" v-on:click="hide">
+<div id="back-popup-box" v-on:click="hide">
   <div id="popup-box" >
+    Ajout User
     <table>
       <tr>
 	<td>Prenom</td>
@@ -12,27 +13,31 @@
       </tr>
       <tr>
 	<td>Date de naissance</td>
-	<td><input/></td>
-      </tr>
+	<td><input type="date" v-model="user.birthdate" /></td>
+      </tr>      
     </table>
-    <button class= "base-button" v-on:click="saveAndExit">Appliquer</button>
+    <button class= "base-button" v-on:click="saveAndExit">Ajouter</button>
   </div>
 </div>
 </template>
 
 <script>
 export default {
-    name: 'user-details',
-    props: ['user'],
+    name: 'new-user',
+    data: function() {
+	return {
+	    user: {}
+	}
+    },
     methods: {
 	//hide details vue when user clicks on back user details div
 	hide: function(event) {
 	    if (event.srcElement.id === "back-popup-box")
-		this.$emit('hide-user-details')
+		this.$emit('hide-new-user');
 	},
 	saveAndExit: function() {
 	    //@todo envoyer les résultats au back
-	    this.$emit('hide-user-details')
+	    this.$emit('save-user', this.user);
 	}
     }
 }

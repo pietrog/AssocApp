@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Adherents from '../components/Adherents'
+import ListAdherents from '../components/ListAdherents'
 import Calendar from '../components/Calendar';
 import Photos from '../components/Photos';
 
@@ -11,7 +11,7 @@ export default new Router({
 	{
 	    path: '/users',
 	    name: 'Adherents',
-	    component: Adherents
+	    component: ListAdherents
 	},
 	{
 	    path: '/calendar',

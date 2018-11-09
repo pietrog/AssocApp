@@ -1,6 +1,6 @@
 <template>
-<div id="back-popup-box">
-  <div id="popup-box">
+<div id="back-popup-box" v-on:click="$emit('hide-box', true)">
+  <div id="popup-box" v-on:click.stop="">
     <table>
       <tr>
 	<td>Nom de l'évènement</td>

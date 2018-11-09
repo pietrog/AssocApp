@@ -7,8 +7,9 @@
     {{ adherent.lastname }}
   </td>
   <td>
-    {{ adherent.birthday }}
+    {{ adherent.birthdate | niceDate }}
   </td>
+  <td><button  v-on:click.stop="$emit('delete-user', adherent.id)">X</button></td>
 </tr>
 </template>
 
@@ -16,10 +17,12 @@
 export default {
     name: 'one-adherent',
     props: ['adherent'],
-    methods: {
-	displayUserDetails: function() {
 
+    filters: {
+	niceDate: function(date) {
+	    return "" + date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
 	}
+
     }
 }
 </script>
