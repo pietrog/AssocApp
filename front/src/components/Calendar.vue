@@ -2,7 +2,6 @@
 <div id="child-view" class="group">
   <div id="toolbar-view">
     <button v-on:click="hideBox(false)">+</button>
-    Filters
   </div>
   <div id="main-view" class="calendar-container">
     <calendar-view
