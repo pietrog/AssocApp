@@ -1,11 +1,38 @@
 <template>
 <div id="back-popup-box" v-on:click="$emit('hide-box', true)">
   <div id="popup-box" v-on:click.stop="">
-    Nouvel évènement
+    Nouveau cours
     <table>
       <tr>
-	<td>Nom de l'évènement</td>
+	<td>Nom du cours</td>
 	<td><input v-model="event.title" /></td>
+      </tr>
+      <tr>
+	<td>Description</td>
+	<td><input type="text" v-model="event.title" /></td>
+      </tr>
+      <tr>
+	<td>Premier cours</td>
+	<td><input type="date" v-model="event.firstdate"/></td>
+      </tr>
+      <tr>
+	<td>Occurence</td>
+	<td>
+	  Tous les 
+	  <select multiple="true" class="days">
+	    <option>lundis</option>
+	    <option>mardis</option>
+	    <option>mercredis</option>
+	    <option>jeudis</option>
+	    <option>vendredis</option>
+	    <option>samedis</option>
+	    <option>dimanches</option>
+	  </select>
+	</td>
+      </tr>
+      <tr>
+	<td>Durée</td>
+	<td><input v-model="event.duration"/></td>
       </tr>
       <tr>
 	<td>Date de début</td>
@@ -23,7 +50,7 @@
 
 <script>
 export default {
-    name: 'new-event',
+    name: 'new-course',
     data: function() {
 	return {
 	    event: {}
@@ -40,4 +67,7 @@ export default {
 </script>
 
 <style scoped>
+.days {
+    font-size: 15px;
+}
 </style>

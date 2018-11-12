@@ -1,7 +1,8 @@
 <template>
 <div id="child-view" class="group">
   <div id="toolbar-view">
-    <button v-on:click="hideBox(false)">+</button>
+    <button v-on:click="hideBoxEvent(false)">+</button>
+    <button v-on:click="hideBoxCourse(false)">++</button>
   </div>
   <div id="main-view" class="calendar-container">
     <calendar-view
@@ -12,12 +13,14 @@
       <calendar-view-header slot="header" slot-scope="t" :header-props="t.headerProps" @input="setShowDate"/>
     </calendar-view>
   </div>
-  <new-event v-bind:events="events" v-bind:class="{'hidden': hiddenBox}" v-on:hide-box="hideBox"/>
+  <new-event v-bind:events="events" v-if="hiddenBoxEvent === false" v-on:hide-box="hideBoxEvent"/>
+  <new-course v-bind:events="events" v-if="hiddenBoxCourse === false" v-on:hide-box="hideBoxCourse"/>
 </div>
 </template>
 
 <script>
 import NewEvent from './NewEvent';
+import NewCourse from './NewCourse';
 import VueSimpleCalendar from 'vue-simple-calendar';
 require("vue-simple-calendar/static/css/default.css");
 require("vue-simple-calendar/static/css/holidays-us.css");
@@ -26,11 +29,13 @@ export default {
     name: 'calendar',
     components: {
 	VueSimpleCalendar,
-	NewEvent
+	NewEvent,
+	NewCourse
     },
     data: function() {
 	return {
-	    hiddenBox: true,
+	    hiddenBoxEvent: true,
+	    hiddenBoxCourse: true,
 	    showDate: new Date(),
 	    events: []
 	}
@@ -39,9 +44,13 @@ export default {
 	setShowDate(d) {
 	    this.showDate = d;
 	},
-	hideBox: function(hide) {
-	    this.hiddenBox = hide;
+	hideBoxEvent: function(hide) {
+	    this.hiddenBoxEvent = hide;
+	},
+	hideBoxCourse: function(hide) {
+	    this.hiddenBoxCourse = hide;
 	}
+
 
     }
 }

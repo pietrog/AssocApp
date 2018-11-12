@@ -28,7 +28,7 @@ export default {
     box-sizing: border-box;
 
     /* default font style */
-    font-size: 25px;
+    font-size: 22px;
     text-decoration: none;
     text-align: center;
     

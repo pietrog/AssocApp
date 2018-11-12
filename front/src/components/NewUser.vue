@@ -16,13 +16,22 @@
 	<td><input type="date" v-model="user.birthdate" /></td>
       </tr>
       <tr>
-	<td>Emails<button v-if="user.emails.length < 3" v-on:click="addMail">+</button></td>
+	<td>Emails<button v-if="user.emails.length < 3" v-on:click="addElt(user.emails)">+</button></td>
 	<td>
 	  <ul v-for="(mail, index) in user.emails">
-	    <li><input type="email" v-model="user.emails[index]"/><button v-on:click="removeMail(index)">-</button></li>
+	    <li><input type="email" v-model="user.emails[index]"/><button v-on:click="removeElt(user.emails, index)">-</button></li>
 	  </ul>
 	</td>
       </tr>
+      <tr>
+	<td>Téléphones<button v-if="user.phone_number.length < 3" v-on:click="addElt(user.phone_number)">+</button></td>
+	<td>
+	  <ul v-for="(phone, index) in user.phone_number">
+	    <li><input type="tel" v-model="user.phone_number[index]"/><button v-on:click="removeElt(user.phone_number, index)">-</button></li>
+	  </ul>
+	</td>
+      </tr>
+
     </table>
     <button class= "base-button" v-on:click="saveAndExit">Ajouter</button>
   </div>
@@ -38,7 +47,8 @@ export default {
 		firstname: "",
 		lastname: "",
 		birthdate: "2005-01-01",
-		emails: []
+		emails: [],
+		phone_number: []
 	    },
 	}
     },
@@ -49,16 +59,16 @@ export default {
 		this.$emit('hide-new-user');
 	},
 	saveAndExit: function() {
-	    //check inputs before submiting it
+	    //@todo check inputs before submiting it
 	    //if (
 	    //@todo envoyer les résultats au back
 	    this.$emit('save-user', this.user);
 	},
-	addMail: function() {
-	    this.user.emails.push("");
+	addElt: function(array) {
+	    array.push("");
 	},
-	removeMail: function(index) {
-	    this.user.emails.splice(index, 1);
+	removeElt: function(array, index) {
+	    array.splice(index, 1);
 	}
     }
 }

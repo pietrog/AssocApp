@@ -45,11 +45,11 @@ export default {
 	    stringFilter: "",
 	    dateFilter: 0,
 	    users: [
-		{ firstname: "Odile", lastname: "Deray", birthdate: new Date(1999, 10, 10), id: 5, emails: [] },
-		{ firstname: "Yann", lastname: "Dupuis", birthdate: new Date(2010, 9, 24), id: 1, emails: [] },
-		{ firstname: "Woodz", lastname: "LeFou", birthdate: new Date(2007, 7, 19), id: 2, emails: [] },
-		{ firstname: "Sympa", lastname: "Lecurieux", birthdate: new Date(2008, 3, 13), id: 3, emails: [] },
-		{ firstname: "Emm", lastname: "Macron", birthdate: new Date(2004, 1, 6), id: 4, emails: [] }
+		{ firstname: "Odile", lastname: "Deray", birthdate: new Date(1999, 10, 10), id: 5, emails: [], phone_number: [] },
+		{ firstname: "Yann", lastname: "Dupuis", birthdate: new Date(2010, 9, 24), id: 1, emails: [], phone_number: [] },
+		{ firstname: "Woodz", lastname: "LeFou", birthdate: new Date(2007, 7, 19), id: 2, emails: [], phone_number: [] },
+		{ firstname: "Sympa", lastname: "Lecurieux", birthdate: new Date(2008, 3, 13), id: 3, emails: [], phone_number: [] },
+		{ firstname: "Emm", lastname: "Macron", birthdate: new Date(2004, 1, 6), id: 4, emails: [], phone_number: [] }
 	    ],
 	    user: {},
 	    displayedNewUser: false,
