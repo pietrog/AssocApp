@@ -1,0 +1,18 @@
+priorité: 1 haute 2 moyenne 3 basse
+
+[todo]
+[front]
+- design definitif (3)
+- ouvrir un event lorsqu'on clique dessus sur le calendrier (1)
+- fenetre creation event: liste des users présents et non présents (1)
+- fenetre création cours: pareil que ci dessus (1)
+- possibilité de supprimer une/plusieurs occurrences (1)
+
+[back]
+- ajout users dans un cours (1)
+
+
+[done]
+[front]
+
+[back]

@@ -23,3 +23,18 @@ const createCourse =
 };
 module.exports.createCourse = createCourse;
 
+const getCourseByName = (name) => {
+    return CourseDAL.getCourseByName(name);
+};
+module.exports.getCourseByName = getCourseByName;
+
+
+const getCourse = (id) => {
+    return CourseDAL.getCourse(id);
+};
+module.exports.getCourse = getCourse;
+
+const addUsersToCourse = (course_id, user_list) => {
+    return CourseDAL.addUsersToCourse(course_id, user_list);
+};
+module.exports.addUsersToCourse = addUsersToCourse;

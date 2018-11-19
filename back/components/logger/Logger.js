@@ -4,11 +4,7 @@ class Logger extends pino {
 
     constructor() {
 	super();
-	this.level = 'error';
-    }
-    
-    setLevel(level) {
-	super.level = level;
+	pino.level = 'trace';
     }
     
 };
