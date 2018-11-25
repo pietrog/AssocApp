@@ -42,8 +42,15 @@ export default {
 		this.$emit('hide-event-details')
 	},
 	saveAndExit: function() {
-	    this.event.startDate = tools.toJSDate(this.startDateT, this.startDateTime);
-	    this.event.endDate = tools.toJSDate(this.endDateT, this.endDateTime);
+	    const jsStartDate = tools.toJSDate(this.startDateT, this.startDateTime);
+	    const jsEndDate = tools.toJSDate(this.endDateT, this.endDateTime);
+	    if (!tools.validateStartEndDates(jsStartDate, jsEndDate))
+	    {
+		alert('La date de fin est inférieure à la date de début');
+		return;
+	    }
+	    this.event.startDate = jsStartDate;
+	    this.event.endDate = jsEndDate;
 	    //@todo envoyer les résultats au back
 	    this.$emit('hide-event-details')
 	}
@@ -52,4 +59,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>
