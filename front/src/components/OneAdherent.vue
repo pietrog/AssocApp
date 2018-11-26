@@ -6,18 +6,20 @@
   <td>
     {{ adherent.lastname }}
   </td>
-  <td>
+  <td v-if="!readOnly">
     {{ adherent.birthdate | niceDate }}
   </td>
-  <td><button  v-on:click.stop="$emit('delete-user', adherent.id)">X</button></td>
+  <td v-if="!readOnly"><button  v-on:click.stop="$emit('delete-user', adherent.id)">X</button></td>
 </tr>
 </template>
 
 <script>
 export default {
     name: 'one-adherent',
-    props: ['adherent'],
-
+    props: {
+	'adherent': Object,
+	'read-only': {type: Boolean, default: true}
+    },
     filters: {
 	niceDate: function(date) {
 	    return "" + date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();

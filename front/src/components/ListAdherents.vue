@@ -1,11 +1,11 @@
 <template>
-<div id="iadherents-list2" class="group">
-  <table id="iadherents-list-table2">
+<div id="iadherents-list" class="group">
+  <table id="iadherents-list-table">
     <tr>
       <th>Prénom</th>
       <th>Nom</th>
-      <th>Année de naissance</th>
-      <th>Supprimer</th>
+      <th v-if="!readOnly">Année de naissance</th>
+      <th v-if="!readOnly">Supprimer</th>
     </tr>
     <one-adherent
       v-for="current in users"
@@ -13,7 +13,10 @@
       v-bind:adherent="current"
       v-bind:key="current.id"
       v-on:send-user-details="$emit('send-user-details', $event)"
-      v-on:delete-user="$emit('delete-user', $event)">
+      v-on:delete-user="$emit('delete-user', $event)"
+      v-bind:read-only="readOnly"
+      >
+      
       
     </one-adherent>    
   </table>  
@@ -24,14 +27,19 @@
 import OneAdherent from './OneAdherent'
 
 export default {
-    name: 'list-adherents2',
-    props: ['users', 'stringFilter', 'dateFilter'],
+    name: 'list-adherents',
+    props: {
+	'users': {type: Array, default: []},
+	'stringFilter': {type: String, default: ""},
+	'dateFilter': {type: Number, default: 0},
+	'read-only': {type: Boolean, default: true}
+    },
     methods: {
 	filterUser: function(current) {
 	    let filterResult = true;
 	    
 	    //filter on firstname and lastname
-	    if (this.stringFilter.length > 0) {
+	    if (this.stringFilter && this.stringFilter.length > 0) {
 		filterResult = current.firstname.toLowerCase().includes(this.stringFilter.toLowerCase()) ||
 		current.lastname.toLowerCase().includes(this.stringFilter.toLowerCase());
 	    }
@@ -53,12 +61,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#iadherents-list2 {
-    float: left;
-    width: 98%;
-}
 
-#iadherents-list-table2 {
+#iadherents-list-table {
     width: 100%;
 }
 

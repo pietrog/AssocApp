@@ -43,17 +43,54 @@
 	<td><input v-model="event.endDate" type="date"/></td>
       </tr>    
     </table>
+
+    <div class="group">
+      <list-adherents
+	v-bind:users="users"
+	v-bind:dateFilter="dateFilter"
+	v-bind:stringFilter="stringFilter"
+	list-mode="read-only"	
+	class="left"
+	/>
+      <list-adherents
+	v-bind:users="users2"
+	v-bind:dateFilter="dateFilter"
+	v-bind:stringFilter="stringFilter"
+	list-mode="read-only"
+	class="left"
+	/>
+
+    </div>
+
     <button v-on:click="saveEvent">Créer</button>
   </div>
 </div>
 </template>
 
 <script>
+import ListAdherents from './ListAdherents';
+
 export default {
     name: 'new-course',
     data: function() {
 	return {
-	    event: {}
+	    event: {},
+	    stringFilter: "",
+	    dateFilter: 0,	   
+	    users: [
+		{ firstname: "Obi", lastname: "One",
+		  birthdate: new Date(1999, 10, 10), id: 5, emails: [], phone_number: [] },
+		{ firstname: "Dark", lastname: "Vador",
+		  birthdate: new Date(2010, 9, 24), id: 1, emails: [], phone_number: [] },
+	    ],
+
+	    users2: [
+		{ firstname: "Obi2", lastname: "One",
+		  birthdate: new Date(1999, 10, 10), id: 5, emails: [], phone_number: [] },
+		{ firstname: "Dark2", lastname: "Vador",
+		  birthdate: new Date(2010, 9, 24), id: 1, emails: [], phone_number: [] },
+	    ]
+
 	}
     },
     props: ['events'],
@@ -62,6 +99,9 @@ export default {
 	    this.events.push(this.event);
 	    this.$emit('hide-box', true);
 	}
+    },
+    components: {
+	ListAdherents,
     }
 }
 </script>
@@ -70,4 +110,10 @@ export default {
 .days {
     font-size: 15px;
 }
+.left {
+    float: left;
+    width: 44%;
+    margin: 1vh;
+}
+
 </style>

@@ -9,6 +9,7 @@
     v-bind:stringFilter="stringFilter"
     v-on:send-user-details="setUser"
     v-on:delete-user="deleteUser"
+    v-bind:read-only="false"
     />
   <user-details v-if="user"
 		v-bind:user="user"
