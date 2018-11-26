@@ -9,14 +9,14 @@
 <script lang='js'>
 import ControlPanel from './components/ControlPanel'
 import ContactPanel from './components/ContactPanel'
-import ListAdherents from './components/ListAdherents';
+import ListAllAdherents from './components/ListAllAdherents';
 
 export default {
     name: 'app',
     components: {
 	ContactPanel,
 	ControlPanel,
-	ListAdherents
+	ListAllAdherents
 	}
 }
 </script>
