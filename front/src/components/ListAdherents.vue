@@ -3,22 +3,13 @@
   <button v-on:click="displayNewUser">+</button>
   Nom/Prénom: <input v-model="stringFilter"></input> <br/>
   Année de naissance <input v-model="dateFilter" ></input>
-  <table id="iadherents-list-table">
-    <tr>
-      <th>Prénom</th>
-      <th>Nom</th>
-      <th>Année de naissance</th>
-      <th>Supprimer</th>
-    </tr>
-    <one-adherent
-      v-for="current in users"
-      v-if="filterUser(current)"
-      v-bind:adherent="current"
-      v-bind:key="current.id"
-      v-on:send-user-details="setUser"
-      v-on:delete-user="deleteUser">
-    </one-adherent>    
-  </table>
+  <list-adherents2
+    v-bind:users="users"
+    v-bind:dateFilter="dateFilter"
+    v-bind:stringFilter="stringFilter"
+    v-on:send-user-details="setUser"
+    v-on:delete-user="deleteUser"
+    />
   <user-details v-if="user"
 		v-bind:user="user"
 		v-bind:key="user.id"
@@ -34,9 +25,10 @@
 </template>
 
 <script>
-import OneAdherent from './OneAdherent'
+import ListAdherents2 from './ListAdherents2';
 import UserDetails from './UserDetails';
 import NewUser from './NewUser';
+
 
 export default {
     name: 'list-adherents',
@@ -92,7 +84,7 @@ export default {
     },
 
     components: {
-	OneAdherent,
+	ListAdherents2,
 	UserDetails,
 	NewUser
     }
