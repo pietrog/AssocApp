@@ -45,18 +45,20 @@
     </table>
 
     <div class="group">
-      <list-adherents
-	v-bind:users="users"
+      <list-adherents-left
+	v-bind:users="usersIn"
 	v-bind:dateFilter="dateFilter"
 	v-bind:stringFilter="stringFilter"
-	list-mode="read-only"	
+	v-on:move-right="moveRight($event)"
+
 	class="left"
 	/>
-      <list-adherents
-	v-bind:users="users2"
+      <list-adherents-right
+	v-bind:users="usersOut"
 	v-bind:dateFilter="dateFilter"
 	v-bind:stringFilter="stringFilter"
-	list-mode="read-only"
+	v-on:move-left="moveLeft($event)"
+	
 	class="left"
 	/>
 
@@ -68,27 +70,31 @@
 </template>
 
 <script>
-import ListAdherents from './ListAdherents';
+import ListAdherentsLeft from './ListAdherentsLeft';
+import ListAdherentsRight from './ListAdherentsRight';
+const tools = require('./tools');
 
 export default {
     name: 'new-course',
     data: function() {
 	return {
-	    event: {},
+	    event: {
+		user_list: []
+	    },
 	    stringFilter: "",
 	    dateFilter: 0,	   
-	    users: [
+	    usersIn: [
 		{ firstname: "Obi", lastname: "One",
-		  birthdate: new Date(1999, 10, 10), id: 5, emails: [], phone_number: [] },
+		  birthdate: new Date(1999, 10, 10), id: 13, emails: [], phone_number: [] },
 		{ firstname: "Dark", lastname: "Vador",
 		  birthdate: new Date(2010, 9, 24), id: 1, emails: [], phone_number: [] },
 	    ],
 
-	    users2: [
+	    usersOut: [
 		{ firstname: "Obi2", lastname: "One",
 		  birthdate: new Date(1999, 10, 10), id: 5, emails: [], phone_number: [] },
 		{ firstname: "Dark2", lastname: "Vador",
-		  birthdate: new Date(2010, 9, 24), id: 1, emails: [], phone_number: [] },
+		  birthdate: new Date(2010, 9, 24), id: 9, emails: [], phone_number: [] },
 	    ]
 
 	}
@@ -96,12 +102,26 @@ export default {
     props: ['events'],
     methods: {
 	saveEvent: function() {
-	    this.events.push(this.event);
-	    this.$emit('hide-box', true);
-	}
+	    //send it to back and receive the list of events
+	    this.addUsersInIDs(); //add users to user_list id of event
+	    //this.$emit('hide-box', true);
+	},
+	addUsersInIDs: function() {
+	    this.event.user_list = [];
+	    this.usersIn.forEach((v) => {this.event.user_list.push(v.id)});
+	},
+	moveRight: function(userID) {
+	    //move the user from UserIn to UserOut
+	    tools.moveEltWithinArrays(this.usersIn, this.usersOut, userID);
+	},
+	moveLeft: function(userID) {
+	    //move the user from UserOut to UserIn 
+	    tools.moveEltWithinArrays(this.usersOut, this.usersIn, userID);
+	},
     },
     components: {
-	ListAdherents,
+	ListAdherentsLeft,
+	ListAdherentsRight,
     }
 }
 </script>

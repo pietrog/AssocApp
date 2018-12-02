@@ -2,37 +2,31 @@
 <div id="iadherents-list" class="group">
   <table id="iadherents-list-table">
     <tr>
+      <th></th>
       <th>Prénom</th>
       <th>Nom</th>
-      <th v-if="!readOnly">Année de naissance</th>
-      <th v-if="!readOnly">Supprimer</th>
     </tr>
-    <one-adherent
+    <one-adherent-right
       v-for="current in users"
       v-if="filterUser(current)"
       v-bind:adherent="current"
       v-bind:key="current.id"
-      v-on:send-user-details="$emit('send-user-details', $event)"
-      v-on:delete-user="$emit('delete-user', $event)"
-      v-bind:read-only="readOnly"
       v-on:move-left="$emit('move-left', $event)"
-      v-on:move-right="$emit('move-right', $event)"
       >
-    </one-adherent>    
+    </one-adherent-right>    
   </table>  
 </div>
 </template>
 
 <script>
-import OneAdherent from './OneAdherent'
+import OneAdherentRight from './OneAdherentRight'
 
 export default {
-    name: 'list-adherents',
+    name: 'list-adherents-right',
     props: {
 	'users': {type: Array, default: []},
 	'stringFilter': {type: String, default: ""},
 	'dateFilter': {type: Number, default: 0},
-	'read-only': {type: Boolean, default: true}
     },
     methods: {
 	filterUser: function(current) {
@@ -54,7 +48,7 @@ export default {
     },
 
     components: {
-	OneAdherent,
+	OneAdherentRight,
     }
 }
 </script>
