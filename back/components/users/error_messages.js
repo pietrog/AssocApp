@@ -12,6 +12,7 @@ module.exports = {
     error_email_validity: "Les emails doivent etre valides (ex: toto@domain.com)",
     error_phone_validity: "Les numéros de téléphone doivent etre valides (ex: 0607080900)",
     error_role_validity: "Ce status d'utilisateur n'existe pas",
+    error_birthdate_validity: "Date de naissance non valide ou absente",
 
     error_user_insertion: "Une erreur est survenue durant l'ajout de l'utilisateur",
 

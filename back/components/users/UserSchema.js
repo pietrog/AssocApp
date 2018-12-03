@@ -55,7 +55,7 @@ let UserSchema = new Schema({
 	require: true,
 	validate: role_validation
     },
-    birthday: {
+    birthdate: {
 	type: Date,
 	require: true
     },

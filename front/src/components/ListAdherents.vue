@@ -11,7 +11,7 @@
       v-for="current in users"
       v-if="filterUser(current)"
       v-bind:adherent="current"
-      v-bind:key="current.id"
+      v-bind:key="current._id"
       v-on:send-user-details="$emit('send-user-details', $event)"
       v-on:delete-user="$emit('delete-user', $event)"
       v-bind:read-only="readOnly"

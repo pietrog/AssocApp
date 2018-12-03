@@ -52,6 +52,9 @@ module.exports.getAllStaffs = () => {
     return findUsersByCritera(null, null, "staff");
 };
 
+module.exports.removeUser = async (userID) => {
+    return UserDAL.removeUser(userID);
+};
 
 /*
  * Count functions

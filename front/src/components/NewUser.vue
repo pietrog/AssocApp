@@ -13,7 +13,7 @@
       </tr>
       <tr>
 	<td>Date de naissance</td>
-	<td><input type="date" v-model="user.birthdate" /></td>
+	<td><input type="date" v-model="user.birthdate_html" /></td>
       </tr>
       <tr>
 	<td>Emails<button v-if="user.emails.length < 3" v-on:click="addElt(user.emails)">+</button></td>
@@ -39,6 +39,9 @@
 </template>
 
 <script>
+const UserService = require('./UserService').US;
+const tools = require('./tools');
+
 export default {
     name: 'new-user',
     data: function() {
@@ -46,7 +49,7 @@ export default {
 	    user: {
 		firstname: "",
 		lastname: "",
-		birthdate: "2005-01-01",
+		birthdate_html: "2005-01-01",
 		emails: [],
 		phone_number: []
 	    },
@@ -58,10 +61,12 @@ export default {
 	    if (event.srcElement.id === "back-popup-box")
 		this.$emit('hide-new-user');
 	},
-	saveAndExit: function() {
+	saveAndExit: async function() {
 	    //@todo check inputs before submiting it
 	    //if (
 	    //@todo envoyer les résultats au back
+	    this.user.birthdate = tools.toJSDate(this.user.birthdate_html, "00:00");
+	    await UserService.createStudent(this.user);
 	    this.$emit('save-user', this.user);
 	},
 	addElt: function(array) {

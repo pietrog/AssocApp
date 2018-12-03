@@ -2,7 +2,7 @@ const assert = require('assert').strict,
       mongoose = require('mongoose'),
       util = ('util');
 
-const UserAPI = require('./UserAPI.js'),
+const UserAPI = require('./UserAPI.js').UserAPI,
       UserSchema = require('./UserSchema'),
       config = require('../../config.js'),
       error_messages = require('./error_messages'),

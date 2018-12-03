@@ -4,6 +4,7 @@
   Nom/Prénom: <input v-model="stringFilter"></input> <br/>
   Année de naissance <input v-model="dateFilter" ></input>
   <list-adherents
+    
     v-bind:users="users"
     v-bind:dateFilter="dateFilter"
     v-bind:stringFilter="stringFilter"
@@ -11,9 +12,8 @@
     v-on:delete-user="deleteUser"
     v-bind:read-only="false"
     />
-  <user-details v-if="user"
-		v-bind:user="user"
-		v-bind:key="user.id"
+  <user-details v-bind:user="user"
+		v-bind:key="user._id"
 		v-bind:class="{'hidden': hiddenUserDetails}"
 		v-on:hide-user-details="hiddenUserDetails = true"
 		/>
@@ -30,6 +30,8 @@ import ListAdherents from './ListAdherents';
 import UserDetails from './UserDetails';
 import NewUser from './NewUser';
 
+const UserService = require('./UserService').US;
+const util = require('util');
 
 export default {
     name: 'list-all-adherents',
@@ -37,13 +39,7 @@ export default {
 	return {
 	    stringFilter: "",
 	    dateFilter: 0,
-	    users: [
-		{ firstname: "Odile", lastname: "Deray", birthdate: new Date(1999, 10, 10), id: 5, emails: [], phone_number: [] },
-		{ firstname: "Yann", lastname: "Dupuis", birthdate: new Date(2010, 9, 24), id: 1, emails: [], phone_number: [] },
-		{ firstname: "Woodz", lastname: "LeFou", birthdate: new Date(2007, 7, 19), id: 2, emails: [], phone_number: [] },
-		{ firstname: "Sympa", lastname: "Lecurieux", birthdate: new Date(2008, 3, 13), id: 3, emails: [], phone_number: [] },
-		{ firstname: "Emm", lastname: "Macron", birthdate: new Date(2004, 1, 6), id: 4, emails: [], phone_number: [] }
-	    ],
+	    users: [],
 	    user: {},
 	    displayedNewUser: false,
 	    hiddenUserDetails: true
@@ -66,12 +62,16 @@ export default {
 	    if (this.dateFilter && this.dateFilter > 1970 && this.dateFilter < 2020) {
 		filterResult &= current.birthdate.getFullYear() <= this.dateFilter;
 	    }
-
+	    
 	    return filterResult;
 	},
+	getAllAdherentsFromBack: async function() {
+	    const res = await UserService.getAllStudents();
+	    this.users = res;
+	},
 	deleteUser: function(id) {
-	    //@todo nvoyer requete asynchrone au serveur et supprimer l'user ici :)
-	    const index = this.users.findIndex( elt => { return elt.id === id});
+	    UserService.deleteUser(id);
+	    const index = this.users.findIndex( elt => { return elt._id === id});
 	    this.users.splice(index, 1);
 	},
 	displayNewUser: function() {
@@ -88,6 +88,10 @@ export default {
 	ListAdherents,
 	UserDetails,
 	NewUser
+    },
+
+    mounted() {
+	this.getAllAdherentsFromBack();
     }
 }
 </script>

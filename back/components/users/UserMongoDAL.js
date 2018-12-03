@@ -59,8 +59,9 @@ class UserDAL {
      */
     async removeUser(userID) {
 	assert.equal( typeof(userID), 'string', error_messages.error_string_expected);
-
-	const user = await findUserById(userID);
+	
+	const user = await this.findUserById(userID);
+	Logger.trace('User ' + user.firstname + ' removed');
 	return user.remove();
     }
     
@@ -126,6 +127,7 @@ class UserDAL {
 	assert.equal( typeof(user), 'object', error_messages.error_bad_user_data);
 	assert.equal( typeof(user.firstname), 'string', error_messages.error_no_firstname_given);
 	assert.equal( typeof(user.lastname), 'string', error_messages.error_no_lastname_given);
+	assert.equal( typeof(user.birthdate), 'string', error_messages.error_birthdate_validity);
 	assert.equal( typeof(_role), 'string', error_messages.error_no_role);
 	assert.ok(user.firstname.length > 1, error_messages.error_firstname_validity);
 	assert.ok(user.lastname.length > 1, error_messages.error_lastname_validity);
@@ -135,7 +137,8 @@ class UserDAL {
 	    firstname: user.firstname,
 	    lastname: user.lastname,
 	    inscription_date: Date.now(),
-	    role: _role
+	    role: _role,
+	    birthdate: user.birthdate	    
 	};
 
 	//check if an user with same firstname/lastname already exists
