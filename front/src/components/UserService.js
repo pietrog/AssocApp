@@ -1,31 +1,29 @@
 'use strict';
 
-const axios = require('axios');
+const util = require('util');
+import * from './BackServerProxy';
 
-class UserService {
+class UserService {//extends Proxy {
     
     constructor() {
+	//super('/users');
     }
 
     async getAllStudents() {
-	const res = await axios.get('/users/getAll');
-	return res.data;
+	return "";//this._get('/getAll');
     }
 
     async createStudent(user) {
-	const res = await axios.post('/users/addStudent', { user: user });
-	return res.data;
+	return "";//this._post('/addStudent', {user: user});
     }
 
     async deleteUser(userID) {
-	await axios.delete('/users/' + userID);
-	return ;
+	return "";//this._delete('/', userID);
     }
 
     async updateUser(user) {
-	await axios.patch('/users/update', { user: user });
-	return;
+	return "";//this._update('/update', {user: user});
     }
-}
+};
 
 module.exports.US = new UserService();

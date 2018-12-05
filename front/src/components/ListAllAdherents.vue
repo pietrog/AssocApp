@@ -30,7 +30,7 @@ import ListAdherents from './ListAdherents';
 import UserDetails from './UserDetails';
 import NewUser from './NewUser';
 
-const UserService = require('./UserService').US;
+const UserService = require('./UserService');
 const util = require('util');
 
 export default {
@@ -66,6 +66,7 @@ export default {
 	    return filterResult;
 	},
 	getAllAdherentsFromBack: async function() {
+	    console.log(UserService);
 	    const res = await UserService.getAllStudents();
 	    this.users = res;
 	},
