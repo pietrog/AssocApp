@@ -127,7 +127,7 @@ class UserDAL {
 	assert.equal( typeof(user), 'object', error_messages.error_bad_user_data);
 	assert.equal( typeof(user.firstname), 'string', error_messages.error_no_firstname_given);
 	assert.equal( typeof(user.lastname), 'string', error_messages.error_no_lastname_given);
-	assert.equal( typeof(user.birthdate), 'string', error_messages.error_birthdate_validity);
+	assert.equal( typeof(user.birthdate), 'object', error_messages.error_birthdate_validity);
 	assert.equal( typeof(_role), 'string', error_messages.error_no_role);
 	assert.ok(user.firstname.length > 1, error_messages.error_firstname_validity);
 	assert.ok(user.lastname.length > 1, error_messages.error_lastname_validity);
@@ -138,7 +138,7 @@ class UserDAL {
 	    lastname: user.lastname,
 	    inscription_date: Date.now(),
 	    role: _role,
-	    birthdate: user.birthdate	    
+	    birthdate: user.birthdate
 	};
 
 	//check if an user with same firstname/lastname already exists
@@ -196,7 +196,7 @@ class UserDAL {
      * @returns {object} Returns modified user
      */
     async modifyUser(userID, userDef) {
-	assert.equal( typeof(userID), 'object', error_messages.error_bad_user_data + "(user id)" + userID);
+	//assert.equal( typeof(userID), 'object', error_messages.error_bad_user_data + "(user id)" + userID);
 	
 	let user_update = {};
 	
@@ -217,6 +217,9 @@ class UserDAL {
 	}
 	if (typeof(userDef.emails) === 'object') {
 	    user_update.emails = userDef.emails;
+	}
+	if (typeof(userDef.phone_number) === 'object') {
+	    user_update.phone_number = userDef.phone_number;
 	}
 
 	return UserSchema.findOneAndUpdate({_id: userID}, user_update, {new: true});

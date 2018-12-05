@@ -2,7 +2,7 @@ const assert = require('assert').strict,
       mongoose = require('mongoose'),
       util = ('util');
 
-const UserAPI = require('./UserAPI.js').UserAPI,
+const UserAPI = require('./UserAPI'),
       UserSchema = require('./UserSchema'),
       config = require('../../config.js'),
       error_messages = require('./error_messages'),
@@ -18,20 +18,20 @@ describe('User Component', function() {
     beforeEach( async () => {
 	await UserSchema.deleteMany({});
 	//add 5 students
-	await UserAPI.addStudent({firstname: "Jean", lastname: "Valjean"});
-	await UserAPI.addStudent({firstname: "Collette", lastname: "Simone"});
-	await UserAPI.addStudent({firstname: "Yassine", lastname: "Berbouk"});
-	await UserAPI.addStudent({firstname: "Manu", lastname: "Macron"});
-	await UserAPI.addStudent({firstname: "Reine", lastname: "dAngleterre"});
+	await UserAPI.addStudent({firstname: "Jean", lastname: "Valjean", birthdate: new Date(2000, 1, 2)});
+	await UserAPI.addStudent({firstname: "Collette", lastname: "Simone", birthdate: new Date(2000, 1, 2)});
+	await UserAPI.addStudent({firstname: "Yassine", lastname: "Berbouk", birthdate: new Date(2000, 1, 2)});
+	await UserAPI.addStudent({firstname: "Manu", lastname: "Macron", birthdate: new Date(2000, 1, 2)});
+	await UserAPI.addStudent({firstname: "Reine", lastname: "dAngleterre", birthdate: new Date(2000, 1, 2)});
 	//add 2 teachers
-	await UserAPI.addTeacher({firstname: "Monsieur", lastname: "Vissio"});
-	await UserAPI.addTeacher({firstname: "Antoine", lastname: "Conze"});
+	await UserAPI.addTeacher({firstname: "Monsieur", lastname: "Vissio", birthdate: new Date(2000, 1, 2)});
+	await UserAPI.addTeacher({firstname: "Antoine", lastname: "Conze", birthdate: new Date(2000, 1, 2)});
 	//add 3 staff members
-	await UserAPI.addStaff({firstname: "Ilias", lastname: "Dos santos"});
-	await UserAPI.addStaff({firstname: "Monique", lastname: "Renou"});
-	await UserAPI.addStaff({firstname: "Bernardo", lastname: "Henrique"});
+	await UserAPI.addStaff({firstname: "Ilias", lastname: "Dos santos", birthdate: new Date(2000, 1, 2)});
+	await UserAPI.addStaff({firstname: "Monique", lastname: "Renou", birthdate: new Date(2000, 1, 2)});
+	await UserAPI.addStaff({firstname: "Bernardo", lastname: "Henrique", birthdate: new Date(2000, 1, 2)});
 	//add 1 manager
-	await UserAPI.addManager({firstname: "Dark", lastname: "Vador"});
+	await UserAPI.addManager({firstname: "Dark", lastname: "Vador", birthdate: new Date(2000, 1, 2)});
     });
 
     after(async () => {
@@ -42,7 +42,8 @@ describe('User Component', function() {
 	it('should add the student', async () => {
 	    const user_to_add = {
 		firstname: "Vlad",
-		lastname: "Poutine"
+		lastname: "Poutine",
+		birthdate: new Date(1972, 1, 20)
 	    };
 	    const res = await UserAPI.addStudent(user_to_add);
 	    assert.deepEqual(res.firstname, user_to_add.firstname);
@@ -51,7 +52,8 @@ describe('User Component', function() {
 	it('should add the staff member', async () => {
 	    const user_to_add = {
 		firstname: "Henry",
-		lastname: "Lesquin"
+		lastname: "Lesquin",
+		birthdate: new Date(1972, 1, 20)
 	    };
 	    const res = await UserAPI.addStaff(user_to_add);
 	    assert.deepEqual(res.firstname, user_to_add.firstname);
@@ -60,7 +62,8 @@ describe('User Component', function() {
 	it('should add the teacher', async () => {
 	    const user_to_add = {
 		firstname: "Guillermo",
-		lastname: "Deltorro"
+		lastname: "Deltorro",
+		birthdate: new Date(1972, 1, 20)
 	    };
 	    const res = await UserAPI.addTeacher(user_to_add);
 	    assert.deepEqual(res.firstname, user_to_add.firstname);
@@ -69,7 +72,8 @@ describe('User Component', function() {
 	it('should add the manager', async () => {
 	    const user_to_add = {
 		firstname: "Pierre",
-		lastname: "Gaulard"
+		lastname: "Gaulard",
+		birthdate: new Date(1972, 1, 20)
 	    };
 	    const res = await UserAPI.addManager(user_to_add);
 	    assert.deepEqual(res.firstname, user_to_add.firstname);
@@ -117,7 +121,7 @@ describe('User Component', function() {
 	});
 
 	it('should not add the user again', async () => {
-	    const user_to_add = {firstname: "Jean", lastname: "Valjean"}
+	    const user_to_add = {firstname: "Jean", lastname: "Valjean", birthdate: new Date(2000, 1, 1)}
 
 	    try {
 		await UserAPI.addStudent(user_to_add);

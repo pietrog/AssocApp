@@ -18,9 +18,13 @@ class UserService {
     }
 
     async deleteUser(userID) {
-	console.log('id: '+userID);
 	await axios.delete('/users/' + userID);
 	return ;
+    }
+
+    async updateUser(user) {
+	await axios.patch('/users/update', { user: user });
+	return;
     }
 }
 

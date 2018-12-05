@@ -5,21 +5,36 @@ const UserDAL = require('./UserMongoDAL').UserDAL,
       
 
 const addStudent = (user) => {
+    if (typeof(user.birthdate) === 'string') {
+	user.birthdate = new Date(user.birthdate);
+    }
     return UserDAL.addStudent(user);
 };
 module.exports.addStudent = addStudent;
 
 const addStaff = (user) => {
+    if (typeof(user.birthdate) === 'string') {
+	user.birthdate = new Date(user.birthdate);
+    }
+
     return UserDAL.addStaff(user);
 };
 module.exports.addStaff = addStaff;
 
 const addTeacher = (user) => {
+    if (typeof(user.birthdate) === 'string') {
+	user.birthdate = new Date(user.birthdate);
+    }
+
     return UserDAL.addTeacher(user);
 };
 module.exports.addTeacher = addTeacher;
 
 const addManager = (user) => {
+    if (typeof(user.birthdate) === 'string') {
+	user.birthdate = new Date(user.birthdate);
+    }
+
     return UserDAL.addManager(user);
 };
 module.exports.addManager = addManager;

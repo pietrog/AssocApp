@@ -50,4 +50,18 @@ app.delete('/:id', async (req, res) => {
     }
 });
 
+app.patch('/update', async(req, res) => {
+    try{
+	console.log('updae');
+	const user = req.body.user;
+	const user_id = user._id;
+	await UserAPI.updateUserByID(user_id, user);
+	res.json('');
+    }
+    catch(err) {
+	console.log(err);
+	res.status(500).json('');
+    }
+});
+
 module.exports = app;

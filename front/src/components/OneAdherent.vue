@@ -14,6 +14,8 @@
 </template>
 
 <script>
+const tools = require('./tools');
+
 export default {
     name: 'one-adherent',
     props: {
@@ -21,8 +23,7 @@ export default {
     },
     filters: {
 	niceDate: function(date) {
-	    const jsDate = new Date(date);
-	    return "" + jsDate.getDate() + "/" + jsDate.getMonth() + "/" + jsDate.getFullYear();
+	    return tools.toInputDate(date);
 	}
 
     }

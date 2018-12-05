@@ -27,14 +27,14 @@ describe('Course Component', function() {
 	await EventListSchema.deleteMany({});
 	await UserSchema.deleteMany({});
 
-	let user1 = await UserAPI.addStudent({firstname: "Jean", lastname: "Valjean"});
-	let user2 = await UserAPI.addStudent({firstname: "Collette", lastname: "Simone"});
-	await UserAPI.addStudent({firstname: "Yassine", lastname: "Berbouk"});
-	await UserAPI.addStudent({firstname: "Manu", lastname: "Macron"});
-	await UserAPI.addStudent({firstname: "Reine", lastname: "dAngleterre"});
+	let user1 = await UserAPI.addStudent({firstname: "Jean", lastname: "Valjean", birthdate: new Date(2000, 8, 1)});
+	let user2 = await UserAPI.addStudent({firstname: "Collette", lastname: "Simone", birthdate: new Date(2002, 8, 2)});
+	await UserAPI.addStudent({firstname: "Yassine", lastname: "Berbouk", birthdate: new Date(2004, 8, 17)});
+	await UserAPI.addStudent({firstname: "Manu", lastname: "Macron", birthdate: new Date(2006, 8, 17)});
+	await UserAPI.addStudent({firstname: "Reine", lastname: "dAngleterre", birthdate: new Date(2005, 8, 17)});
 
 	let cours1 = await CourseAPI.createCourse("Cours1", "Cours1 desc",
-						  new Date(2018, 08, 17, 10, 00), 120,
+						  new Date(2018, 8, 17, 10, 0), 120,
 						  new Date(2019, 10, 19, 22, 30),
 						  "* * * * 2,4",
 						  3); // every tuesday and thursday, 2 hours, 10am to 12am
@@ -128,13 +128,13 @@ describe('Course Component', function() {
 
 	    let u1 = (await UserAPI.findUsersByCritera('Jean'))[0];
 	    let u2 = (await UserAPI.findUsersByCritera('Collette'))[0];
-	    let j1 = await UserAPI.addStudent({firstname: "Jean1", lastname: "Valjean"});
-	    let j2 = await UserAPI.addStudent({firstname: "Jean2", lastname: "Valjean"});
-	    let j3 = await UserAPI.addStudent({firstname: "Jean3", lastname: "Valjean"});
-	    let j4 = await UserAPI.addStudent({firstname: "Jean4", lastname: "Valjean"});
-	    let j5 = await UserAPI.addStudent({firstname: "Jean5", lastname: "Valjean"});
-	    let j6 = await UserAPI.addStudent({firstname: "Jean6", lastname: "Valjean"});
-	    let j7 = await UserAPI.addStudent({firstname: "Jean7", lastname: "Valjean"});
+	    let j1 = await UserAPI.addStudent({firstname: "Jean1", lastname: "Valjean", birthdate: new Date(2006, 8, 17)});
+	    let j2 = await UserAPI.addStudent({firstname: "Jean2", lastname: "Valjean", birthdate: new Date(2006, 8, 17)});
+	    let j3 = await UserAPI.addStudent({firstname: "Jean3", lastname: "Valjean", birthdate: new Date(2006, 8, 17)});
+	    let j4 = await UserAPI.addStudent({firstname: "Jean4", lastname: "Valjean", birthdate: new Date(2006, 8, 17)});
+	    let j5 = await UserAPI.addStudent({firstname: "Jean5", lastname: "Valjean", birthdate: new Date(2006, 8, 17)});
+	    let j6 = await UserAPI.addStudent({firstname: "Jean6", lastname: "Valjean", birthdate: new Date(2006, 8, 17)});
+	    let j7 = await UserAPI.addStudent({firstname: "Jean7", lastname: "Valjean", birthdate: new Date(2006, 8, 17)});
 	    let user_list = [j1._id, j2._id, j3._id, j4._id, j5._id, j6._id, j7._id];
 
 	    await CourseAPI.addUsersToCourse(id_cours1, user_list);
@@ -162,13 +162,13 @@ describe('Course Component', function() {
 
 	    let u1 = (await UserAPI.findUsersByCritera('Jean'))[0];
 	    let u2 = (await UserAPI.findUsersByCritera('Collette'))[0];
-	    let j1 = await UserAPI.addStudent({firstname: "Jean1", lastname: "Valjean"});
-	    let j2 = await UserAPI.addStudent({firstname: "Jean2", lastname: "Valjean"});
-	    let j3 = await UserAPI.addStudent({firstname: "Jean3", lastname: "Valjean"});
-	    let j4 = await UserAPI.addStudent({firstname: "Jean4", lastname: "Valjean"});
-	    let j5 = await UserAPI.addStudent({firstname: "Jean5", lastname: "Valjean"});
-	    let j6 = await UserAPI.addStudent({firstname: "Jean6", lastname: "Valjean"});
-	    let j7 = await UserAPI.addStudent({firstname: "Jean7", lastname: "Valjean"});
+	    let j1 = await UserAPI.addStudent({firstname: "Jean1", lastname: "Valjean", birthdate: new Date(2006, 8, 17)});
+	    let j2 = await UserAPI.addStudent({firstname: "Jean2", lastname: "Valjean", birthdate: new Date(2006, 8, 17)});
+	    let j3 = await UserAPI.addStudent({firstname: "Jean3", lastname: "Valjean", birthdate: new Date(2006, 8, 17)});
+	    let j4 = await UserAPI.addStudent({firstname: "Jean4", lastname: "Valjean", birthdate: new Date(2006, 8, 17)});
+	    let j5 = await UserAPI.addStudent({firstname: "Jean5", lastname: "Valjean", birthdate: new Date(2006, 8, 17)});
+	    let j6 = await UserAPI.addStudent({firstname: "Jean6", lastname: "Valjean", birthdate: new Date(2006, 8, 17)});
+	    let j7 = await UserAPI.addStudent({firstname: "Jean7", lastname: "Valjean", birthdate: new Date(2006, 8, 17)});
 	    let user_list = [j1._id, j4._id, j3._id, j4._id, j5._id, j6._id, j4._id];
 
 	    await CourseAPI.addUsersToCourse(id_cours1, user_list);
