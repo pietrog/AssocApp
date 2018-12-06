@@ -3,7 +3,8 @@
 const axios = require('axios');
 
 
- class BackServerProxy {
+/*export default*/
+class BackServerProxy {
 
     constructor(rootPath) {
 	this.rootPath = rootPath;
@@ -11,7 +12,7 @@ const axios = require('axios');
 
     async _get(path) {
 	const res = await axios.get(this.rootPath + path);
-	return res;
+	return res.data;
     }
 
     async _post(path, data) {
@@ -24,7 +25,7 @@ const axios = require('axios');
 	return ;
     }
 
-    async _update(data) {
+    async _update(path, data) {
 	await axios.patch(this.rootPath + path, data);
 	return;
     }
@@ -34,7 +35,7 @@ const axios = require('axios');
 
  };
 
-export { BackServerProxy };
-
-//module.export = DALService;
+module.exports = {
+    proxy: BackServerProxy
+};
 

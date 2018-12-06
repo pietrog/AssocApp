@@ -1,29 +1,31 @@
 'use strict';
 
 const util = require('util');
-import * from './BackServerProxy';
+//import BackServerProxy from './BackServerProxy';
+const proxy = require('./BackServerProxy').proxy;
 
-class UserService {//extends Proxy {
+class UserService extends proxy {
     
     constructor() {
-	//super('/users');
+	super('/users');
     }
 
     async getAllStudents() {
-	return "";//this._get('/getAll');
+	const res = await this._get('/getAll');
+	return res;
     }
 
     async createStudent(user) {
-	return "";//this._post('/addStudent', {user: user});
+	return this._post('/addStudent', {user: user});
     }
 
     async deleteUser(userID) {
-	return "";//this._delete('/', userID);
+	return this._delete('/', userID);
     }
 
     async updateUser(user) {
-	return "";//this._update('/update', {user: user});
+	return this._update('/update', {user: user});
     }
 };
 
-module.exports.US = new UserService();
+module.exports.service = new UserService();

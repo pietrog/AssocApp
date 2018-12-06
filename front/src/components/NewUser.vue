@@ -39,7 +39,7 @@
 </template>
 
 <script>
-const UserService = require('./UserService').US;
+const UserService = require('./UserService').service;
 const tools = require('./tools');
 
 export default {

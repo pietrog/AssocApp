@@ -30,7 +30,7 @@ import ListAdherents from './ListAdherents';
 import UserDetails from './UserDetails';
 import NewUser from './NewUser';
 
-const UserService = require('./UserService');
+const userService = require('./UserService').service;
 const util = require('util');
 
 export default {
@@ -66,12 +66,12 @@ export default {
 	    return filterResult;
 	},
 	getAllAdherentsFromBack: async function() {
-	    console.log(UserService);
-	    const res = await UserService.getAllStudents();
+	    
+	    const res = await userService.getAllStudents();
 	    this.users = res;
 	},
 	deleteUser: function(id) {
-	    UserService.deleteUser(id);
+	    userService.deleteUser(id);
 	    const index = this.users.findIndex( elt => { return elt._id === id});
 	    this.users.splice(index, 1);
 	},
