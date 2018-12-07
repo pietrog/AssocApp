@@ -2,7 +2,7 @@
 const express  = require('express'),
       app      = express(),
       path = require('path'),
-      config = require('../config');
+      output_folder = require('../build/webpack.config').output_folder;
 
 const bodyParser  = require('body-parser');
 
@@ -10,10 +10,13 @@ const userRoutes = require('./express/user_routes');
 
 const util = require('util');
 
+//body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json()); //extract json from requests
+
 //app.set('superSecret', config.secret);
-app.use(express.static(config.build.assetsRoot));
+
+app.use(express.static(output_folder)); //plugged on the output of webpack config
 app.use('/users', userRoutes);
 
 app.get('*', (req, res) => {

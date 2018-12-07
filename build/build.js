@@ -16,15 +16,13 @@ else {
     process.exit(1);
 }
 
-const output_folder = path.resolve(__dirname, '../dist/');
-const input_folder = path.resolve(__dirname, '../front/');
+const output_folder = require('./webpack.config').output_folder;
+const input_folder = require('./webpack.config').input_folder;
+const config = require('./webpack.config').webpackConfig;
 
-
-const config = require('./webpack.config');
-
+//nice build display
 const spinner = ora('building for ' + process.env.NODE_ENV);
 spinner.start();
-
 
 //clean dist folder before build
 rm(output_folder, err => {

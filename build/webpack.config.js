@@ -1,14 +1,15 @@
 'use strict'
 const path = require('path');
-const config = require('../config');
+
 const { VueLoaderPlugin } = require('vue-loader');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
+const webpack = require('webpack');
 
 //const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const NODE_ENV = process.env.NODE_ENV;
 const output_folder = path.resolve(__dirname, '..', 'dist');
@@ -33,12 +34,15 @@ const extractHTML = new HtmlWebpackPlugin({
     template: input_folder+'/index.html',
 })
 
-//new BundleAnalyzerPlugin()
 
 module.exports = {
+    output_folder: output_folder,
+    input_folder: input_folder,
+
+    webpackConfig: {
     mode: NODE_ENV,
     //devtool: 'inline-source-map',
-    //watch: true,
+    watch: !isProd(),
     context: input_folder,
     entry: {
 	index: './src/main.js',
@@ -59,7 +63,8 @@ module.exports = {
     plugins: [
 	new VueLoaderPlugin(),
 	new FriendlyErrorsPlugin(),
-	//new webpack.HotModuleReplacementPlugin(),
+	new webpack.HotModuleReplacementPlugin(),
+	//new BundleAnalyzerPlugin(),
 	extractCSS,
 	extractHTML
     ],
@@ -105,4 +110,5 @@ module.exports = {
 	tls: 'empty',
 	child_process: 'empty'
     }    
+    }
 }

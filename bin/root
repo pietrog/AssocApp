@@ -1,5 +1,75 @@
 #!/usr/bin/env node
 
+const chalk = require('chalk') // terminal string styling
+
+const usage = 'Usage: root --mode MODE\n\n\
+MODE: development | production \
+    ';
+
+//parse the mode
+if (process.argv.length < 4) {
+    process.stdout.write(usage);
+    process.exit(1);
+}
+
+const setMode = (mode) => {
+    if (mode === 'development' || mode === 'production')
+	process.env['NODE_ENV'] = mode;
+    else
+	throw 'Mode expected is either development or production'
+}
+
+let port = undefined;
+const setPort = (_port) => {
+    const __port = Number(_port);
+    
+    if (typeof(__port) === 'number' && __port > 1024)
+	port = __port;
+    else
+	throw 'Application port should be a number greather than 1024'
+}
+
+const loadInput = (option_name, option) => {
+    switch(option_name) {
+    case '--mode':
+	setMode(option);
+	break;
+    case '--port':
+	setPort(option);
+	break;
+    default:
+	throw 'Unknown input: ' + option_name;
+    }
+}
+
+const args = process.argv;
+args.shift();
+args.shift();
+let current_input = null;
+let current_input_option = null;
+while (args.length > 0) {
+    if (current_input === null) {
+	current_input = args[0];
+	current_input_option = null;
+    }
+    else if (current_input_option === null) {	
+	current_input_option = args[0];
+	//check the pair
+	try {
+	    loadInput(current_input, current_input_option);
+	}
+	catch (err) {
+	    process.stdout.write(chalk.redBright('Error: ' +err + '\n'));
+	    process.stdout.write(usage);
+	    process.exit(1);    
+	}
+	current_input = null;
+	current_input_option = null;
+    }    
+    
+    args.shift(); //remove the element
+}
+
 /**
  * Module dependencies.
  */
@@ -7,5 +77,5 @@
 var Server = require('../back/server').NodeServer;
 var debug = require('debug')('testServer:server');
 
-const server = new Server();
+const server = new Server(port);
 server.full_start_server();

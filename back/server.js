@@ -24,9 +24,14 @@ class NodeServer {
 	this.m_listening_port = tools.normalizePort(port) || '3000';
 	this.m_version = "0.1";
 	this.m_front_end_path = path.join(__dirname, '../dist');
-	this.m_env = "env";
+	this.m_env = process.env.NODE_ENV || 'development';
 	this.m_server_started = false;
 	this.m_http_server = http.Server(app);
+
+    }
+
+    isProduction() {
+	return this.m_env === 'production';
     }
 
     /*
@@ -51,7 +56,7 @@ class NodeServer {
 	if (!this.m_server_started) {
 	    this.m_http_server.listen(this.m_listening_port);
 	    this.m_server_started = true;
-	    logger.info("Server is now listening on " + this.m_listening_port); 
+	    logger.info("Server is now listening on " + this.m_listening_port + " in " + this.m_env + " mode"); 
 	}
     }
 
@@ -59,20 +64,11 @@ class NodeServer {
      * Connect to database
      */
     async connect_to_database() {
-	const connection = await mongoose.connect(config.testdatabase, { useNewUrlParser: true});
-	logger.info(this.m_app_name + " is now connected to database " + config.testdatabase);
+	const db = this.isProduction() ? config.database : config.testdatabase;
+	const connection = await mongoose.connect(db, { useNewUrlParser: true});
+	logger.info(this.m_app_name + " is now connected to database " + db);
     }
 
 };
-
-//database connection
-//
-
-// Catch all other routes and return the index file
-/*App.app.get('*', (req, res) => {
-    console.log("Not caught by routes ! " + req.url);
-    res.sendFile(path.join(App.front_end, 'index.html'));
-});
-*/
 
 module.exports.NodeServer = NodeServer;
