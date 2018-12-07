@@ -7,10 +7,10 @@ MODE: development | production \
     ';
 
 //parse the mode
-if (process.argv.length < 4) {
+/*if (process.argv.length < 4) {
     process.stdout.write(usage);
     process.exit(1);
-}
+}*/
 
 const setMode = (mode) => {
     if (mode === 'development' || mode === 'production')
