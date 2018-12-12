@@ -4,11 +4,10 @@
  * @returns string A date string for html input date: "YYYY-MM-DD" 
  */
 const toInputDate = (date) => {
-    console.log(typeof(date));
-    if (typeof(date) === 'string'){
+    if (typeof(date) === 'string' || typeof(date) == 'number'){
 	date = new Date(date);
     }
-        console.log(typeof(date));
+
     const year = date.getFullYear();
     const month = date.getMonth()+1 < 10 ? '0' + (date.getMonth()+1) : date.getMonth()+1;
     const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
@@ -22,7 +21,8 @@ module.exports.toInputDate = toInputDate;
  * @param {time} An HTML input time: "HH:MM:SS"
  * @returns object A Javascript date builds from given html date and time
  */
-const toJSDate = (date, time) => {
+const toJSDate = (date, time_) => {
+    let time = time_ || "00:00";
     let dateArray = date.split("-");
     let timeArray = time.split(":");
     let resdate = new Date(dateArray[0], dateArray[1]-1, dateArray[2], timeArray[0], timeArray[1]);
@@ -30,6 +30,14 @@ const toJSDate = (date, time) => {
 };
 module.exports.toJSDate = toJSDate;
 
+const toReadableDate = (date) => {
+    const jsDate = new Date(date);
+    const day = jsDate.getDate() < 10 ? "0" + jsDate.getDate() : jsDate.getDate();
+    let month = jsDate.getMonth() + 1;
+    month = month < 10 ? "0" + month : month;
+    return day + " / " + month + " / " + jsDate.getFullYear();
+}
+module.exports.toReadableDate = toReadableDate;
 
 /**
  * Takes a javascript date and transforms it to a HTML input time 

@@ -1,11 +1,11 @@
 'use strict';
 
-const DALService = require('./DALService');
+const proxy = require('./BackServerProxy').proxy;
 
-class EventService extends DALService{
+class EventService extends proxy{
     
     constructor() {
-	super('/event/');
+	super('/events');
     }
 
     async getAllEvents() {
@@ -13,9 +13,7 @@ class EventService extends DALService{
     }
     
     async createEvent(event) {
-	const res = await axios.post(this.rootEvent + '', { user: user });
-	return 
-	return res.data;
+	return this._post('/createEvent', { event: event });
     }
     
     async deleteUser(userID) {

@@ -7,6 +7,7 @@ const express  = require('express'),
 const bodyParser  = require('body-parser');
 
 const userRoutes = require('./express/user_routes');
+const eventRoutes = require('./express/event_routes');
 
 const util = require('util');
 
@@ -18,6 +19,7 @@ app.use(bodyParser.json()); //extract json from requests
 
 app.use(express.static(output_folder)); //plugged on the output of webpack config
 app.use('/users', userRoutes);
+app.use('/events', eventRoutes);
 
 app.get('*', (req, res) => {
     //console.log('coucou: ' + util.inspect(req));

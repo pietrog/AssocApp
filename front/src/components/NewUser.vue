@@ -65,7 +65,8 @@ export default {
 	    //@todo check inputs before submiting it
 	    //if (
 	    //@todo envoyer les résultats au back
-	    this.user.birthdate = tools.toJSDate(this.user.birthdate_html, "00:00");
+	    let jsdate = tools.toJSDate(this.user.birthdate_html, "00:00");	    
+	    this.user.birthdate = jsdate.getTime();
 	    await UserService.createStudent(this.user);
 	    this.$emit('save-user', this.user);
 	},

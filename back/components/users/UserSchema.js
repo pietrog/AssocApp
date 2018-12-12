@@ -46,9 +46,9 @@ let UserSchema = new Schema({
 	validate: name_validation
     },
     inscription_date: {
-	type: Date,
+	type: Number,
 	require: true,
-	default: Date.now
+	default: (new Date(Date.now())).getTime()
     },
     role: {
 	type: String,
@@ -56,7 +56,7 @@ let UserSchema = new Schema({
 	validate: role_validation
     },
     birthdate: {
-	type: Date,
+	type: Number,
 	require: true
     },
     emails: {

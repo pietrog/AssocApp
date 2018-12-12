@@ -12,7 +12,7 @@
       </tr>
       <tr>
 	<td>Date de naissance</td>
-	<td><input type="date" v-model="user.birthdate_html" /></td>
+	<td><input type="date" v-model="birthdate_html" /></td>
       </tr>
       <tr>
 	<td>Emails<button v-if="user.emails.length < 3" v-on:click="addElt(user.emails)">+</button></td>
@@ -52,6 +52,8 @@ export default {
 		this.$emit('hide-user-details')
 	},
 	saveAndExit: function() {
+	    const finalDate = tools.toJSDate(this.birthdate_html);
+	    this.user.birthdate = finalDate.getTime();
 	    UserService.updateUser(this.user);
 	    this.$emit('hide-user-details')
 	},
@@ -65,7 +67,7 @@ export default {
     },
     created: function() {
 	if (this.user.firstname && !this.user.birthdate_html){
-	    this.user.birthdate_html = tools.toInputDate(this.user.birthdate);
+	    this.birthdate_html = tools.toInputDate(this.user.birthdate);
 	}
     }
 }

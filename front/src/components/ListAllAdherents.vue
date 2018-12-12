@@ -65,9 +65,8 @@ export default {
 	    
 	    return filterResult;
 	},
-	getAllAdherentsFromBack: async function() {
-	    
-	    const res = await userService.getAllStudents();
+	getAllAdherentsFromBack: async function() {	    
+	    const res = await userService.getAllStudents();	    
 	    this.users = res;
 	},
 	deleteUser: function(id) {

@@ -22,10 +22,9 @@ export default {
 	'adherent': Object,
     },
     filters: {
-	niceDate: function(date) {
-	    return tools.toInputDate(date);
+	niceDate: function(d) {
+	    return tools.toReadableDate(d);
 	}
-
     }
 }
 </script>

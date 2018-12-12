@@ -17,11 +17,12 @@ class BackServerProxy {
 
     async _post(path, data) {
 	const res = await axios.post(this.rootPath + path, data);
-	return res;
+	return res.data;
     }
 
-    async _delete(id) {
-	await axios.delete(this.rootPath + id);
+    async _delete(path, id) {
+	console.log('id: '+id);
+	await axios.delete(this.rootPath + path + id);
 	return ;
     }
 

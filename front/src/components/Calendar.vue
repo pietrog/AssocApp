@@ -43,6 +43,8 @@ require("vue-simple-calendar/static/css/default.css");
 require("vue-simple-calendar/static/css/holidays-us.css");
 let util = require('util');
 
+const EventService = require('./EventService').service;
+
 export default {
     name: 'calendar',
     components: {
@@ -61,14 +63,7 @@ export default {
 	    displayPeriodUom: "month",
 	    displayPeriodCount: 1,
 	    event: null,
-	    events: [
-		{
-		    title: "test",
-		    startDate: new Date(2018, 10, 20, 10, 45),
-		    endDate: new Date(2018, 10, 20, 12),
-		    
-		}
-	    ]
+	    events: []
 	}
     },
     methods: {
@@ -101,7 +96,16 @@ export default {
 	hideEventDetails: function() {
 	    this.event = null;
 	}
+    },
+    mounted: async function() {
+	this.events = await EventService.getAllEvents();
+	this.events.forEach((elt) => {
+	    elt.title = elt.name;
+	    elt.startDate = new Date(elt.begin_date);
+	    elt.endDate = new Date(elt.end_date);
+	});
     }
+    
 }
 </script>
 

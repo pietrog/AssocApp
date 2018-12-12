@@ -1,14 +1,14 @@
 const express  = require('express'),
       app      = express();
 
-const UserAPI  = require("../components/users/").UserAPI;
+const { EventAPI, EventListAPI }  = require("../components/events");
 
 const util = require('util');
 
 app.get('/getAll', async (req, res) => {
     try {
-	const users = await UserAPI.getAllUsers();
-	res.json(users);	
+	const result = await EventAPI.findEventByCritera({});
+	res.json(result);	
     }
     catch (err) {
 	console.log(err);
@@ -17,12 +17,19 @@ app.get('/getAll', async (req, res) => {
 });
 
 
-app.post('/addStudent', async (req, res) => {
+app.post('/createEvent', async (req, res) => {
 
     try {
-	
-	const user = req.body.user;
-	await UserAPI.addStudent(user);
+	console.log("req:  "+util.inspect(req.body));
+
+	const name = req.body.event.title;
+	const brief = req.body.event.brief || "";
+	const description = req.body.event.description || "";
+	let begin_date = new Date(req.body.event.startDate);
+	begin_date = begin_date.getTime();
+	let end_date = new Date(req.body.event.endDate);
+	end_date = end_date.getTime();
+	const res = await EventAPI.addEvent(name, brief, description, begin_date, end_date);
 	res.json("");
     }
     catch(err) {
@@ -33,7 +40,6 @@ app.post('/addStudent', async (req, res) => {
 
 app.delete('/:id', async (req, res) => {
     try {
-	await UserAPI.removeUser(req.params.id);
 	res.json('');
     }
     catch (err) {
@@ -44,9 +50,6 @@ app.delete('/:id', async (req, res) => {
 
 app.patch('/update', async(req, res) => {
     try{
-	const user = req.body.user;
-	const user_id = user._id;
-	await UserAPI.updateUserByID(user_id, user);
 	res.json('');
     }
     catch(err) {

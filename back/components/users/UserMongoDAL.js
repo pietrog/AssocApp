@@ -127,7 +127,7 @@ class UserDAL {
 	assert.equal( typeof(user), 'object', error_messages.error_bad_user_data);
 	assert.equal( typeof(user.firstname), 'string', error_messages.error_no_firstname_given);
 	assert.equal( typeof(user.lastname), 'string', error_messages.error_no_lastname_given);
-	assert.equal( typeof(user.birthdate), 'object', error_messages.error_birthdate_validity);
+	assert.equal( typeof(user.birthdate), 'number', error_messages.error_birthdate_validity);
 	assert.equal( typeof(_role), 'string', error_messages.error_no_role);
 	assert.ok(user.firstname.length > 1, error_messages.error_firstname_validity);
 	assert.ok(user.lastname.length > 1, error_messages.error_lastname_validity);
@@ -206,14 +206,11 @@ class UserDAL {
 	if (typeof(userDef.lastname) === 'string') {
 	    user_update.lastname = userDef.lastname;
 	}
-	if (typeof(userDef.inscription_date) === 'object') {
-	    user_update.inscription_date = userDef.inscription_date;
-	}
 	if (typeof(userDef.role) === 'string') {
 	    user_update.role = userDef.role;
 	}
-	if (typeof(userDef.birthday) === 'object') {
-	    user_update.birthday = userDef.birthday;
+	if (typeof(userDef.birthdate) === 'number') {
+	    user_update.birthdate = userDef.birthdate;
 	}
 	if (typeof(userDef.emails) === 'object') {
 	    user_update.emails = userDef.emails;
