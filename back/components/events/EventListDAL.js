@@ -53,13 +53,15 @@ class EventListDAL {
      * @returns {object} EventList object created 
      * @throws {}
      */
-    async createRecurrentEvent(name, brief, description, first_start_date, duration, frequency, final_event_date) {
+    async createRecurrentEvent(name, brief, description, first_start_date_, duration, frequency, final_event_date_) {
 	//check inputs
-	assert.equal(typeof(name), 'string', error_messages.error_event_name_validity);
-	assert.equal(typeof(name), 'string', error_messages.error_event_brief_validity);
+	assert.equal(typeof(name), 'string', "taguele: "+name/*error_messages.error_event_name_validity*/);
+	assert.equal(typeof(brief), 'string', error_messages.error_event_brief_validity);
 	assert.equal(typeof(description), 'string', error_messages.error_event_description_validity);
 	assert.equal(typeof(frequency), 'string', error_messages.error_bad_frequency);
-	assert.equal(typeof(first_start_date), 'object', error_messages.error_event_begin_date_validity);
+	assert.equal(typeof(first_start_date_), 'number', error_messages.error_event_begin_date_validity);
+	const first_start_date = new Date(first_start_date_);
+	const final_event_date = new Date(final_event_date_);
 
 	//build all the events given the frequency
 	const decomposition = frequency.split(" ");

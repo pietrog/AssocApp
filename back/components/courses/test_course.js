@@ -64,9 +64,9 @@ describe('Course Component', function() {
 	    const res = await CourseAPI.createCourse(
 		"Initiation combat",
 		"Apprentissage du combat pour les débutants",
-		begin_date,
+		begin_date.getTime(),
 		120,
-		end_date,
+		end_date.getTime(),
 		"* * * * 2,4", //mardi et jeudi
 		3
 	    );
@@ -95,9 +95,9 @@ describe('Course Component', function() {
 	    const res = await CourseAPI.createCourse(
 		"Cours1",
 		"Cours1 desc",
-		begin_date,
+		begin_date.getTime(),
 		120,
-		end_date,
+		end_date.getTime(),
 		"* * * * 2,4",
 		3
 	    );

@@ -43,10 +43,10 @@ describe('Event List Component', function() {
 		"Cours adulte",
 		"Cours adulte",
 		"Cours pour les adultes de plus de 20 ans",
-		first_start_date,
+		first_start_date.getTime(),
 		120,
 		frequency,
-		final_date
+		final_date.getTime()
 	    );
 
 	    //assertions
@@ -98,10 +98,10 @@ describe('Event List Component', function() {
 		"Cours adulte",
 		"Cours adulte",
 		"Cours pour les adultes de plus de 20 ans",
-		first_start_date,
+		first_start_date.getTime(),
 		60,
 		frequency,
-		final_date
+		final_date.getTime()
 	    );
 
 	    //assertions
@@ -120,10 +120,10 @@ describe('Event List Component', function() {
 		"Cours adulte",
 		"Cours adulte",
 		"Cours pour les adultes de plus de 20 ans",
-		first_start_date,
+		first_start_date.getTime(),
 		60,
 		frequency,
-		final_date
+		final_date.getTime()
 	    );
 
 	    //assertions
@@ -154,10 +154,10 @@ describe('Event List Component', function() {
 		"Cours adulte",
 		"Cours adulte",
 		"Cours pour les adultes de plus de 20 ans",
-		first_start_date,
+		first_start_date.getTime(),
 		60,
 		frequency,
-		final_date
+		final_date.getTime()
 	    );
 
 	    //assertions

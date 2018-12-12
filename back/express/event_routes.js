@@ -2,6 +2,7 @@ const express  = require('express'),
       app      = express();
 
 const { EventAPI, EventListAPI }  = require("../components/events");
+const { CourseAPI }  = require("../components/courses");
 
 const util = require('util');
 
@@ -20,8 +21,6 @@ app.get('/getAll', async (req, res) => {
 app.post('/createEvent', async (req, res) => {
 
     try {
-	console.log("req:  "+util.inspect(req.body));
-
 	const name = req.body.event.title;
 	const brief = req.body.event.brief || "";
 	const description = req.body.event.description || "";
@@ -37,6 +36,29 @@ app.post('/createEvent', async (req, res) => {
 	res.status(500).json(err);
     }
 });
+
+app.post('/createCourse', async (req, res) => {
+
+    try {
+	console.log(util.inspect(req.body));
+	const name = req.body.course.title;
+	const description = req.body.course.description || "";
+	let first_start_date = new Date(req.body.course.startDate);
+	first_start_date = first_start_date.getTime();
+	let final_course_date = new Date(req.body.course.endDate);
+	final_course_date = final_course_date.getTime();
+	const frequency = req.body.course.frequency;
+	const duration = req.body.course.duration;
+	const intensity = 0;
+	const res = await CourseAPI.createCourse(name, description, first_start_date, duration, final_course_date, frequency, intensity);
+	res.json("coucou");
+    }
+    catch(err) {
+	console.log(err);
+	res.status(500).json(err);
+    }
+});
+
 
 app.delete('/:id', async (req, res) => {
     try {

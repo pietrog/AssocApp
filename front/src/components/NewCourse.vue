@@ -9,24 +9,24 @@
       </tr>
       <tr>
 	<td>Description</td>
-	<td><input type="text" v-model="event.title" /></td>
+	<td><input type="text" v-model="event.description" /></td>
       </tr>
       <tr>
 	<td>Premier cours</td>
-	<td><input type="date" v-model="event.firstdate"/></td>
+	<td><input type="date" v-model="firstDate"/></td>
       </tr>
       <tr>
 	<td>Occurence</td>
 	<td>
 	  Tous les 
-	  <select multiple="true" class="days">
-	    <option>lundis</option>
-	    <option>mardis</option>
-	    <option>mercredis</option>
-	    <option>jeudis</option>
-	    <option>vendredis</option>
-	    <option>samedis</option>
-	    <option>dimanches</option>
+	  <select multiple="true" class="days" v-model="frequency">
+	    <option value="1">lundis</option>
+	    <option value="2">mardis</option>
+	    <option value="3">mercredis</option>
+	    <option value="4">jeudis</option>
+	    <option value="5">vendredis</option>
+	    <option value="6">samedis</option>
+	    <option value="0">dimanches</option>
 	  </select>
 	</td>
       </tr>
@@ -36,11 +36,11 @@
       </tr>
       <tr>
 	<td>Date de début</td>
-	<td><input v-model="event.startDate" type="date"/></td>
+	<td><input v-model="startDate" type="date"/>-<input v-model="startDateTime" type="time"/></td>
       </tr>
       <tr>
 	<td>Date de fin</td>
-	<td><input v-model="event.endDate" type="date"/></td>
+	<td><input v-model="endDate" type="date"/>-<input v-model="endDateTime" type="time"/></td>
       </tr>    
     </table>
 
@@ -73,12 +73,16 @@
 import ListAdherentsLeft from './ListAdherentsLeft';
 import ListAdherentsRight from './ListAdherentsRight';
 const tools = require('./tools');
+const EventService = require('./EventService').service;
+const util = require('util');
 
 export default {
     name: 'new-course',
     data: function() {
 	return {
 	    event: {
+		title: "",
+		description: "",
 		user_list: []
 	    },
 	    stringFilter: "",
@@ -95,15 +99,34 @@ export default {
 		  birthdate: new Date(1999, 10, 10), id: 5, emails: [], phone_number: [] },
 		{ firstname: "Dark2", lastname: "Vador",
 		  birthdate: new Date(2010, 9, 24), id: 9, emails: [], phone_number: [] },
-	    ]
+	    ],
+	    frequency: [],
+	    firstDate: "",
+	    startDate: "",
+	    startDateTime: "",
+	    endDate: "",
+	    endDateTime: ""
 
 	}
     },
     props: ['events'],
     methods: {
-	saveEvent: function() {
+	saveEvent: async function() {
+	    let freq = "";
+	    this.frequency.forEach((elt) => {
+		freq += elt + ",";
+	    });
+	    let _freq = "* * * * " + freq.substr(0, freq.length-1);
+	    this.event.frequency = _freq;
+
+	    this.event.startDate = tools.toJSDate(this.startDate, this.startDateTime);
+	    this.event.endDate = tools.toJSDate(this.endDate, this.endDateTime);
+
+
+	    //console.log(util.inspect(this.event));
+	    await EventService.createCourse(this.event);
 	    //send it to back and receive the list of events
-	    this.addUsersInIDs(); //add users to user_list id of event
+	    //this.addUsersInIDs(); //add users to user_list id of event
 	    //this.$emit('hide-box', true);
 	},
 	addUsersInIDs: function() {
@@ -125,7 +148,6 @@ export default {
     }
 }
 </script>
-
 <style scoped>
 .days {
     font-size: 15px;

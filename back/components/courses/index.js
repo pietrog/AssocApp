@@ -1,3 +1,5 @@
 const CourseAPI = require('./CourseAPI');
 
-exports.module.CourseAPI = CourseAPI;
+module.exports = {
+    CourseAPI: CourseAPI
+};
