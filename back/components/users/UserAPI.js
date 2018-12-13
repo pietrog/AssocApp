@@ -1,12 +1,4 @@
-const checkDate = (date) => {
-    if (typeof(date) === 'string') {
-	return Date.parse(date);
-    }
-    if (typeof(date) === 'object') {
-	return date.getTime();
-    }
-    return date;
-};
+const { convertDateToNumber } = require('../tools');
 
 const UserDAL = require('./UserMongoDAL').UserDAL,
       GenTools = require('../tools'),
@@ -14,25 +6,25 @@ const UserDAL = require('./UserMongoDAL').UserDAL,
       
 
 const addStudent = (user) => {
-    user.birthdate = checkDate(user.birthdate);
+    user.birthdate = convertDateToNumber(user.birthdate);
     return UserDAL.addStudent(user);
 };
 module.exports.addStudent = addStudent;
 
 const addStaff = (user) => {
-    user.birthdate = checkDate(user.birthdate);
+    user.birthdate = convertDateToNumber(user.birthdate);
     return UserDAL.addStaff(user);
 };
 module.exports.addStaff = addStaff;
 
 const addTeacher = (user) => {
-    user.birthdate = checkDate(user.birthdate);
+    user.birthdate = convertDateToNumber(user.birthdate);
     return UserDAL.addTeacher(user);
 };
 module.exports.addTeacher = addTeacher;
 
 const addManager = (user) => {
-    user.birthdate = checkDate(user.birthdate);
+    user.birthdate = convertDateToNumber(user.birthdate);
     return UserDAL.addManager(user);
 };
 module.exports.addManager = addManager;

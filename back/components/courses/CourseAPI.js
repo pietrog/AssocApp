@@ -1,5 +1,5 @@
 const CourseDAL = require('./CourseDAL').CourseDAL;
-
+const { convertDateToNumber } = require('../tools');
 
 /*
  * Create a recurrent course, given a frequency
@@ -16,14 +16,9 @@ const CourseDAL = require('./CourseDAL').CourseDAL;
  * @returns {object} Inserted object Course 
  */
 const createCourse =
-      (name, description, first_start_date_, duration, final_course_date_, cron_frequency, intensity) => {
-	  let first_start_date = first_start_date_;
-	  let final_course_date = final_course_date_;
-	  if (typeof(first_start_date_) === 'object')
-	      first_start_date = first_start_date_.getTime();
-	  if (typeof(final_course_date_) === 'object')
-	      final_course_date = final_course_date_.getTime();
-	  
+      (name, description, first_start_date, duration, final_course_date, cron_frequency, intensity) => {
+	  first_start_date = convertDateToNumber(first_start_date);
+	  final_course_date = convertDateToNumber(final_course_date);
 	  return CourseDAL.createRecurrentCourse(name, description,
 						 first_start_date, duration,
 						 final_course_date, cron_frequency, intensity);

@@ -3,5 +3,6 @@ const general_tools = require('./general_tools'),
 
 module.exports = {
     is_undef: general_tools.is_undefined,
+    convertDateToNumber: general_tools.convertDateToNumber,
     FinalReturnObject: FinalReturnObject
 }
