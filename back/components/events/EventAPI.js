@@ -10,7 +10,12 @@ const findEventByID = (id) => {
 };
 module.exports.findEventByID = findEventByID;
 
-const addEvent = (name, brief, description, begin_date, end_date) => {
-    return EventDAL.addEvent(name, brief, description, begin_date, end_date);
+const addEvent = (name, brief, description, begin_date, end_date, style) => {
+    return EventDAL.addEvent(name, brief, description, begin_date, end_date, style);
 };
 module.exports.addEvent = addEvent;
+
+const deleteEvent = (idEvent) => {
+    return EventDAL.deleteEventByID(idEvent);
+};
+module.exports.deleteEvent = deleteEvent;

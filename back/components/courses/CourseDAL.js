@@ -29,10 +29,10 @@ class CourseDAL {
      * @throws {}
      * @returns {object} Inserted object Course 
      */
-    async createRecurrentCourse(name, description, first_start_date, duration, final_course_date, cron_frequency, intensity) {
+    async createRecurrentCourse(name, description, first_start_date, duration, final_course_date, cron_frequency, intensity, style) {
 
 	let event_list_object = null;
-
+	console.log('ssstyle: ' + style);
 	//inputs are checked inside event or event list apis
 	try {
 	    //create event list
@@ -44,7 +44,9 @@ class CourseDAL {
 		    first_start_date,
 		    duration,
 		    cron_frequency,
-		    final_course_date);
+		    final_course_date,
+		    style
+		);
 
 	    //create the course
 	    let course = {

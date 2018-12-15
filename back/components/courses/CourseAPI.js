@@ -16,12 +16,13 @@ const { convertDateToNumber } = require('../tools');
  * @returns {object} Inserted object Course 
  */
 const createCourse =
-      (name, description, first_start_date, duration, final_course_date, cron_frequency, intensity) => {
+      (name, description, first_start_date, duration, final_course_date, cron_frequency, intensity, style) => {
 	  first_start_date = convertDateToNumber(first_start_date);
 	  final_course_date = convertDateToNumber(final_course_date);
 	  return CourseDAL.createRecurrentCourse(name, description,
 						 first_start_date, duration,
-						 final_course_date, cron_frequency, intensity);
+						 final_course_date, cron_frequency,
+						 intensity, style);
 };
 module.exports.createCourse = createCourse;
 

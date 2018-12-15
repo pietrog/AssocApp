@@ -39,6 +39,7 @@ class EventListDAL {
      * @param {number} first_start_date First date at which the event will occur
      * @param {number} duration Duration of the event in minutes
      * @param {string} frequency CRON-like frequency (cf https://en.wikipedia.org/wiki/Cron)
+     * @param {string} style css style for events
      **** ┌───────────── minute (0 - 59)
      **** │ ┌───────────── hour (0 - 23)
      **** │ │ ┌───────────── day of month (1 - 31)
@@ -53,7 +54,7 @@ class EventListDAL {
      * @returns {object} EventList object created 
      * @throws {}
      */
-    async createRecurrentEvent(name, brief, description, first_start_date_, duration, frequency, final_event_date_) {
+    async createRecurrentEvent(name, brief, description, first_start_date_, duration, frequency, final_event_date_, style) {
 	//check inputs
 	assert.equal(typeof(name), 'string', "taguele: "+name/*error_messages.error_event_name_validity*/);
 	assert.equal(typeof(brief), 'string', error_messages.error_event_brief_validity);
@@ -113,8 +114,9 @@ class EventListDAL {
 
 	//create all the events and save corresponding ids
 	let list_of_ids = [];
+
 	for (let i = 0; i < list_of_starts.length; ++i) {
-	    const event = await EventAPI.addEvent(name + i, brief, description, list_of_starts[i].getTime(), list_of_ends[i].getTime());
+	    const event = await EventAPI.addEvent(name + i, brief, description, list_of_starts[i].getTime(), list_of_ends[i].getTime(), style);
 	    list_of_ids.push(event._id);
 	}
 

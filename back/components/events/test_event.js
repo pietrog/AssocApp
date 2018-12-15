@@ -155,7 +155,18 @@ describe('Event Component', function() {
 	    assert.equal(typeof(res), 'object');
 	    assert.ok(typeof(res._id) === 'object', "Expects an id !");
 	});	
-    
+
+	it('should remove event just previously inserted', async () => {
+	    const begin_date = Date.parse('01 Sept 2022 09:00 GMT');
+	    const end_date = Date.parse('01 Sept 2022 11:00 GMT');
+	    const inserted = await EventAPI.addEvent("ToDeleteEvent", "Un évènement", "Desc", begin_date, end_date);
+
+	    await EventAPI.deleteEvent(inserted._id);
+	    let found = await EventAPI.findEventByCritera({ name: 'ToDeleteEvent'});
+	    assert.equal(found.length, 0);
+	    
+	});
+	
     });
     
 })

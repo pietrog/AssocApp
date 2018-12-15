@@ -8,13 +8,27 @@
 	<td><input v-model="event.title" /></td>
       </tr>
       <tr>
+	<td>Color</td>
+	<td>
+	  <select v-model="eventColor">
+	    <option value="red">red</option>
+	    <option value="grey">grey</option>
+	    <option value="blue">blue</option>
+	  </select>
+	</td>
+      </tr>
+      <tr>
 	<td>Description</td>
 	<td><input type="text" v-model="event.description" /></td>
       </tr>
       <tr>
 	<td>Premier cours</td>
-	<td><input type="date" v-model="firstDate"/></td>
+	<td><input v-model="startDate" type="date"/>-<input v-model="startDateTime" type="time"/></td>
       </tr>
+      <tr>
+	<td>Date de fin</td>
+	<td><input v-model="endDate" type="date"/>-<input v-model="endDateTime" type="time"/></td>
+      </tr>    
       <tr>
 	<td>Occurence</td>
 	<td>
@@ -34,14 +48,6 @@
 	<td>Durée</td>
 	<td><input v-model="event.duration"/></td>
       </tr>
-      <tr>
-	<td>Date de début</td>
-	<td><input v-model="startDate" type="date"/>-<input v-model="startDateTime" type="time"/></td>
-      </tr>
-      <tr>
-	<td>Date de fin</td>
-	<td><input v-model="endDate" type="date"/>-<input v-model="endDateTime" type="time"/></td>
-      </tr>    
     </table>
 
     <div class="group">
@@ -74,6 +80,8 @@ import ListAdherentsLeft from './ListAdherentsLeft';
 import ListAdherentsRight from './ListAdherentsRight';
 const tools = require('./tools');
 const EventService = require('./EventService').service;
+const userService = require('./UserService').service;
+
 const util = require('util');
 
 export default {
@@ -88,24 +96,17 @@ export default {
 	    stringFilter: "",
 	    dateFilter: 0,	   
 	    usersIn: [
-		{ firstname: "Obi", lastname: "One",
-		  birthdate: new Date(1999, 10, 10), id: 13, emails: [], phone_number: [] },
-		{ firstname: "Dark", lastname: "Vador",
-		  birthdate: new Date(2010, 9, 24), id: 1, emails: [], phone_number: [] },
 	    ],
 
 	    usersOut: [
-		{ firstname: "Obi2", lastname: "One",
-		  birthdate: new Date(1999, 10, 10), id: 5, emails: [], phone_number: [] },
-		{ firstname: "Dark2", lastname: "Vador",
-		  birthdate: new Date(2010, 9, 24), id: 9, emails: [], phone_number: [] },
 	    ],
 	    frequency: [],
-	    firstDate: "",
 	    startDate: "",
 	    startDateTime: "",
 	    endDate: "",
-	    endDateTime: ""
+	    endDateTime: "",
+
+	    eventColor: ""
 
 	}
     },
@@ -118,20 +119,18 @@ export default {
 	    });
 	    let _freq = "* * * * " + freq.substr(0, freq.length-1);
 	    this.event.frequency = _freq;
-
+	    this.event.style = "backgroud-color: "+ this.eventColor;
 	    this.event.startDate = tools.toJSDate(this.startDate, this.startDateTime);
 	    this.event.endDate = tools.toJSDate(this.endDate, this.endDateTime);
-
-
-	    //console.log(util.inspect(this.event));
+	    this.event.style = "background-color: "+this.eventColor;
+	    this.addUsersInIDs(); //add users to user_list id of event
+	    
 	    await EventService.createCourse(this.event);
-	    //send it to back and receive the list of events
-	    //this.addUsersInIDs(); //add users to user_list id of event
 	    //this.$emit('hide-box', true);
 	},
 	addUsersInIDs: function() {
 	    this.event.user_list = [];
-	    this.usersIn.forEach((v) => {this.event.user_list.push(v.id)});
+	    this.usersIn.forEach((v) => {this.event.user_list.push(v._id)});
 	},
 	moveRight: function(userID) {
 	    //move the user from UserIn to UserOut
@@ -141,10 +140,18 @@ export default {
 	    //move the user from UserOut to UserIn 
 	    tools.moveEltWithinArrays(this.usersOut, this.usersIn, userID);
 	},
+	getAllAdherentsFromBack: async function() {	    
+	    const res = await userService.getAllStudents();	    
+	    this.usersOut = res;
+	}
+	
     },
     components: {
 	ListAdherentsLeft,
 	ListAdherentsRight,
+    },
+    mounted: function() {
+	this.getAllAdherentsFromBack();
     }
 }
 </script>

@@ -62,12 +62,13 @@ class EventDAL {
      * @param {string} description Event detailled description
      * @param {number} begin_date Event begin date (timestamp, without timezone)
      * @param {number} end_date Event end date (timestamp, without timezone)
+     * @param {string} style 
      *
      * @returns {object} Event inserted (containing the _id)
      *
      * @throws {}
      */
-    async addEvent(name, brief, description, begin_date, end_date) {
+    async addEvent(name, brief, description, begin_date, end_date, style) {
 	//check inputs
 	assert.equal(typeof(name), 'string', error_messages.error_event_name_validity);
 	assert.equal(typeof(name), 'string', error_messages.error_event_brief_validity);
@@ -81,7 +82,8 @@ class EventDAL {
 	    description: description,
 	    begin_date: begin_date,
 	    end_date: end_date,
-	    add_date: Date.now()
+	    add_date: Date.now(),
+	    style: style
 	};
 	
 	//check if an event with the same name and same dates exists
@@ -134,6 +136,23 @@ class EventDAL {
 	catch (err) {
 	    Logger.error('Event ' + name + ' failed to insert (' + err +')');
 	    return Promise.reject(new TypeError(error_messages.error_event_insertion + "(" + err + ")"));
+	}
+    }
+
+    /**
+     * @brief Remove an event given an id
+     * @param {object} idEvent Mongoose id
+     */
+    deleteEventByID (idEvent) {
+	assert.equal(typeof(idEvent), 'object');
+
+	try {
+	    Logger.info('Event deleted');
+	    return EventSchema.findOneAndDelete({ _id: idEvent })
+	}
+	catch (err) {
+	    Logger.error('Event with id ' + idEvent + ' failed to remove (' + err +')');
+	    return Promise.reject(new TypeError('Event with id ' + idEvent + ' failed to remove (' + err +')'));
 	}
     }
     

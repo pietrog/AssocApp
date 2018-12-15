@@ -7,7 +7,7 @@ function name_validation(val) {
 
 function date_validation(val) {
     const lower_date = Date.parse("01 Sept 2017 00:00:00 GMT");
-    const upper_date = Date.parse("01 Jan 2020 00:00:00 GMT");
+    const upper_date = Date.parse("01 Jan 2025 00:00:00 GMT");
     return (val >= lower_date && val <= upper_date)
 }
 
@@ -37,6 +37,10 @@ const EventSchema = new Schema({
     add_date: {
 	type: Number,
 	validate: date_validation
+    },
+    style: {
+	type: String,
+	require: false
     }
 });
 

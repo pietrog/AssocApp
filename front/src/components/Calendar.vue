@@ -63,7 +63,14 @@ export default {
 	    displayPeriodUom: "month",
 	    displayPeriodCount: 1,
 	    event: null,
-	    events: []
+	    events: [
+		/*{
+		    title: "hehehe",
+		    startDate: 1544518800000,
+		    endDate: 1544524800000,
+		    style: "background-color: red; color: white"
+		}*/
+	    ]
 	}
     },
     methods: {
