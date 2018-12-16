@@ -19,3 +19,8 @@ const deleteEvent = (idEvent) => {
     return EventDAL.deleteEventByID(idEvent);
 };
 module.exports.deleteEvent = deleteEvent;
+
+const updateRootObjectID = (name, root_id) => {
+    return EventDAL.updateRootObjectID(name, root_id);
+};
+module.exports.updateRootObjectID = updateRootObjectID;

@@ -116,7 +116,7 @@ class EventListDAL {
 	let list_of_ids = [];
 
 	for (let i = 0; i < list_of_starts.length; ++i) {
-	    const event = await EventAPI.addEvent(name + i, brief, description, list_of_starts[i].getTime(), list_of_ends[i].getTime(), style);
+	    const event = await EventAPI.addEvent(name, brief, description, list_of_starts[i].getTime(), list_of_ends[i].getTime(), style);
 	    list_of_ids.push(event._id);
 	}
 

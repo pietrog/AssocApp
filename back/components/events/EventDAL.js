@@ -155,6 +155,23 @@ class EventDAL {
 	    return Promise.reject(new TypeError('Event with id ' + idEvent + ' failed to remove (' + err +')'));
 	}
     }
+
+    /**
+     * @brief Update root object id of all events named name
+     */
+    async updateRootObjectID (name, root_object_id) {
+	assert.equal(typeof(name), 'string');
+	try {
+	    Logger.info('Update all events named ' + name + " with id "+ root_object_id);
+	    const res = await EventSchema.updateMany({ name: name }, { root_object_id: root_object_id}) ;
+	    
+	    return res;
+	}
+	catch (err) {
+	    Logger.error('Error while updating events named ' + name + '(' + err +')');
+	    return Promise.reject(new TypeError('Error while updating events named ' + name + '(' + err +')'));
+	}
+    }
     
 };
 

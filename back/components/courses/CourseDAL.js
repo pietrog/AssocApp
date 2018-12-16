@@ -32,7 +32,6 @@ class CourseDAL {
     async createRecurrentCourse(name, description, first_start_date, duration, final_course_date, cron_frequency, intensity, style) {
 
 	let event_list_object = null;
-	console.log('ssstyle: ' + style);
 	//inputs are checked inside event or event list apis
 	try {
 	    //create event list
@@ -58,8 +57,10 @@ class CourseDAL {
 	    };
 
 	    const course_db = new CourseSchema(course);
-	    await course_db.save();
+	    const res = await course_db.save();
 	    Logger.info('Course ' + name + ' successfully created ');
+	    //set the course object id to events (root_object_id)
+	    EventAPI.updateRootObjectID(name, res._id);
 	    return course_db;	    
 	}
 	catch(err) {

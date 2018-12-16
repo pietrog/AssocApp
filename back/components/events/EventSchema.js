@@ -24,24 +24,32 @@ const EventSchema = new Schema({
     description: {
 	type: String,
     },
+    // begin date of the event
     begin_date: {
 	type: Number,
 	require: true,
 	validate: date_validation
     },
+    // end date of the event
     end_date: {
 	type: Number,
 	require: true,
 	validate: date_validation
     },
+    // date when the event was added
     add_date: {
 	type: Number,
 	validate: date_validation
     },
+    // CSS Style for the event (backround-color, color, ...)
     style: {
 	type: String,
 	require: false
-    }
+    },
+    //List of users able to take the course
+    user_list: {
+	type: [ Schema.Types.ObjectId ]
+    },
 });
 
 module.exports = mongoose.model('EventSchema', EventSchema);
