@@ -17,12 +17,9 @@ const EventSchema = new Schema({
 	require: true,
 	validate: name_validation
     },
-    brief: {
-	type: String,
-	require: true
-    },
     description: {
 	type: String,
+	require: true
     },
     // begin date of the event
     begin_date: {
@@ -48,7 +45,8 @@ const EventSchema = new Schema({
     },
     //List of users able to take the course
     user_list: {
-	type: [ Schema.Types.ObjectId ]
+	type: [ Schema.Types.ObjectId ],
+	require: false
     },
 });
 

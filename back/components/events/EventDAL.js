@@ -11,6 +11,8 @@ class EventDAL {
     
     constructor() {}
 
+
+    
     /*
      * Look for an event given some critera
      *
@@ -29,9 +31,6 @@ class EventDAL {
 	if (typeof(eventCrit.name) === 'string') {
 	    crit.name = eventCrit.name;
 	}
-	if (typeof(eventCrit.brief) === 'string') {
-	    crit.brief = eventCrit.brief;
-	}
 	if (typeof(eventCrit.description) === 'string') {
 	    crit.description = eventCrit.description;
 	}
@@ -39,7 +38,12 @@ class EventDAL {
 	    assert.equal(typeof(eventCrit.begin_date_range_start), 'number', error_event_end_date_validity);
 	    crit.begin_date_range_start = eventCrit.begin_date_range_start;
 	    }*/
-	return EventSchema.find(crit);
+	return EventSchema.find(crit, null,
+				{
+				    sort: {
+					begin_date: 1
+				    }
+				});
     }
 
     /*
@@ -58,7 +62,6 @@ class EventDAL {
      * Create a new event 
      *
      * @param {string} name Event name
-     * @param {string} brief Event brief description
      * @param {string} description Event detailled description
      * @param {number} begin_date Event begin date (timestamp, without timezone)
      * @param {number} end_date Event end date (timestamp, without timezone)
@@ -68,17 +71,15 @@ class EventDAL {
      *
      * @throws {}
      */
-    async addEvent(name, brief, description, begin_date, end_date, style) {
+    async addEvent(name, description, begin_date, end_date, style) {
 	//check inputs
 	assert.equal(typeof(name), 'string', error_messages.error_event_name_validity);
-	assert.equal(typeof(name), 'string', error_messages.error_event_brief_validity);
 	assert.equal(typeof(description), 'string', error_messages.error_event_description_validity);
 	assert.equal(typeof(begin_date), 'number', error_messages.error_event_begin_date_validity);
 	assert.equal(typeof(end_date), 'number', error_messages.error_event_end_date_validity);
 	assert.ok(begin_date < end_date, error_messages.error_begin_less_than_end_date);
 	const event = {
 	    name: name,
-	    brief: brief,
 	    description: description,
 	    begin_date: begin_date,
 	    end_date: end_date,
@@ -157,20 +158,69 @@ class EventDAL {
     }
 
     /**
-     * @brief Update root object id of all events named name
+     * @brief Delete all events named name
      */
-    async updateRootObjectID (name, root_object_id) {
-	assert.equal(typeof(name), 'string');
+    async deleteEventsByName(name) {
+	assert.equal(typeof(name), 'string', "Expects a string for name");
+
 	try {
-	    Logger.info('Update all events named ' + name + " with id "+ root_object_id);
-	    const res = await EventSchema.updateMany({ name: name }, { root_object_id: root_object_id}) ;
-	    
+	    const res = await EventSchema.deleteMany({name: name});
+	    Logger.info('Events named ' + name + ' deleted');
+	    return res;
+	}
+	catch(err) {
+	    Logger.error('Error while deleting events named ' + name);
+	    return Promise.reject(new TypeError('Error while deleting events named ' + name));
+	}
+    }
+
+    /**
+     * @brief Update name of all events named new_name
+     */
+    async updateName (name, new_name) {
+	assert.equal(typeof(name), 'string', "Expects a string for name");
+	assert.equal(typeof(new_name), 'string', "Expects a string for new name");
+	
+	try {
+	    const res = await EventSchema.updateMany({ name: name }, { name: new_name}) ;
+	    Logger.info('Update name of all events named ' + name + " with name "+ new_name);	    
 	    return res;
 	}
 	catch (err) {
 	    Logger.error('Error while updating events named ' + name + '(' + err +')');
 	    return Promise.reject(new TypeError('Error while updating events named ' + name + '(' + err +')'));
 	}
+    }
+
+    /**
+     * @brief Update user_list of all events named name
+     */
+    async updateUsers (name, user_list) {
+	assert.equal(typeof(name), 'string', "Expects a string for name");
+	assert(Array.isArray(user_list), "Expects a string for new name");
+	
+	try {
+	    const res = await EventSchema.updateMany({ name: name }, { user_list: user_list}) ;
+	    Logger.info('Update users of all events named ' + name + " with name "+ new_name);	    
+	    return res;
+	}
+	catch (err) {
+	    Logger.error('Error while updating events named ' + name + '(' + err +')');
+	    return Promise.reject(new TypeError('Error while updating events named ' + name + '(' + err +')'));
+	}
+    }
+
+
+    //@todo: complete it doc, excetpitons error handling!!
+    async countEventsByName(name) {
+	try {
+	    const res = await EventSchema.find({name: name});
+	    return res.length;
+	}
+	catch(err) {
+	    return 0;
+	}
+	   
     }
     
 };

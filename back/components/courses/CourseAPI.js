@@ -19,25 +19,25 @@ const createCourse =
       (name, description, first_start_date, duration, final_course_date, cron_frequency, intensity, style) => {
 	  first_start_date = convertDateToNumber(first_start_date);
 	  final_course_date = convertDateToNumber(final_course_date);
-	  return CourseDAL.createRecurrentCourse(name, description,
+	  return CourseDAL.createRecurrentEvent(name, description,
 						 first_start_date, duration,
-						 final_course_date, cron_frequency,
+						 cron_frequency, final_course_date, 
 						 intensity, style);
 };
 module.exports.createCourse = createCourse;
+module.exports.createRecurrentEvent = createCourse;
 
-const getCourseByName = (name) => {
-    return CourseDAL.getCourseByName(name);
+const getEventsByName = (name) => {
+    return CourseDAL.getEventsByName(name);
 };
-module.exports.getCourseByName = getCourseByName;
+module.exports.getEventsByName = getEventsByName;
 
-
-const getCourse = (id) => {
-    return CourseDAL.getCourse(id);
-};
-module.exports.getCourse = getCourse;
-
-const addUsersToCourse = (course_id, user_list) => {
-    return CourseDAL.addUsersToCourse(course_id, user_list);
+const addUsersToCourse = (course_name, user_list) => {
+    return CourseDAL.addUsersToCourse(course_name, user_list);
 };
 module.exports.addUsersToCourse = addUsersToCourse;
+
+const countEvents = (name) => {
+    return CourseDAL.countEvents(name);
+}
+module.exports.countEvents = countEvents;

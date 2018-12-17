@@ -20,7 +20,22 @@ const deleteEvent = (idEvent) => {
 };
 module.exports.deleteEvent = deleteEvent;
 
-const updateRootObjectID = (name, root_id) => {
-    return EventDAL.updateRootObjectID(name, root_id);
+const deleteEventsByName = (name) => {
+    return EventDAL.deleteEventsByName(name);
 };
-module.exports.updateRootObjectID = updateRootObjectID;
+module.exports.deleteEventsByName = deleteEventsByName;
+
+const updateName = (name, new_name) => {
+    return EventDAL.updateName(name, new_name);
+};
+module.exports.updateName = updateName;
+
+const updateUsers = (name, user_list) => {
+    return EventDAL.updateUsers(name, user_list);
+};
+module.exports.updateUsers = updateUsers;
+
+const countEventsByName = (name) => {
+    return EventDAL.countEventsByName(name);
+}
+module.exports.countEventsByName = countEventsByName;
