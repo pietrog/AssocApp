@@ -1,8 +1,7 @@
 <template>
 <div id="child-view" class="group">
   <div id="toolbar-view">
-    <button v-on:click="hideBoxEvent(false)">+</button>
-    <button v-on:click="hideBoxCourse(false)">++</button>
+    <button v-on:click="hideBoxCourse(false)">+</button>
     <select v-model="displayPeriodUom">
       <option value="week">Semaine</option>
       <option value="month">Mois</option>
@@ -24,7 +23,6 @@
       <calendar-view-header slot="header" slot-scope="t" :header-props="t.headerProps" @input="setShowDate"/>
     </calendar-view>
   </div>
-  <new-event v-bind:events="events" v-if="hiddenBoxEvent === false" v-on:hide-box="hideBoxEvent"/>
   <new-course v-bind:events="events" v-if="hiddenBoxCourse === false" v-on:hide-box="hideBoxCourse"/>
   <event-details
     v-if="event"
@@ -35,7 +33,6 @@
 </template>
 
 <script>
-import NewEvent from './NewEvent';
 import NewCourse from './NewCourse';
 import VueSimpleCalendar from 'vue-simple-calendar';
 import EventDetails from './EventDetails';
@@ -49,13 +46,11 @@ export default {
     name: 'calendar',
     components: {
 	VueSimpleCalendar,
-	NewEvent,
 	NewCourse,
 	EventDetails
     },
     data: function() {
 	return {
-	    hiddenBoxEvent: true,
 	    hiddenBoxCourse: true,
 	    showDate: new Date(),
 	    enableDragAndDrop: true,
@@ -76,9 +71,6 @@ export default {
     methods: {
 	setShowDate: function(d) {
 	    this.showDate = d;
-	},
-	hideBoxEvent: function(hide) {
-	    this.hiddenBoxEvent = hide;
 	},
 	hideBoxCourse: function(hide) {
 	    this.hiddenBoxCourse = hide;

@@ -25,11 +25,12 @@
 	<td>Premier cours</td>
 	<td><input v-model="startDate" type="date"/>-<input v-model="startDateTime" type="time"/></td>
       </tr>
-      <tr>
+      <input type="checkbox" v-model="recurrentEvent">Récurrent</input>
+      <tr v-if="recurrentEvent">
 	<td>Date de fin</td>
 	<td><input v-model="endDate" type="date"/>-<input v-model="endDateTime" type="time"/></td>
       </tr>    
-      <tr>
+      <tr v-if="recurrentEvent">
 	<td>Occurence</td>
 	<td>
 	  Tous les 
@@ -106,7 +107,8 @@ export default {
 	    endDate: "",
 	    endDateTime: "",
 
-	    eventColor: ""
+	    eventColor: "",
+	    recurrentEvent: false
 
 	}
     },
