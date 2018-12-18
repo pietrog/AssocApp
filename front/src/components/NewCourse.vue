@@ -10,11 +10,7 @@
       <tr>
 	<td>Color</td>
 	<td>
-	  <select v-model="eventColor">
-	    <option value="red">red</option>
-	    <option value="grey">grey</option>
-	    <option value="blue">blue</option>
-	  </select>
+	  <input type="color" name="color" id="color" v-model="eventColor">
 	</td>
       </tr>
       <tr>
