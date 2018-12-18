@@ -103,7 +103,7 @@ module.exports.validateStartEndDates = validateStartEndDates;
 const moveEltWithinArrays = (a1, a2, matchingValue) => {
     let found = null;
     a1.find((elt, index, array) => {
-	if (elt.id === matchingValue) {
+	if (elt._id === matchingValue) {
 	    found = elt;
 	    array.splice(index, 1);
 	    return true;

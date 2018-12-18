@@ -13,7 +13,7 @@ class EventService extends proxy{
     }
     
     async createEvent(event) {
-	return this._post('/createEvent', { event: event });
+	return this._post('/createEvent', { course: event });
     }
 
     async createCourse(course) {

@@ -21,15 +21,13 @@ app.get('/getAll', async (req, res) => {
 app.post('/createEvent', async (req, res) => {
 
     try {
-	const name = req.body.event.title;
-	const brief = req.body.event.brief || "";
-	const description = req.body.event.description || "";
-	let begin_date = new Date(req.body.event.startDate);
+	const name = req.body.course.title;
+	const description = req.body.course.description || "";
+	let begin_date = new Date(req.body.course.startDate);
 	begin_date = begin_date.getTime();
-	let end_date = new Date(req.body.event.endDate);
-	end_date = end_date.getTime();
-	const style = req.body.style || "";
-	const res = await EventAPI.addEvent(name, brief, description, begin_date, end_date, style);
+	let duration = req.body.course.duration;
+	const style = req.body.course.style || "";
+	const res = await EventAPI.addEventWithDuration(name, description, begin_date, duration, style);
 	res.json("");
     }
     catch(err) {

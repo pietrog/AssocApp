@@ -19,7 +19,7 @@
       </tr>
       <tr>
 	<td>Description</td>
-	<td><input type="text" v-model="event.description" /></td>
+	<td><textarea type="text" v-model="event.description" /></td>
       </tr>
       <tr>
 	<td>Premier cours</td>
@@ -115,19 +115,26 @@ export default {
     props: ['events'],
     methods: {
 	saveEvent: async function() {
-	    let freq = "";
-	    this.frequency.forEach((elt) => {
-		freq += elt + ",";
-	    });
-	    let _freq = "* * * * " + freq.substr(0, freq.length-1);
-	    this.event.frequency = _freq;
-	    this.event.style = "backgroud-color: "+ this.eventColor;
+	    //if this is a single or recurrent event
+	    if (this.recurrentEvent) {
+		let freq = "";
+		this.frequency.forEach((elt) => {
+		    freq += elt + ",";
+		});
+		let _freq = "* * * * " + freq.substr(0, freq.length-1);
+		this.event.frequency = _freq;
+		this.event.endDate = tools.toJSDate(this.endDate, this.endDateTime);
+	    }
 	    this.event.startDate = tools.toJSDate(this.startDate, this.startDateTime);
-	    this.event.endDate = tools.toJSDate(this.endDate, this.endDateTime);
 	    this.event.style = "background-color: "+this.eventColor;
 	    this.addUsersInIDs(); //add users to user_list id of event
-	    
-	    await EventService.createCourse(this.event);
+
+	    if (this.recurrentEvent) {
+		await EventService.createCourse(this.event);
+	    }
+	    else {
+		await EventService.createEvent(this.event);
+	    }
 	    //this.$emit('hide-box', true);
 	},
 	addUsersInIDs: function() {

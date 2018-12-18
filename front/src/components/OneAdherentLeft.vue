@@ -6,7 +6,7 @@
   <td>
     {{ adherent.lastname }}
   </td>
-  <td><button  v-on:click.stop="$emit('move-right', adherent.id)">-></button></td>
+  <td><button  v-on:click.stop="$emit('move-right', adherent._id)">-></button></td>
 </tr>
 </template>
 

@@ -10,7 +10,7 @@
       v-for="current in users"
       v-if="filterUser(current)"
       v-bind:adherent="current"
-      v-bind:key="current.id"
+      v-bind:key="current._id"
       v-on:move-left="$emit('move-left', $event)"
       >
     </one-adherent-right>    

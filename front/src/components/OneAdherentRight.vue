@@ -1,6 +1,6 @@
 <template>
 <tr id="adherent" v-on:click="$emit('send-user-details', adherent)">
-  <td><button  v-on:click.stop="$emit('move-left', adherent.id)"><-</button></td>
+  <td><button  v-on:click.stop="$emit('move-left', adherent._id)"><-</button></td>
   <td>
     {{ adherent.firstname }}
   </td>
