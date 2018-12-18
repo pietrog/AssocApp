@@ -5,6 +5,8 @@ module.exports = {
     error_event_description_validity: "Description d'évènement non valide",
     error_event_begin_date_validity: "Date de début de l'évènement non valide",
     error_event_end_date_validity: "Date de fin de l'évènement non valide",
+    error_event_style_validity: "Style non valide, css attendu",
+    error_user_list_validity: "Liste d'utilisateurs non valide",
 
     error_event_critera_validity: "JSon attendu pour décrire un évènement à chercher",
     error_event_id_seeking: "ID d'evenement non valide",

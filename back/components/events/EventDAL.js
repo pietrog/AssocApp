@@ -65,27 +65,40 @@ class EventDAL {
      * @param {string} description Event detailled description
      * @param {number} begin_date Event begin date (timestamp, without timezone)
      * @param {number} end_date Event end date (timestamp, without timezone)
-     * @param {string} style 
+     * @param {object} user_list_ user list following this event
+     * @param {string} style_ css style for html representation of the event (maybe move it to another table ?)
      *
      * @returns {object} Event inserted (containing the _id)
      *
      * @throws {}
      */
-    async addEvent(name, description, begin_date, end_date, style) {
+    async addEvent(name, description, begin_date, end_date, user_list_, style_) {
+	const user_list = user_list_ || [];
+	const style = style_ || "";
+	
 	//check inputs
 	assert.equal(typeof(name), 'string', error_messages.error_event_name_validity);
 	assert.equal(typeof(description), 'string', error_messages.error_event_description_validity);
 	assert.equal(typeof(begin_date), 'number', error_messages.error_event_begin_date_validity);
 	assert.equal(typeof(end_date), 'number', error_messages.error_event_end_date_validity);
+	assert.equal(typeof(style), 'string', error_messages.error_event_style_validity);
+	console.log(user_list);
+	assert(Array.isArray(user_list), error_messages.error_user_list_validity);	
 	assert.ok(begin_date < end_date, error_messages.error_begin_less_than_end_date);
+	
 	const event = {
 	    name: name,
 	    description: description,
 	    begin_date: begin_date,
 	    end_date: end_date,
 	    add_date: Date.now(),
-	    style: style
 	};
+
+	if (style.length > 0)
+	    event.style = style;
+
+	if (user_list.length > 0)
+	    event.user_list = user_list;
 	
 	//check if an event with the same name and same dates exists
 	const found_same_event = await EventSchema.find({

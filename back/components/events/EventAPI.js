@@ -10,18 +10,18 @@ const findEventByID = (id) => {
 };
 module.exports.findEventByID = findEventByID;
 
-const addEvent = (name, description, begin_date, end_date, style) => {
-    return EventDAL.addEvent(name, description, begin_date, end_date, style);
+const addEvent = (name, description, begin_date, end_date, user_list, style) => {
+    return EventDAL.addEvent(name, description, begin_date, end_date, user_list, style);
 };
 module.exports.addEvent = addEvent;
 
-const addEventWithDuration = (name, description, begin_date, duration, style) => {
+const addEventWithDuration = (name, description, begin_date, duration, user_list, style) => {
     const beg_date = new Date(begin_date);
     const end_date = beg_date.getTime() + duration * 60000;
     console.log('begin: '+ begin_date)
     console.log('end: '+ end_date)
     //console.log('duration: '+ duration)
-    return EventDAL.addEvent(name, description, begin_date, end_date, style);
+    return EventDAL.addEvent(name, description, begin_date, end_date, user_list, style);
 };
 module.exports.addEventWithDuration = addEventWithDuration;
 

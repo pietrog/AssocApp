@@ -39,7 +39,9 @@ class CourseDAL {
      * @param {number} first_start_date First date at which the event will occur
      * @param {number} duration Duration of the event in minutes
      * @param {string} frequency CRON-like frequency (cf https://en.wikipedia.org/wiki/Cron)
-     * @param {string} style css style for events
+     * @param {number} final_event_date Final end date of the event. After this end date, this event no longer exists
+     * @param {object} user list
+     * @param {string} style css style of the html representation of the event
      **** ┌───────────── minute (0 - 59)
      **** │ ┌───────────── hour (0 - 23)
      **** │ │ ┌───────────── day of month (1 - 31)
@@ -49,12 +51,17 @@ class CourseDAL {
      **** │ │ │ │ │
      **** │ │ │ │ │
      **** * * *  * *  command to execute
-     * @param {number} final_event_date Final end date of the event. After this end date, this event no longer exists
      *
      * @returns {object} EventList object created 
      * @throws {}
      */
-    async createRecurrentEvent(name, description, first_start_date_, duration, frequency, final_event_date_, intensity, style) {
+    async createRecurrentEvent(name, description, first_start_date_, duration, frequency, final_event_date_, intensity, user_list_, style_) {
+	const user_list = user_list_ || [];
+	const style = style_ || "";
+
+	assert.equal(typeof(style), 'string', error_messages.error_event_style_validity);
+	assert(Array.isArray(user_list), error_messages.error_user_list_validity);	
+
 	//check inputs
 	assert.equal(typeof(name), 'string', "taguele: "+name/*error_messages.error_event_name_validity*/);
 	assert.equal(typeof(description), 'string', error_messages.error_event_description_validity);
@@ -115,7 +122,7 @@ class CourseDAL {
 	let list_of_events = [];
 
 	for (let i = 0; i < list_of_starts.length; ++i) {
-	    const event = await EventAPI.addEvent(name, description, list_of_starts[i].getTime(), list_of_ends[i].getTime(), style);
+	    const event = await EventAPI.addEvent(name, description, list_of_starts[i].getTime(), list_of_ends[i].getTime(), user_list, style);
 	    list_of_events.push(event);
 	}
 

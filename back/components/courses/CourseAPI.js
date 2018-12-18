@@ -11,18 +11,20 @@ const { convertDateToNumber } = require('../tools');
  * @param {number} final_course_date
  * @param {string} cron_frequency right now, only take account days of week (ex, for every monday expects * * * * 1)
  * @param {number} [intensity]
+ * @param {object} user list
+ * @param {string} style css style of the html representation of the event
  *
  * @throws {}
  * @returns {object} Inserted object Course 
  */
 const createCourse =
-      (name, description, first_start_date, duration, final_course_date, cron_frequency, intensity, style) => {
+      (name, description, first_start_date, duration, final_course_date, cron_frequency, intensity, user_list, style) => {
 	  first_start_date = convertDateToNumber(first_start_date);
 	  final_course_date = convertDateToNumber(final_course_date);
 	  return CourseDAL.createRecurrentEvent(name, description,
-						 first_start_date, duration,
-						 cron_frequency, final_course_date, 
-						 intensity, style);
+						first_start_date, duration,
+						cron_frequency, final_course_date, 
+						intensity, user_list, style);
 };
 module.exports.createCourse = createCourse;
 module.exports.createRecurrentEvent = createCourse;
