@@ -158,7 +158,7 @@ class EventDAL {
      * @param {object} idEvent Mongoose id
      */
     deleteEventByID (idEvent) {
-	assert.equal(typeof(idEvent), 'object');
+	//assert.equal(typeof(idEvent), 'object');
 
 	try {
 	    Logger.info('Event deleted');

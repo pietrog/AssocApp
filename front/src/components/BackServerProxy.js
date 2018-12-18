@@ -21,7 +21,6 @@ class BackServerProxy {
     }
 
     async _delete(path, id) {
-	console.log('id: '+id);
 	await axios.delete(this.rootPath + path + id);
 	return ;
     }

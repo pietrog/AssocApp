@@ -20,15 +20,14 @@ class EventService extends proxy{
 	return this._post('/createCourse', { course: course });
     }
     
-    async deleteUser(userID) {
-	await axios.delete('/users/' + userID);
-	return ;
+    async deleteOneEvent(id) {
+	return this._delete('/oneEvent', id);
     }
-    
-    async updateUser(user) {
-	await axios.patch('/users/update', { user: user });
-	return;
+
+    async deleteAllEventsByName(name) {
+	return this._delete('/eventsByName', name);
     }
+
     
 }
 

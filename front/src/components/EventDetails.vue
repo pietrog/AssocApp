@@ -17,12 +17,15 @@
       </tr>    
     </table>
     <button v-on:click="saveAndExit">Mise a jour</button>
+    <button v-on:click="deleteOneAndExit">Supprimer cet évènement</button>
+    <button v-on:click="deleteAllAndExit">Supprimer tous les évènements similaires</button>
   </div>
 </div>
 </template>
 
 <script>
 const tools = require('./tools');
+const EventService = require('./EventService').service;
 
 export default {
     name: 'event-details',
@@ -53,7 +56,14 @@ export default {
 	    this.event.endDate = jsEndDate;
 	    //@todo envoyer les résultats au back
 	    this.$emit('hide-event-details')
+	},
+	deleteOneAndExit: async function() {
+	    await EventService.deleteOneEvent(this.event._id);
+	},
+	deleteAllAndExit: async function() {
+	    await EventService.deleteAllEventsByName(this.event.name);
 	}
+	
     }
 }
 </script>

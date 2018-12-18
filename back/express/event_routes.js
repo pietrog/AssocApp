@@ -61,8 +61,9 @@ app.post('/createCourse', async (req, res) => {
 });
 
 
-app.delete('/:id', async (req, res) => {
+app.delete('/oneEvent:id', async (req, res) => {
     try {
+	await EventAPI.deleteEvent(req.params.id);
 	res.json('');
     }
     catch (err) {
@@ -70,6 +71,18 @@ app.delete('/:id', async (req, res) => {
 	res.status(500).json(err);	
     }
 });
+
+app.delete('/eventsByName:name', async (req, res) => {
+    try {
+	await EventAPI.deleteEventsByName(req.params.name);
+	res.json('');
+    }
+    catch (err) {
+	console.log(err);
+	res.status(500).json(err);	
+    }
+});
+
 
 app.patch('/update', async(req, res) => {
     try{
