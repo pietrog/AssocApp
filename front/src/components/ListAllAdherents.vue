@@ -30,7 +30,7 @@ import ListAdherents from './ListAdherents';
 import UserDetails from './UserDetails';
 import NewUser from './NewUser';
 
-const userService = require('./UserService').service;
+const UserService = require('./UserService').service;
 const util = require('util');
 
 export default {
@@ -66,21 +66,24 @@ export default {
 	    return filterResult;
 	},
 	getAllAdherentsFromBack: async function() {	    
-	    const res = await userService.getAllStudents();	    
+	    const res = await UserService.getAllStudents();	    
 	    this.users = res;
 	},
 	deleteUser: function(id) {
-	    userService.deleteUser(id);
+	    UserService.deleteUser(id);
 	    const index = this.users.findIndex( elt => { return elt._id === id});
 	    this.users.splice(index, 1);
 	},
 	displayNewUser: function() {
 	    this.displayedNewUser = true;
 	},
-	createUser: function(newUser) {
-	    newUser.birthdate = new Date(newUser.birthdate); //need to provide a date instead of a string
-	    this.users.push(newUser);
-	    this.displayedNewUser = false;
+	createUser: async function(newUser) {
+	    let res = await UserService.createStudent(newUser);
+	    this.messages.push({status: res.status, content: res.data});
+	    if (res.status === 0) {
+		this.users.push(newUser);
+		this.displayedNewUser = false;
+	    }
 	}
     },
 
@@ -88,6 +91,10 @@ export default {
 	ListAdherents,
 	UserDetails,
 	NewUser
+    },
+
+    props: {
+	'messages': Array
     },
 
     mounted() {

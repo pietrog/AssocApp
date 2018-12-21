@@ -1,8 +1,9 @@
 <template>
 <div id="app">
   <control-panel/>
-  <router-view class="router-main-view"/>
+  <router-view class="router-main-view" v-bind:messages="messages" />
   <contact-panel/>
+  <info-panel v-bind:messages="messages"/>
 </div>
 </template>
 
@@ -10,14 +11,34 @@
 import ControlPanel from './components/ControlPanel'
 import ContactPanel from './components/ContactPanel'
 import ListAllAdherents from './components/ListAllAdherents';
+import InfoPanel from './components/InfoPanel.vue';
 
 export default {
     name: 'app',
     components: {
 	ContactPanel,
 	ControlPanel,
-	ListAllAdherents
+	ListAllAdherents,
+	InfoPanel
+    },
+    data: function() {
+	return {
+	    messages: [],
+	    timeoutMessages: 5000
+	};
+    },
+    methods: {
+	addMessage: function(message) {
+	    this.messages.push(message);
+	    this.message.length === 1 ? this.purgeMessages() : null;
+	},
+	purgeMessages: function() {
+	    this.messages.push({content: "coucou"});
+	    setTimeout(() => {
+		this.purgeMessages();
+	    }, this.timeoutMessages);
 	}
+    }    
 }
 </script>
 

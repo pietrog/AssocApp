@@ -39,7 +39,6 @@
 </template>
 
 <script>
-const UserService = require('./UserService').service;
 const tools = require('./tools');
 
 export default {
@@ -62,12 +61,8 @@ export default {
 		this.$emit('hide-new-user');
 	},
 	saveAndExit: async function() {
-	    //@todo check inputs before submiting it
-	    //if (
-	    //@todo envoyer les résultats au back
 	    let jsdate = tools.toJSDate(this.user.birthdate_html, "00:00");	    
 	    this.user.birthdate = jsdate.getTime();
-	    await UserService.createStudent(this.user);
 	    this.$emit('save-user', this.user);
 	},
 	addElt: function(array) {
