@@ -58,14 +58,7 @@ export default {
 	    displayPeriodUom: "month",
 	    displayPeriodCount: 1,
 	    event: null,
-	    events: [
-		/*{
-		    title: "hehehe",
-		    startDate: 1544518800000,
-		    endDate: 1544524800000,
-		    style: "background-color: red; color: white"
-		}*/
-	    ]
+	    events: []
 	}
     },
     methods: {
@@ -97,7 +90,8 @@ export default {
 	}
     },
     mounted: async function() {
-	this.events = await EventService.getAllEvents();
+	const result = await EventService.getAllEvents();
+	this.events = result.data;
 	this.events.forEach((elt) => {
 	    elt.title = elt.name;
 	    elt.startDate = new Date(elt.begin_date);

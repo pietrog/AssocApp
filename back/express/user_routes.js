@@ -24,7 +24,11 @@ app.post('/addStudent', async (req, res) => {
     const user = req.body.user;
     try {
 	const result = await UserAPI.addStudent(user);
-	http_h.success(res,  user.firstname + " ajouté");
+	const data = {
+	    id: result._id,
+	    message: user.firstname + " ajouté"
+	};
+	http_h.success(res,  data);
     }
     catch(err) {
 	console.log('error: '+ err);

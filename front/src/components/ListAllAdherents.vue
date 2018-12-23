@@ -82,8 +82,9 @@ export default {
 	},
 	createUser: async function(newUser) {
 	    let res = await UserService.createStudent(newUser);
-	    this.messages.push({status: res.data.status, content: res.data.data});
+	    this.messages.push({status: res.data.status, content: res.data.data.message});
 	    if (res.data.status === 0) {
+		newUser._id = res.data.data.id;
 		this.users.push(newUser);
 		this.displayedNewUser = false;
 	    }

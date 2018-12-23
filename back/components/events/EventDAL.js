@@ -82,7 +82,6 @@ class EventDAL {
 	assert.equal(typeof(begin_date), 'number', error_messages.error_event_begin_date_validity);
 	assert.equal(typeof(end_date), 'number', error_messages.error_event_end_date_validity);
 	assert.equal(typeof(style), 'string', error_messages.error_event_style_validity);
-	console.log(user_list);
 	assert(Array.isArray(user_list), error_messages.error_user_list_validity);	
 	assert.ok(begin_date < end_date, error_messages.error_begin_less_than_end_date);
 	
