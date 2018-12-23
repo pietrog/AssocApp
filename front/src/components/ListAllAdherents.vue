@@ -67,20 +67,23 @@ export default {
 	},
 	getAllAdherentsFromBack: async function() {	    
 	    const res = await UserService.getAllStudents();	    
-	    this.users = res;
+	    this.users = res.data;
 	},
-	deleteUser: function(id) {
-	    UserService.deleteUser(id);
-	    const index = this.users.findIndex( elt => { return elt._id === id});
-	    this.users.splice(index, 1);
+	deleteUser: async function(id) {
+	    const result = await UserService.deleteUser(id);
+	    this.messages.push({status: result.data.status, content: result.data.data});
+	    if (result.data.status === 0) {
+		const index = this.users.findIndex( elt => { return elt._id === id});	    
+		this.users.splice(index, 1);
+	    }
 	},
 	displayNewUser: function() {
 	    this.displayedNewUser = true;
 	},
 	createUser: async function(newUser) {
 	    let res = await UserService.createStudent(newUser);
-	    this.messages.push({status: res.status, content: res.data});
-	    if (res.status === 0) {
+	    this.messages.push({status: res.data.status, content: res.data.data});
+	    if (res.data.status === 0) {
 		this.users.push(newUser);
 		this.displayedNewUser = false;
 	    }

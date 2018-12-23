@@ -10,24 +10,20 @@ class BackServerProxy {
 	this.rootPath = rootPath;
     }
 
-    async _get(path) {
-	const res = await axios.get(this.rootPath + path);
-	return res.data;
+    _get(path) {
+	return axios.get(this.rootPath + path);
     }
 
-    async _post(path, data) {
-	const res = await axios.post(this.rootPath + path, data);
-	return res.data;
+    _post(path, data) {
+	return axios.post(this.rootPath + path, data);
     }
 
-    async _delete(path, id) {
-	await axios.delete(this.rootPath + path + id);
-	return ;
+    _delete(path, id) {
+	return axios.delete(this.rootPath + path + id);
     }
 
-    async _update(path, data) {
-	await axios.patch(this.rootPath + path, data);
-	return;
+    _update(path, data) {
+	return axios.patch(this.rootPath + path, data);
     }
 
     

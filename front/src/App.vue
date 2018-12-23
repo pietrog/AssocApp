@@ -28,17 +28,22 @@ export default {
 	};
     },
     methods: {
-	addMessage: function(message) {
-	    this.messages.push(message);
-	    this.message.length === 1 ? this.purgeMessages() : null;
+	shiftMessages: function() {
+	    this.messages.shift();
+	    if (this.messages.length > 0)
+		this.purgeMessages();	    
 	},
 	purgeMessages: function() {
-	    this.messages.push({content: "coucou"});
-	    setTimeout(() => {
-		this.purgeMessages();
-	    }, this.timeoutMessages);
-	}
-    }    
+	    if (this.messages.length > 0)
+		setTimeout(() => {
+		    this.shiftMessages();
+		}, this.timeoutMessages);
+	},
+	
+    },
+    beforeUpdate() {
+	this.purgeMessages();
+    }
 }
 </script>
 

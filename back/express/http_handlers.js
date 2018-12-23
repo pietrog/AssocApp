@@ -17,7 +17,7 @@ global.HttpHandler = {
  */
 function AnswerJSONSuccess(response, data){
     const json_data = { "status": 0, "data": data };
-    response.jsonp(json_data);    
+    response.json(json_data);    
 }
 
 /**
@@ -25,7 +25,7 @@ function AnswerJSONSuccess(response, data){
  * A success parameter set to false and data 
  */
 function AnswerJSONError(response, data){
-    response.jsonp({ "status": 1, "data": data});    
+    response.json({ "status": 1, "data": data});    
 }
 
 /**

@@ -10,20 +10,19 @@ class UserService extends proxy {
 	super('/users');
     }
 
-    async getAllStudents() {
-	const res = await this._get('/getAll');
-	return res;
+    getAllStudents() {
+	return this._get('/getAll');
     }
 
-    async createStudent(user) {
+    createStudent(user) {
 	return this._post('/addStudent', {user: user});
     }
 
-    async deleteUser(userID) {
+    deleteUser(userID) {
 	return this._delete('/', userID);
     }
 
-    async updateUser(user) {
+    updateUser(user) {
 	return this._update('/update', {user: user});
     }
 };

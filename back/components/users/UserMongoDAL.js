@@ -61,6 +61,10 @@ class UserDAL {
 	assert.equal( typeof(userID), 'string', error_messages.error_string_expected);
 	
 	const user = await this.findUserById(userID);
+	if (user === null) {
+	    Logger.trace('User with id '+ userID +' not found');
+	    return null;
+	}
 	Logger.trace('User ' + user.firstname + ' removed');
 	return user.remove();
     }

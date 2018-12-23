@@ -34,12 +34,12 @@ app.post('/addStudent', async (req, res) => {
 
 app.delete('/:id', async (req, res) => {
     try {
-	await UserAPI.removeUser(req.params.id);
-	res.json('');
+	const result = await UserAPI.removeUser(req.params.id);
+	const message = result.firstname + ' a été supprimé'
+	http_h.success(res, message);
     }
     catch (err) {
-	console.log(err);
-	res.status(500).json(err);	
+	http_h.error(res, "La suppression a échouée");
     }
 });
 
