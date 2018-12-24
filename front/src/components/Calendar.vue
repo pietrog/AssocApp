@@ -23,11 +23,17 @@
       <calendar-view-header slot="header" slot-scope="t" :header-props="t.headerProps" @input="setShowDate"/>
     </calendar-view>
   </div>
-  <new-course v-bind:events="events" v-if="hiddenBoxCourse === false" v-on:hide-box="hideBoxCourse"/>
+  <new-course
+    v-if="hiddenBoxCourse === false"
+    v-bind:events="events"
+    v-on:hide-box="hideBoxCourse"
+    :messages="messages"
+    />
   <event-details
     v-if="event"
     v-bind:event="event"
     v-on:hide-event-details="hideEventDetails"
+    :messages="messages"
     />
 </div>
 </template>
@@ -89,9 +95,13 @@ export default {
 	    this.event = null;
 	}
     },
+    props: {
+	'messages': Array
+    },
+
     mounted: async function() {
 	const result = await EventService.getAllEvents();
-	this.events = result.data;
+	this.events = result.data.data;
 	this.events.forEach((elt) => {
 	    elt.title = elt.name;
 	    elt.startDate = new Date(elt.begin_date);

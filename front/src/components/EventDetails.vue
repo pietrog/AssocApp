@@ -37,7 +37,10 @@ export default {
 	    endDateTime: tools.fromJSDateToInputTime(this.event.endDate),
 	}
     },
-    props: ['event'],
+    props: {
+	'event': Object,
+	'messages': Array
+    },
     methods: {
 	//hide details vue when user clicks on back user details div
 	hide: function(event) {
@@ -58,10 +61,12 @@ export default {
 	    this.$emit('hide-event-details')
 	},
 	deleteOneAndExit: async function() {
-	    await EventService.deleteOneEvent(this.event._id);
+	    const result = await EventService.deleteOneEvent(this.event._id);
+	    tools.sendMessage(this.messages, result);
 	},
 	deleteAllAndExit: async function() {
-	    await EventService.deleteAllEventsByName(this.event.name);
+	    const result = await EventService.deleteAllEventsByName(this.event.name);
+	    tools.sendMessage(this.messages, result);
 	}
 	
     }

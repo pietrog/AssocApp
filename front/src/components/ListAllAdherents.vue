@@ -29,6 +29,7 @@
 import ListAdherents from './ListAdherents';
 import UserDetails from './UserDetails';
 import NewUser from './NewUser';
+const tools = require('./tools');
 
 const UserService = require('./UserService').service;
 const util = require('util');
@@ -66,12 +67,12 @@ export default {
 	    return filterResult;
 	},
 	getAllAdherentsFromBack: async function() {	    
-	    const res = await UserService.getAllStudents();	    
-	    this.users = res.data;
+	    const res = await UserService.getAllStudents();
+	    this.users = res.data.data;
 	},
 	deleteUser: async function(id) {
 	    const result = await UserService.deleteUser(id);
-	    this.messages.push({status: result.data.status, content: result.data.data});
+	    tools.sendMessage(this.messages, result);
 	    if (result.data.status === 0) {
 		const index = this.users.findIndex( elt => { return elt._id === id});	    
 		this.users.splice(index, 1);
@@ -82,7 +83,7 @@ export default {
 	},
 	createUser: async function(newUser) {
 	    let res = await UserService.createStudent(newUser);
-	    this.messages.push({status: res.data.status, content: res.data.data.message});
+	    tools.sendMessage(this.messages, res);
 	    if (res.data.status === 0) {
 		newUser._id = res.data.data.id;
 		this.users.push(newUser);

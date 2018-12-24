@@ -7,24 +7,24 @@ class EventService extends proxy{
     constructor() {
 	super('/events');
     }
-
-    async getAllEvents() {
+    
+    getAllEvents() {
 	return this._get('/getAll');
     }
     
-    async createEvent(event) {
+    createEvent(event) {	
 	return this._post('/createEvent', { course: event });
     }
 
-    async createCourse(course) {
+    createCourse(course) {
 	return this._post('/createCourse', { course: course });
     }
     
-    async deleteOneEvent(id) {
+    deleteOneEvent(id) {
 	return this._delete('/oneEvent', id);
     }
 
-    async deleteAllEventsByName(name) {
+    deleteAllEventsByName(name) {
 	return this._delete('/eventsByName', name);
     }
 

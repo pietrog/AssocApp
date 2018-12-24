@@ -15,8 +15,8 @@ global.HttpHandler = {
  * Send back json to the client with 200 status code
  * A success parameter set to true and data in data field
  */
-function AnswerJSONSuccess(response, data){
-    const json_data = { "status": 0, "data": data };
+function AnswerJSONSuccess(response, message, data){
+    const json_data = { "status": 0, "message": message, "data": data };
     response.json(json_data);    
 }
 
@@ -24,8 +24,8 @@ function AnswerJSONSuccess(response, data){
  * Send back json to the client with an error code (error from the server)
  * A success parameter set to false and data 
  */
-function AnswerJSONError(response, data){
-    response.json({ "status": 1, "data": data});    
+function AnswerJSONError(response, message, data){
+    response.json({ "status": 1, "message": message, "data": data});    
 }
 
 /**
@@ -33,8 +33,8 @@ function AnswerJSONError(response, data){
  * But a failure occured, for instance during model validation
  * Use this one when client sent wrong informations
  */
-function AnswerJSONFailure(res, data){
-    let json_data = { "status": -1, "data": data};
+function AnswerJSONFailure(res, message, data){
+    let json_data = { "status": -1, "message": message, "data": data};
     res.json(json_data);
 }
 
@@ -42,7 +42,7 @@ function AnswerJSONFailure(res, data){
  * Send a response with given http code
  */
 function AnswerJSonwithHTTPCode(res, httpcode, data){
-    res.status(httpcode).json({ status: 4, "data": data});
+    //res.status(httpcode).json({ status: 4, "data": data});
 }
 
 module.exports = HttpHandler;

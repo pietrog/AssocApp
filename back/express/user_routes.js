@@ -10,11 +10,10 @@ const util = require('util');
 app.get('/getAll', async (req, res) => {
     try {
 	const users = await UserAPI.getAllUsers();
-	res.json(users);
+	http_h.success(res, "", users);
     }
     catch (err) {
-	console.log(err);
-	res.status(404).json([]);
+	http_h.error(res, "Une erreur est survenue pendant le chargement des utilisateurs: " + err);
     }
 });
 
@@ -24,14 +23,9 @@ app.post('/addStudent', async (req, res) => {
     const user = req.body.user;
     try {
 	const result = await UserAPI.addStudent(user);
-	const data = {
-	    id: result._id,
-	    message: user.firstname + " ajouté"
-	};
-	http_h.success(res,  data);
+	http_h.success(res, user.firstname + " ajouté", result._id);
     }
     catch(err) {
-	console.log('error: '+ err);
 	http_h.error(res,  user.firstname + " " + user.lastname + " existe déjà");
     }
 });

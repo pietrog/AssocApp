@@ -103,12 +103,14 @@ export default {
 	    endDate: "",
 	    endDateTime: "",
 
-	    eventColor: "",
+	    eventColor: "#AADD55",
 	    recurrentEvent: false
 
 	}
     },
-    props: ['events'],
+    props: {
+	'messages': Array
+    },
     methods: {
 	saveEvent: async function() {
 	    //if this is a single or recurrent event
@@ -125,13 +127,15 @@ export default {
 	    this.event.style = "background-color: "+this.eventColor;
 	    this.addUsersInIDs(); //add users to user_list id of event
 
+	    let result;
 	    if (this.recurrentEvent) {
-		await EventService.createCourse(this.event);
+		result = await EventService.createCourse(this.event);
 	    }
 	    else {
-		await EventService.createEvent(this.event);
+		result = await EventService.createEvent(this.event);
 	    }
-	    //this.$emit('hide-box', true);
+	    tools.sendMessage(this.messages, result);
+	    this.$emit('hide-box', true);
 	},
 	addUsersInIDs: function() {
 	    this.event.user_list = [];
@@ -147,7 +151,7 @@ export default {
 	},
 	getAllAdherentsFromBack: async function() {	    
 	    const res = await userService.getAllStudents();	    
-	    this.usersOut = res;
+	    this.usersOut = res.data.data;
 	}
 	
     },
