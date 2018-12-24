@@ -1,6 +1,6 @@
 <template>
 <div id="iadherents-all-list" class="group">
-  <button v-on:click="displayNewUser">+</button>
+  <button title="Ajouter un adhérent" class="fixed-button" v-on:click="displayNewUser">+</button>
   Nom/Prénom: <input v-model="stringFilter"></input> <br/>
   Année de naissance <input v-model="dateFilter" ></input>
   <list-adherents
@@ -114,5 +114,6 @@ export default {
     float: left;
     width: 98%;
 }
+
 
 </style>

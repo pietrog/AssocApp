@@ -69,7 +69,6 @@ export default {
 body {
     /* Set a specific height */
     height: 100%;
-    background-color: #c2c2d6;
 }
 
 /*  */
@@ -83,6 +82,7 @@ a {
 
 /* Button base style */ 
 .base-button {
+    color: white;
     width: 15%;
     text-align: center;
 }
@@ -94,7 +94,8 @@ base-button:hover {
 
 /* CSS default class for router-link when active */
 .router-link-active {
-    background-color: #c2c2d6;
+    background-color: #FFD662;
+    color: #00539C;
     text-decoration: none;
     zoom: 1.15;
 }
@@ -156,6 +157,19 @@ base-button:hover {
 
 .hidden {
     display: none;
+}
+
+/* Class for float buttons  */
+.fixed-button {
+    background-color: #DD4132;
+    position: fixed;
+    left: 10px;
+    border: 1px none black;
+    border-radius: 50px;
+}
+.fixed-button:hover {
+    background-color: white;
+    cursor: pointer;
 }
 
 

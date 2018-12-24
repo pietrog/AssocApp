@@ -1,40 +1,38 @@
 <template>
 <div id="child-view" class="group">
-  <div id="toolbar-view">
-    <button v-on:click="hideBoxCourse(false)">+</button>
+    <button class="fixed-button" v-on:click="hideBoxCourse(false)">+</button>
     <select v-model="displayPeriodUom">
       <option value="week">Semaine</option>
       <option value="month">Mois</option>
       <option value="year">Année</option>
     </select>
-  </div>
-  <div id="main-view" class="calendar-container">
-    <calendar-view
-      :show-date="showDate"
-      class="theme-default holiday-us-traditional holiday-us-official"
+    <div id="main-view" class="calendar-container">
+      <calendar-view
+	:show-date="showDate"
+	class="theme-default holiday-fr-traditional holiday-fr-official"
+	v-bind:events="events"
+	v-bind:displayPeriodUom="displayPeriodUom"
+	v-bind:displayPeriodCount="displayPeriodCount"
+	v-bind:enableDragDrop="enableDragAndDrop"
+	v-bind:showEventTimes="showEventTimes"
+	v-on:click-event="clickEvent"
+	v-on:drop-on-date="dropOnDate"
+	>
+	<calendar-view-header slot="header" slot-scope="t" :header-props="t.headerProps" @input="setShowDate"/>
+      </calendar-view>
+    </div>
+    <new-course
+      v-if="hiddenBoxCourse === false"
       v-bind:events="events"
-      v-bind:displayPeriodUom="displayPeriodUom"
-      v-bind:displayPeriodCount="displayPeriodCount"
-      v-bind:enableDragDrop="enableDragAndDrop"
-      v-bind:showEventTimes="showEventTimes"
-      v-on:click-event="clickEvent"
-      v-on:drop-on-date="dropOnDate"
-      >
-      <calendar-view-header slot="header" slot-scope="t" :header-props="t.headerProps" @input="setShowDate"/>
-    </calendar-view>
-  </div>
-  <new-course
-    v-if="hiddenBoxCourse === false"
-    v-bind:events="events"
-    v-on:hide-box="hideBoxCourse"
-    :messages="messages"
-    />
-  <event-details
-    v-if="event"
-    v-bind:event="event"
-    v-on:hide-event-details="hideEventDetails"
-    :messages="messages"
-    />
+      v-on:hide-box="hideBoxCourse"
+      :messages="messages"
+      />
+    <event-details
+      v-if="event"
+      v-bind:event="event"
+      v-on:hide-event-details="hideEventDetails"
+      :messages="messages"
+      />
 </div>
 </template>
 

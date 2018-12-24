@@ -14,12 +14,12 @@
 
 <style scoped>
 #control-panel {
-    background-color: #a3a3c2;
+    background-color: #00539C;
     position: relative;
     top: 0;
     right: 0;
     left: 0;
-  }
+}
 
   
 
