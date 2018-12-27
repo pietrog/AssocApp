@@ -1,10 +1,14 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
 import ListAllAdherents from '../components/ListAllAdherents'
 import Calendar from '../components/Calendar';
 import Photos from '../components/Photos';
+import Login from '../components/Login';
+const AuthService = require( '../services/AuthenticationService').service;
 
-Vue.use(Router)
+const util = require('util');
+
+Vue.use(VueRouter);
 
 const routes = [
     {
@@ -20,11 +24,31 @@ const routes = [
     },
     {
 	path: '/photos',
-	name: Photos,
+	name: 'Photos',
 	component: Photos
-    }	
+    },
+    {
+	path: '/login',
+	name: 'Login',
+	component: Login
+    }
 ];
 
-export default new Router({
+const router = new VueRouter({
     routes
-})
+});
+
+router.beforeEach((to, from, next) => {
+    if (to.name === 'Login')
+	next();    
+    else {
+	if (AuthService.isAuthenticated())
+	    next();
+	else {
+	    next('/login');
+	}
+    }
+
+});
+
+export default router;

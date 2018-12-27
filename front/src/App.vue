@@ -1,7 +1,9 @@
 <template>
 <div id="app">
-  <control-panel/>
-  <router-view class="router-main-view" v-bind:messages="messages" />
+  <control-panel v-bind:isConnected="isConnected" v-on:logout="logout"/>
+  <transition name="fade" mode="out-in">
+    <router-view class="router-main-view" v-bind:messages="messages" v-on:authentication-success="connectUser"/>
+  </transition>
   <contact-panel/>
   <info-panel v-bind:messages="messages"/>
 </div>
@@ -24,7 +26,8 @@ export default {
     data: function() {
 	return {
 	    messages: [],
-	    timeoutMessages: 5000
+	    timeoutMessages: 5000,
+	    isConnected: false
 	};
     },
     methods: {
@@ -39,6 +42,14 @@ export default {
 		    this.shiftMessages();
 		}, this.timeoutMessages);
 	},
+	connectUser: function() {
+	    //receive signal from Login vue
+	    this.isConnected = true;
+	},
+	logout: function() {
+	    //receive signal from control panel -> deconnect button
+	    this.isConnected = false;
+	}
 	
     },
     beforeUpdate() {
@@ -172,5 +183,13 @@ base-button:hover {
     cursor: pointer;
 }
 
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .3s;
+}
+
+.fade-enter, .fade-leave-to {
+    opacity: 0;
+}
 
 </style>

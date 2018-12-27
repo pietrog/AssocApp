@@ -8,16 +8,16 @@ const bodyParser  = require('body-parser');
 
 const userRoutes = require('./express/user_routes');
 const eventRoutes = require('./express/event_routes');
-
+const authenticationMiddle = require('./express/authentication');
 const util = require('util');
 
 //body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); //extract json from requests
 
-//app.set('superSecret', config.secret);
-
 app.use(express.static(output_folder)); //plugged on the output of webpack config
+
+app.use(authenticationMiddle);
 app.use('/users', userRoutes);
 app.use('/events', eventRoutes);
 

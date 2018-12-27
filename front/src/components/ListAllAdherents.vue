@@ -66,9 +66,14 @@ export default {
 	    
 	    return filterResult;
 	},
-	getAllAdherentsFromBack: async function() {	    
-	    const res = await UserService.getAllStudents();
-	    this.users = res.data.data;
+	getAllAdherentsFromBack: async function() {
+	    try {
+		const res = await UserService.getAllStudents();
+		this.users = res.data.data;
+	    }
+	    catch(err) {
+		this.messages.push({status: 1, content: 'Vous devez vous authentifier'});
+	    }
 	},
 	deleteUser: async function(id) {
 	    const result = await UserService.deleteUser(id);
@@ -106,6 +111,7 @@ export default {
 	this.getAllAdherentsFromBack();
     }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

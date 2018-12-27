@@ -1,12 +1,10 @@
 const util = require('util');
 
 global.HttpHandler = {
-    errorHTTPCode: 500,
-    
     success: AnswerJSONSuccess,
     error: AnswerJSONError,
     failure: AnswerJSONFailure,
-    code: AnswerJSonwithHTTPCode,
+    unauthorized: AnswerJSONUnauthorized,
     
 }
 
@@ -41,8 +39,10 @@ function AnswerJSONFailure(res, message, data){
 /**
  * Send a response with given http code
  */
-function AnswerJSonwithHTTPCode(res, httpcode, data){
-    //res.status(httpcode).json({ status: 4, "data": data});
+function AnswerJSONUnauthorized(res, message, data){
+    let json_data = { "status": -2, "message": message, "data": data};
+    //401 -> unauthorized
+    res.status(401).json(json_data);
 }
 
 module.exports = HttpHandler;
