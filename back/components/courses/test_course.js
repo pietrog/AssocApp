@@ -14,7 +14,7 @@ const EventSchema = require('../events/EventSchema');
 describe('Course Component', function() {
     
     before(() => {
-	mongoose.connect(config.testdatabase, { useNewUrlParser: true});
+	mongoose.connect(config.unittestdatabase, { useNewUrlParser: true});
 	Logger.level = 'fatal';
     });
 

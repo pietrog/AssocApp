@@ -11,7 +11,7 @@ const UserAPI = require('./UserAPI'),
 
 describe('User Component', function() {
     before(() => {
-	mongoose.connect(config.testdatabase, { useNewUrlParser: true});
+	mongoose.connect(config.unittestdatabase, { useNewUrlParser: true});
 	//Logger.setLevel('silent');
     });
 

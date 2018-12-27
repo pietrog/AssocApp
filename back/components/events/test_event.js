@@ -12,7 +12,7 @@ const EventAPI = require('./EventAPI.js'),
 describe('Event Component', function() {
     
     before(() => {
-	mongoose.connect(config.testdatabase, { useNewUrlParser: true});
+	mongoose.connect(config.unittestdatabase, { useNewUrlParser: true});
 	//mongoose.set('debug', true);
 	//Logger.setLevel('silent');
     });

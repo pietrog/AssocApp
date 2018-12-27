@@ -1,6 +1,5 @@
 'use strict';
 
-const jwt = require('jsonwebtoken');
 const http_h = require('./http_handlers');
 const Logger = require('../components/logger').logger,
       util = require('util');
