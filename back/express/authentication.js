@@ -4,15 +4,17 @@ const http_h = require('./http_handlers');
 const Logger = require('../components/logger').logger,
       util = require('util');
 
+const { AuthAPI } = require('../components/authentication');
+
 /**
- * Basic authentication, static admin user, simple but it is okay right now !
+ * Basic authentication middleware function, static admin user, simple but it is okay right now !
  * @todo make something more robust, cf auth0
  */
-
 const basic_authenticate = async (req, res, next) => {
-
+    
     //get the token
-    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    const token = req.headers['x-access-token'];
+    const user_name = req.body.name;
 
     const host_desc = {
 	ip: req.ip,
@@ -24,10 +26,13 @@ const basic_authenticate = async (req, res, next) => {
     //if 
     if (token) {
 	try {
-	    const decoded_token = await jwt.verify(token, 'superSecret');
-	    req.decodedToken = decoded_token;
-	    Logger.warn('Un utilisateur vient de s\'authentifier: ' + util.inspect(decoded_token));
-	    next();
+	    const isValidToken = await AuthAPI.authenticateUser();
+	    //Logger.warn('Un utilisateur vient de s\'authentifier: ' + util.inspect(decoded_token));
+	    if (isValidToken)
+		next();
+	    else {
+		return http_h.unauthorized(res, "Token non valide");
+	    }
 	}	
 	catch (err){
 	    Logger.warn('Un utilisateur a tenté de s\'authentifier: ' + err);

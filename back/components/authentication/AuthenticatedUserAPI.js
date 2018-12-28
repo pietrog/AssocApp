@@ -52,6 +52,7 @@ const loginUser = async (name, plain_text_password) => {
     const valid_password = await TokenAPI.comparePasswords(plain_text_password, user.hash);
     if (!valid_password) {
 	Logger.warn('User ' + name + ' entered an invalid password');
+	return null;
     }
 
     Logger.info('User ' + name + ' has been authenticated');

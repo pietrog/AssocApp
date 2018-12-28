@@ -15,6 +15,7 @@ class BackServerProxy {
     }
 
     _post(path, data) {
+	console.log('post : '+ this.rootPath + path);
 	return axios.post(this.rootPath + path, data);
     }
 

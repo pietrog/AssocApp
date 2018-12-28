@@ -13,6 +13,7 @@
       </tr>
     </table>
     <hr/>
+    <h1 class="error-identification" v-if="message">{{message}}</h1>
     <button type="submit" v-on:click="login">Soumettre</button>
   </form>
 </div>
@@ -26,13 +27,20 @@ export default {
     data: function() {
 	return {
 	    user: '',
-	    password: ''
+	    password: '',
+	    message: null
 	};
     },
     methods: {
-	login: function() {
-	    AuthService.authenticate(this.user, this.password);
-	    this.$emit('authentication-success');
+	login: async function() {
+	    const res = await AuthService.authenticate(this.user, this.password);
+	    if (!res) {
+		this.message = AuthService.getMessage();
+	    }
+	    else {
+		//@todo store the token in the client side
+		this.$emit('authentication-success');
+	    }
 	}
     }
 }
@@ -50,5 +58,10 @@ export default {
     height: 100%;
 
     color: white;
+}
+
+.error-identification {
+    background-color: red;
+    margin: 20px;
 }
 </style>
