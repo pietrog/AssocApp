@@ -18,6 +18,7 @@ app.use(bodyParser.json()); //extract json from requests
 
 app.use(express.static(output_folder)); //plugged on the output of webpack config
 
+app.get('/favicon.ico', (req, res) => res.status(204));
 app.use('/admin', authenticationRoutes);
 
 app.use(authenticationMiddle);

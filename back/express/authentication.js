@@ -14,7 +14,6 @@ const basic_authenticate = async (req, res, next) => {
     
     //get the token
     const token = req.headers['x-access-token'];
-    const user_name = req.body.name;
 
     const host_desc = {
 	ip: req.ip,
@@ -25,11 +24,15 @@ const basic_authenticate = async (req, res, next) => {
     Logger.warn('Un utilisateur souhaite se connecter: ' + host_desc_str);
     //if 
     if (token) {
+	const user_name = req.body.login;
 	try {
-	    const isValidToken = await AuthAPI.authenticateUser();
-	    //Logger.warn('Un utilisateur vient de s\'authentifier: ' + util.inspect(decoded_token));
-	    if (isValidToken)
+	    console.log(req.body);
+	    const isValidToken = await AuthAPI.authenticateUser(user_name, token);
+	    
+	    if (isValidToken) {
+		Logger.info(user_name + ' successfully authenticated');
 		next();
+	    }
 	    else {
 		return http_h.unauthorized(res, "Token non valide");
 	    }

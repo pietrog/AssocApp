@@ -17,11 +17,11 @@ class AuthenticatedUserDAL {
     async findAuthenticatedUserByName(name) {
 	try {
 	    const res = await Schema.findOne({ login: name});
-	    Logger.info('Authenticated user found with this name: ' + name);
+	    Logger.info('AuthenticatedUser found with this name: ' + name);
 	    return res;
 	}
 	catch (err) {
-	    Logger.info('No authenticated user found with this name: ' + name);
+	    Logger.info('No AuthenticatedUser found with this name: ' + name);
 	    return null;
 	}
     }

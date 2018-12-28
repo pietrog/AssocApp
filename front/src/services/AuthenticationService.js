@@ -8,53 +8,45 @@ class AuthenticationService extends proxy{
     
     constructor() {
 	super('/admin');
-	this._userLogin = null;
-	this._token = null;
-	this._loginDate = null;
-	this._isAuthenticated = false;
-	this._isAdmin = false;
-	this._email = null;
-	this._message = null;
     }
 
-    isAuthenticated() {
-	return this._isAuthenticated;
+    isAuthenticated() {	
+	return localStorage._isAuthenticated;
     }
     
     getUser() {
-	return this._userLogin;
+	return localStorage._userLogin;
     }
 
     isAdmin() {
-	return this._isAdmin;
+	return localStorage._isAdmin;
     }
 
     getToken() {
-	return this._token;
+	return 	localStorage._token;
     }
 
     getLoginDate() {
-	return this._loginDate;
+	return localStorage._loginDate;
     }
 
     getMessage() {
-	return this._message;
+	return localStorage._message;
     }
     
     async authenticate(user, password) {
-	//@todo communication with server
 	try {
 	    const result = await this._post('/login', {login: user, password: password});
 	    const data = result.data;
 	    const status = data.status;
 	    if (status === 0) {
-		const loggedUser = data;
-		this._userLogin = loggedUser.login;
-		this._token = loggedUser.token;
-		this._loginDate = new Date(Date.now());
-		this._isAuthenticated = true;
-		this._isAdmin = loggedUser.isAdmin;
-		this._email = loggedUser.email;
+		const loggedUser = data.data;
+		localStorage._userLogin = loggedUser.login;
+		localStorage._token = loggedUser.token;
+		localStorage._loginDate = new Date(Date.now());
+		localStorage._isAuthenticated = true;
+		localStorage._isAdmin = loggedUser.isAdmin;
+		localStorage._email = loggedUser.email;
 		return true;
 	    }
 	    else {
@@ -63,7 +55,6 @@ class AuthenticationService extends proxy{
 	    }
 	}
 	catch(err) {
-	    console.log('eerror orccured: '+err);
 	    return false;
 	}
 
@@ -71,10 +62,12 @@ class AuthenticationService extends proxy{
 
     logout() {
 	//@todo communication with server
-	this._userLogin = null;
-	this._token = null;
-	this._loginDate = null;
-	this._isAuthenticated = false;
+	localStorage._userLogin = null;
+	localStorage._token = null;
+	localStorage._loginDate = null;
+	localStorage._email = null;
+	localStorage._isAuthenticated = false;
+	localStorage._isAdmin = false;
     }
     
 };

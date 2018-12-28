@@ -55,7 +55,7 @@ const loginUser = async (name, plain_text_password) => {
 	return null;
     }
 
-    Logger.info('User ' + name + ' has been authenticated');
+    Logger.info('User ' + name + ' has been logged in');
 
     //generates the token
     const token = await TokenAPI.generateToken(name);

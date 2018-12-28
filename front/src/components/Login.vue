@@ -38,8 +38,7 @@ export default {
 		this.message = AuthService.getMessage();
 	    }
 	    else {
-		//@todo store the token in the client side
-		this.$emit('authentication-success');
+		this.$emit('authentication-success');		
 	    }
 	}
     }
