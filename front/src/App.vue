@@ -3,7 +3,9 @@
   <control-panel
     v-bind:isConnected="isConnected"
     v-on:logout="logout"/>
-  <router-view class="router-main-view" v-bind:messages="messages" v-on:authentication-success="connectUser"/>
+  <router-view class="router-main-view" v-bind:messages="messages"
+	       v-on:authentication-success="connectUser"
+	       />
 
   <info-panel v-bind:messages="messages"/>
 </div>
@@ -28,7 +30,7 @@ export default {
 	return {
 	    messages: [],
 	    timeoutMessages: 5000,
-	    isConnected: AuthService.isAuthenticated() === "true"
+	    isConnected: JSON.parse(localStorage._isAuthenticated)
 	};
     },
     methods: {
@@ -50,9 +52,11 @@ export default {
 	    this.$router.replace('welcome');
 	},
 	logout: function() {
-	    //receive signal from control panel -> deconnect button
+	    AuthService.logout();
 	    this.isConnected = false;
+	    this.$router.replace('/login');
 	}
+	
     },
     beforeUpdate() {
 	this.purgeMessages();
@@ -81,6 +85,7 @@ export default {
 body {
     /* Set a specific height */
     height: 100%;
+    /*background-image: url('./tkd.jpg');*/
 }
 
 /*  */

@@ -1,10 +1,9 @@
 <template>
-  <nav id="control-panel" class="group">
+  <nav id="control-panel" v-if="isConnected" class="group">
     <router-link v-if="isConnected" to="/users" class="base-button">Adhérents</router-link>
     <router-link v-if="isConnected" to="/calendar" class="base-button">Calendrier</router-link>
     <router-link v-if="isConnected" to="/photos" class="base-button">Galerie photo</router-link>
-    <router-link v-if="!isConnected" to="/login" class="base-button">S'identifier</router-link>
-    <button class="" v-if="isConnected" v-on:click="logout">Deconnecter</button>
+    <button class="" v-if="isConnected" v-on:click="$emit('logout')">Deconnecter</button>
   </nav>
 </template>
 
@@ -13,16 +12,10 @@ const AuthService = require('../services/AuthenticationService').service;
 
 export default {
     name: 'control-panel',
-    methods: {
-	logout: function() {
-	    AuthService.logout();
-	    this.$emit('logout');
-	},
-    },
     props: {
 	"isConnected": {
 	    type: Boolean,
-	    require: true
+	    required: true,
 	}
     }
 }

@@ -31,13 +31,14 @@ class AuthenticationService extends proxy{
     }
 
     getMessage() {
-	return localStorage._message;
+	return this._message;
     }
     
     async authenticate(user, password) {
 	try {
 	    const result = await this._post('/login', {login: user, password: password});
 	    const data = result.data;
+	    console.log(data);
 	    const status = data.status;
 	    if (status === 0) {
 		const loggedUser = data.data;

@@ -48,12 +48,11 @@ router.beforeEach((to, from, next) => {
     if (to.name === 'Login')
 	next();    
     else {
-	if (AuthService.isAuthenticated()) {
-	    console.log('token: ' + AuthService.getToken());
+	if (JSON.parse(localStorage._isAuthenticated)) {
 	    next();
 	}
 	else {
-	    next('/login');
+	    next('Login');
 	}
     }
 

@@ -17,11 +17,17 @@ class AuthenticatedUserDAL {
     async findAuthenticatedUserByName(name) {
 	try {
 	    const res = await Schema.findOne({ login: name});
-	    Logger.info('AuthenticatedUser found with this name: ' + name);
-	    return res;
+	    if (res === null) {
+		Logger.info('No AuthenticatedUser found with this name: ' + name);
+		return null;
+	    }
+	    else {
+		Logger.info('AuthenticatedUser found with this name: ' + name);
+		return res;
+	    }
 	}
 	catch (err) {
-	    Logger.info('No AuthenticatedUser found with this name: ' + name);
+	    Logger.error('Error occured while looking for auth user: ' + err);
 	    return null;
 	}
     }

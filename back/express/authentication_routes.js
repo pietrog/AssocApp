@@ -6,7 +6,6 @@ const { AuthAPI } = require('../components/authentication'),
 
 app.post('/login', async (req, res) => {
     //user object from the client side
-    console.log(req.body);
     const login = req.body.login;
     const password = req.body.password;
     

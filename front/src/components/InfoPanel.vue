@@ -1,7 +1,8 @@
 <template>
 <div id="info-panel" v-if="messages.length > 0">
   <ul>
-    <info v-for="item in messages" v-bind:message="item" />
+    <info v-for="item in messages"
+	  v-bind:message="item" />
   </ul>
 </div>
 </template>

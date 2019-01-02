@@ -1,8 +1,8 @@
 <template>
 <div id="login-main">
+  <h1>Identification</h1>
   <form>    
-    <h1>S'identifier</h1>
-    <table class="table">
+    <table class="">
       <tr>
 	<td><label>Adresse e-mail</label></td>
 	<td><input required type="text" v-model="user" /></td>
@@ -34,10 +34,8 @@ export default {
     methods: {
 	login: async function() {
 	    const res = await AuthService.authenticate(this.user, this.password);
-	    if (!res) {
-		this.message = AuthService.getMessage();
-	    }
-	    else {
+	    this.message = AuthService.getMessage();
+	    if (res) {
 		this.$emit('authentication-success');		
 	    }
 	}
@@ -47,20 +45,17 @@ export default {
 
 <style scoped>
 #login-main {
-    background-color: #00539C;
-    margin: 0px;
-    padding: 0px;
+    /*background-color: #00539C;*/
+
     /*position: fixed;
     top: 0;
     left: 0;*/
-    width: 100%;
-    height: 100%;
 
-    color: white;
+
+    /*color: white;*/
 }
 
 .error-identification {
-    background-color: red;
-    margin: 20px;
+    
 }
 </style>
