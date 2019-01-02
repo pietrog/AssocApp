@@ -31,7 +31,7 @@ import UserDetails from './UserDetails';
 import NewUser from './NewUser';
 const tools = require('./tools');
 
-const UserService = require('./UserService').service;
+const UserService = require('../services/UserService').service;
 const util = require('util');
 
 export default {
@@ -104,7 +104,10 @@ export default {
     },
 
     props: {
-	'messages': Array
+	'messages': { //info messages displayed in infopanel
+	    type: Array,
+	    required: true
+	}
     },
 
     mounted() {

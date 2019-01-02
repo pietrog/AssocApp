@@ -4,7 +4,7 @@
     <router-link v-if="isConnected" to="/calendar" class="base-button">Calendrier</router-link>
     <router-link v-if="isConnected" to="/photos" class="base-button">Galerie photo</router-link>
     <router-link v-if="!isConnected" to="/login" class="base-button">S'identifier</router-link>
-    <button v-if="isConnected" v-on:click="logout">Deconnecter</button>
+    <button class="" v-if="isConnected" v-on:click="logout">Deconnecter</button>
   </nav>
 </template>
 
@@ -20,20 +20,20 @@ export default {
 	},
     },
     props: {
-	"isConnected": Boolean
+	"isConnected": {
+	    type: Boolean,
+	    require: true
+	}
     }
 }
 </script>
 
 <style scoped>
 #control-panel {
-    background-color: #00539C;
+    /*background-color: #00539C;*/
     position: relative;
     top: 0;
     right: 0;
     left: 0;
 }
-
-  
-
 </style>

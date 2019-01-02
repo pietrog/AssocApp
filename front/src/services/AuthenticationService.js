@@ -2,7 +2,7 @@
 
 const util = require('util');
 
-const proxy = require('../components/BackServerProxy').proxy;
+const proxy = require('./BackServerProxy').proxy;
 
 class AuthenticationService extends proxy{
     

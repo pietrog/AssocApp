@@ -76,8 +76,8 @@
 import ListAdherentsLeft from './ListAdherentsLeft';
 import ListAdherentsRight from './ListAdherentsRight';
 const tools = require('./tools');
-const EventService = require('./EventService').service;
-const userService = require('./UserService').service;
+const EventService = require('../services/EventService').service;
+const userService = require('../services/UserService').service;
 
 const util = require('util');
 
@@ -109,7 +109,10 @@ export default {
 	}
     },
     props: {
-	'messages': Array
+	'messages': { //info messages displayed in infopanel
+	    type: Array,
+	    required: true
+	}	
     },
     methods: {
 	saveEvent: async function() {

@@ -44,7 +44,7 @@ require("vue-simple-calendar/static/css/default.css");
 require("vue-simple-calendar/static/css/holidays-us.css");
 let util = require('util');
 
-const EventService = require('./EventService').service;
+const EventService = require('../services/EventService').service;
 
 export default {
     name: 'calendar',
@@ -94,7 +94,10 @@ export default {
 	}
     },
     props: {
-	'messages': Array
+	'messages': { //info messages displayed in infopanel
+	    type: Array,
+	    required: true
+	}
     },
 
     mounted: async function() {

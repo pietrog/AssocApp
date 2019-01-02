@@ -38,13 +38,18 @@
 </template>
 
 <script>
-const UserService = require('./UserService').service;
+const UserService = require('../services/UserService').service;
 const tools = require('./tools');
 const util = require('util');
 
 export default {
     name: 'user-details',
-    props: ['user'],
+    props: {
+	'user': {
+	    type: Object,
+	    require: true
+	}
+    },
     methods: {
 	//hide details vue when user clicks on back user details div
 	hide: function(event) {

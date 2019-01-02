@@ -25,7 +25,7 @@
 
 <script>
 const tools = require('./tools');
-const EventService = require('./EventService').service;
+const EventService = require('../services/EventService').service;
 
 export default {
     name: 'event-details',
@@ -38,8 +38,14 @@ export default {
 	}
     },
     props: {
-	'event': Object,
-	'messages': Array
+	'event': { 
+	    type: Object,
+	    required: true
+	},
+	'messages': { //info messages displayed in infopanel
+	    type: Array,
+	    required: true
+	}
     },
     methods: {
 	//hide details vue when user clicks on back user details div

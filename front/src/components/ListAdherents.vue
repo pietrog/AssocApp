@@ -29,7 +29,7 @@ import OneAdherent from './OneAdherent'
 export default {
     name: 'list-adherents',
     props: {
-	'users': {type: Array, default: []},
+	'users': {type: Array, require: true, default: []},
 	'stringFilter': {type: String, default: ""},
 	'dateFilter': {type: Number, default: 0},
 	'read-only': {type: Boolean, default: true}

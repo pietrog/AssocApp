@@ -3,10 +3,8 @@
   <control-panel
     v-bind:isConnected="isConnected"
     v-on:logout="logout"/>
-  <transition name="fade" mode="out-in">
-    <router-view class="router-main-view" v-bind:messages="messages" v-on:authentication-success="connectUser"/>
-  </transition>
-  <contact-panel/>
+  <router-view class="router-main-view" v-bind:messages="messages" v-on:authentication-success="connectUser"/>
+
   <info-panel v-bind:messages="messages"/>
 </div>
 </template>
@@ -77,7 +75,6 @@ export default {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
 }
 
 /* Global body style */
@@ -97,20 +94,20 @@ a {
 
 /* Button base style */ 
 .base-button {
-    color: white;
+    /*color: white;*/
     width: 15%;
     text-align: center;
 }
 base-button:hover {
-    background-color: white;
+    /*background-color: white;*/
     text-decoration: none;
     zoom: 1.05;
 }
 
 /* CSS default class for router-link when active */
 .router-link-active {
-    background-color: #FFD662;
-    color: #00539C;
+    /*background-color: #FFD662;
+    color: #00539C;*/
     text-decoration: none;
     zoom: 1.15;
 }
@@ -153,7 +150,7 @@ base-button:hover {
     left: 0%;
     right: 0%;
 
-    background-color: rgba(31, 31, 46, 0.5);
+    /*background-color: rgba(31, 31, 46, 0.5);*/
     /*filter: blur(5px);*/
 }
 
@@ -166,34 +163,24 @@ base-button:hover {
     left: 20%;
     right: 20%;
 
-    background-color: black;
-    color: white;
+    /*background-color: black;*/
+    /*color: white;*/
 }
 
 .hidden {
     display: none;
 }
 
+/* Base button */
 /* Class for float buttons  */
 .fixed-button {
-    background-color: #DD4132;
+    /*background-color: #DD4132;*/
     position: fixed;
     left: 10px;
-    border: 1px none black;
-    border-radius: 50px;
 }
 .fixed-button:hover {
-    background-color: white;
+    /*background-color: white;*/
     cursor: pointer;
-}
-
-
-.fade-enter-active, .fade-leave-active {
-    transition: opacity .3s;
-}
-
-.fade-enter, .fade-leave-to {
-    opacity: 0;
 }
 
 </style>

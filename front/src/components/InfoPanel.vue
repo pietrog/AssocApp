@@ -15,7 +15,11 @@ export default {
     },
     name: 'info-panel',
     props: {
-	'messages': Array
+	'messages': { //info messages displayed in infopanel
+	    type: Array,
+	    required: true
+	}
+
     }	
 }
 </script>

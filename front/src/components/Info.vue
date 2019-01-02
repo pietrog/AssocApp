@@ -8,7 +8,10 @@
 export default {
     name: 'info',
     props: {
-	'message': Object
+	'message': {
+	    type: Object,
+	    required: true
+	}
     }	
 }
 </script>

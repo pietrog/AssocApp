@@ -14,7 +14,10 @@
 export default {
     name: 'one-adherent-right',
     props: {
-	'adherent': Object,
+	'adherent': {
+	    type: Object,
+	    require: true
+	}
     }
 }
 </script>

@@ -31,7 +31,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#adherent {
+/*#adherent {
     background-color: coral;
 }
 
@@ -43,5 +43,5 @@ export default {
 .show-details {
     display: inline-block;
 }
-
+*/
 </style>
