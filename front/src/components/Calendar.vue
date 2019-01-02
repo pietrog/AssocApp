@@ -38,7 +38,7 @@
 
 <script>
 import NewCourse from './NewCourse';
-import VueSimpleCalendar from 'vue-simple-calendar';
+import {CalendarView, CalendarViewHeader} from 'vue-simple-calendar';
 import EventDetails from './EventDetails';
 require("vue-simple-calendar/static/css/default.css");
 require("vue-simple-calendar/static/css/holidays-us.css");
@@ -49,7 +49,8 @@ const EventService = require('../services/EventService').service;
 export default {
     name: 'calendar',
     components: {
-	VueSimpleCalendar,
+	CalendarView,
+	CalendarViewHeader,
 	NewCourse,
 	EventDetails
     },
