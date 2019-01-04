@@ -13,7 +13,7 @@ const getOneEntry = (title) => {
 module.exports.getOneEntry = getOneEntry;
 
 
-const getEntries = (startPubDate, startCreationDate) => {
-    return EntryDAL.getAllEntry(startPubDate, startCreationDate);
+const getEntries = (minPublicationDate, minCreationDate, maxExpiryDate) => {
+    return EntryDAL.getAllEntry(minPublicationDate, minCreationDate, maxExpiryDate);
 }
 module.exports.getEntries = getEntries;

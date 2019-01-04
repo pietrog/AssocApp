@@ -19,19 +19,19 @@ describe('Blog Component', function() {
 
     beforeEach( async () => {
 	await EntrySchema.deleteMany();
-	const start_pub_1 = (new Date(2020, 1, 20)).getTime();
-	const start_pub_2 = (new Date(2020, 2, 20)).getTime();
-	const start_pub_3 = (new Date(2020, 3, 20)).getTime();
+	const pub_1 = (new Date(2020, 1, 20)).getTime();
+	const pub_2 = (new Date(2020, 2, 20)).getTime();
+	const pub_3 = (new Date(2020, 3, 20)).getTime();
 
-	const start_exp_1 = (new Date(2020, 4, 20)).getTime();
-	const start_exp_2 = (new Date(2020, 5, 20)).getTime();
-	const start_exp_3 = (new Date(2020, 6, 20)).getTime();
+	const exp_1 = (new Date(2020, 4, 20)).getTime();
+	const exp_2 = (new Date(2020, 5, 20)).getTime();
+	const exp_3 = (new Date(2020, 6, 20)).getTime();
 	//insert few events
 	//order is on priority and creation date, so it should be: pub3, pub1H, pub1, pub2
-	const entry1h = await EntryAPI.createNewEntry("pub1H", start_pub_1, start_exp_1, "desc 1", 1);
-	const entry1 = await EntryAPI.createNewEntry("pub1", start_pub_1, start_exp_1, "desc 1", 2);
-	const entry2 = await EntryAPI.createNewEntry("pub2", start_pub_2, start_exp_2, "desc 2", 3);
-	const entry3 = await EntryAPI.createNewEntry("pub3", start_pub_3, start_exp_3, "desc 3", 1);
+	const entry1h = await EntryAPI.createNewEntry("pub1H", pub_1, exp_1, "desc 1", 1);
+	const entry1 = await EntryAPI.createNewEntry("pub1", pub_1, exp_1, "desc 1", 2);
+	const entry2 = await EntryAPI.createNewEntry("pub2", pub_2, exp_2, "desc 2", 3);
+	const entry3 = await EntryAPI.createNewEntry("pub3", pub_3, exp_3, "desc 3", 1);
     });
 
     
@@ -111,7 +111,7 @@ describe('Blog Component', function() {
 	    assert(entry1 === null, "expects entry not to be created");
 	});
 
-	it('should return the 3 events inserted in database', async () => {
+	it('should return the 4 events inserted in database and well ordered', async () => {
 	    const entries = await EntryAPI.getEntries();
 
 	    assert.equal(entries.length, 4, "expects 3 entries to be returned");
@@ -120,7 +120,56 @@ describe('Blog Component', function() {
 	    assert.equal(entries[2].title, "pub1", "expects third entry to be pub3");
 	    assert.equal(entries[3].title, "pub2", "expects third entry to be pub3");
 	});
-	
+
+	it('should return the 2 events given a minimum publication date', async () => {
+	    const minPublicationDate = (new Date(2020, 2, 20)).getTime();
+	    const entries = await EntryAPI.getEntries(minPublicationDate, null, null);
+
+	    assert.equal(entries.length, 2, "expects 2 entries to be returned");
+	    assert.equal(entries[0].title, "pub3", "expects first entry to be pub1");
+	    assert.equal(entries[1].title, "pub2", "expects second entry to be pub2");
+	});
+
+	it('should return the 1 event given a minimum publication date', async () => {
+	    const minPublicationDate = (new Date(2020, 2, 21)).getTime();
+	    const entries = await EntryAPI.getEntries(minPublicationDate, null, null);
+
+	    assert.equal(entries.length, 1, "expects 1 entry to be returned");
+	    assert.equal(entries[0].title, "pub3", "expects first entry to be pub1");
+	});
+
+	it('should return the 3 events given a maximum expiry', async () => {
+	    const maxExpiryDate = (new Date(2020, 5, 21)).getTime();
+	    
+	    const entries = await EntryAPI.getEntries(null, null, maxExpiryDate);
+	    
+	    assert.equal(entries.length, 3, "expects 3 entries to be returned");
+	    assert.equal(entries[0].title, "pub1H", "expects first entry to be pub1");
+	    assert.equal(entries[1].title, "pub1", "expects first entry to be pub1");
+	    assert.equal(entries[2].title, "pub2", "expects first entry to be pub1");
+	});
+
+	it('should return the 2 events given a maximum expiry', async () => {
+	    const maxExpiryDate = (new Date(2020, 5, 19)).getTime();
+	    
+	    const entries = await EntryAPI.getEntries(null, null, maxExpiryDate);
+	    
+	    assert.equal(entries.length, 2, "expects 2 entries to be returned");
+	    assert.equal(entries[0].title, "pub1H", "expects first entry to be pub1");
+	    assert.equal(entries[1].title, "pub1", "expects first entry to be pub1");
+	});
+
+	it('should return the 1 event given a minimum publication date and a maximum expiry', async () => {
+	    const minPublicationDate = (new Date(2020, 1, 21)).getTime();
+	    const maxExpiryDate = (new Date(2020, 5, 20)).getTime();
+	    
+	    const entries = await EntryAPI.getEntries(minPublicationDate, null, maxExpiryDate);
+	    
+	    assert.equal(entries.length, 1, "expects 1 entry to be returned");
+	    assert.equal(entries[0].title, "pub2", "expects first entry to be pub1");
+	});
+
+
     });
     
 })

@@ -64,37 +64,27 @@ class EntryDAL {
 
     /**
      * 
-     * @param {Object} [startPubDate] Get all entries having a publication date greater of equal to this date
-     * @param {Object} [startCreationDate] Get all entries having a creation date greater of equal to this date
+     * @param {number} [minPublicationDate] Get all entries having a publication date greater or equal to minPublicationDate
+     * @param {number} [minCreationDate] Get all entries having a creation date greater or equal to minCreationDate
+     * @param {number} [maxExpiryDate] Get all entries having an expiry date less or equal to maxExpiryDate
      */
-    async getAllEntry(startPubDate, startCreationDate) {
+    async getAllEntry(minPublicationDate, minCreationDate, maxExpiryDate) {
 
-	const date_selector = null;
-	if (startPubDate != null && startCreationDate != null) {
-	    assert.equal(typeof(startPubDate), 'number', 'Start pub date should be a number');
-	    assert.equal(typeof(startCreationDate), 'number', 'Start creation date should be a number');
-	    
-	    date_selector = {
-		"$and": [
-		    {
-			"publication_date": { "gt": startPubDate },
-			"creation_date": { "gt": startCreationDate },
-		    }
-		]
-	    };
+	const query = {};
+	if (minPublicationDate != null) {
+	    assert.equal(typeof(minPublicationDate), 'number', 'Start pub date should be a number');
+	    query.publication_date = { $gte: minPublicationDate };
 	}
-	else if (startPubDate != null) {
-	    date_selector = {
-		"publication_date": { "gt": startPubDate }
-	    };
+	if (minCreationDate != null) {
+	    assert.equal(typeof(minCreationDate), 'number', 'Start creation date should be a number');
+	    query.creation_date = { $gte: minCreationDate };	
 	}
-	else if (startCreationDate != null) {
-	    date_selector = {
-		"creation_date": { "gt": startCreationDate }
-	    };
+	if (maxExpiryDate != null){
+	    assert.equal(typeof(maxExpiryDate), 'number', 'maxExpiry should be a number');
+	    query.expiry_date = { $lte: maxExpiryDate };
 	}
-	
-	const found = await EntrySchema.find(date_selector, null, { sort: { priority: 1, creation_date: -1 }});
+
+	const found = await EntrySchema.find(query, null, { sort: { priority: 1, creation_date: -1 }});
 	Logger.info(found.length + ' entries found');
 	return found;	
     }
