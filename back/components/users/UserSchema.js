@@ -37,27 +37,27 @@ function list_email_validation(email_array)
 let UserSchema = new Schema({
     firstname: {
 	type: String,
-	require: true,
+	required: true,
 	validate: name_validation
     },
     lastname: {
 	type: String,
-	require: true,
+	required: true,
 	validate: name_validation
     },
     inscription_date: {
 	type: Number,
-	require: true,
+	required: true,
 	default: (new Date(Date.now())).getTime()
     },
     role: {
 	type: String,
-	require: true,
+	required: true,
 	validate: role_validation
     },
     birthdate: {
 	type: Number,
-	require: true
+	required: true
     },
     emails: {
 	type: [String],

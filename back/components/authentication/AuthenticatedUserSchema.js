@@ -16,20 +16,20 @@ function email_validation(email)
 const AuthenticatedUserSchema = new Schema({
     login: {
 	type: String,
-	require: true,
+	required: true,
 	validate: login_validation
     },
     hash: {
 	type: String,
-	require: true
+	required: true
     },
     isAdmin: {
 	type: Boolean,
-	require: true
+	required: true
     },
     email: {
 	type: String,
-	require: true,
+	required: true,
 	validate: email_validation
     }
 });

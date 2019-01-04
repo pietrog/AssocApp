@@ -14,23 +14,23 @@ function date_validation(val) {
 const EventSchema = new Schema({
     name: {
 	type: String,
-	require: true,
+	required: true,
 	validate: name_validation
     },
     description: {
 	type: String,
-	require: true
+	required: true
     },
     // begin date of the event
     begin_date: {
 	type: Number,
-	require: true,
+	required: true,
 	validate: date_validation
     },
     // end date of the event
     end_date: {
 	type: Number,
-	require: true,
+	required: true,
 	validate: date_validation
     },
     // date when the event was added
@@ -41,12 +41,12 @@ const EventSchema = new Schema({
     // CSS Style for the event (backround-color, color, ...)
     style: {
 	type: String,
-	require: false
+	required: false
     },
     //List of users able to take the course
     user_list: {
 	type: [ Schema.Types.ObjectId ],
-	require: false
+	required: false
     },
 });
 
