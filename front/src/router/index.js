@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import ListAllAdherents from '../components/ListAllAdherents'
 import Calendar from '../components/Calendar';
-import Photos from '../components/Photos';
+import Blog from '../components/Blog';
 import Login from '../components/Login';
 import Welcome from '../components/Welcome';
 const AuthService = require( '../services/AuthenticationService').service;
@@ -29,9 +29,9 @@ const routes = [
 	component: Calendar
     },
     {
-	path: '/photos',
-	name: 'Photos',
-	component: Photos
+	path: '/blog',
+	name: 'Blog',
+	component: Blog
     },
     {
 	path: '/login',

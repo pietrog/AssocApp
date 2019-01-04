@@ -2,7 +2,7 @@
   <nav id="control-panel" v-if="isConnected" class="group">
     <router-link v-if="isConnected" to="/users" class="base-button">Adhérents</router-link>
     <router-link v-if="isConnected" to="/calendar" class="base-button">Calendrier</router-link>
-    <router-link v-if="isConnected" to="/photos" class="base-button">Galerie photo</router-link>
+    <router-link v-if="isConnected" to="/blog" class="base-button">Blog</router-link>
     <button class="" v-if="isConnected" v-on:click="$emit('logout')">Deconnecter</button>
   </nav>
 </template>

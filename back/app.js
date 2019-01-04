@@ -8,6 +8,7 @@ const bodyParser  = require('body-parser');
 
 const userRoutes = require('./express/user_routes');
 const eventRoutes = require('./express/event_routes');
+const blogRoutes = require('./express/blog_routes');
 const authenticationMiddle = require('./express/authentication');
 const authenticationRoutes = require('./express/authentication_routes');
 const util = require('util');
@@ -24,6 +25,7 @@ app.use('/admin', authenticationRoutes);
 app.use(authenticationMiddle);
 app.use('/users', userRoutes);
 app.use('/events', eventRoutes);
+app.use('/blog', blogRoutes);
 
 app.get('*', (req, res) => {
     console.log('default route: ' + req.originalUrl /*+ util.inspect(req)*/);
