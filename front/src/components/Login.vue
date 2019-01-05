@@ -20,7 +20,7 @@
 </template>
 
 <script lang='js'>
-const AuthService = require('../services/AuthenticationService').service;
+import AuthService from '../services/AuthenticationService';
 
 export default {
     name: 'login',
@@ -36,7 +36,8 @@ export default {
 	    const res = await AuthService.authenticate(this.user, this.password);
 	    this.message = AuthService.getMessage();
 	    if (res) {
-		this.$emit('authentication-success');		
+		this.$store.commit('connect');
+		this.$router.replace('Welcome');
 	    }
 	}
     }

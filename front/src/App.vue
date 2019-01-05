@@ -1,11 +1,7 @@
 <template>
 <div id="app">
-  <control-panel
-    v-bind:isConnected="isConnected"
-    v-on:logout="logout"/>
-  <router-view class="router-main-view" v-bind:messages="messages"
-	       v-on:authentication-success="connectUser"
-	       />
+  <control-panel />
+  <router-view class="router-main-view" v-bind:messages="messages"/>
 
   <info-panel v-bind:messages="messages"/>
 </div>
@@ -16,7 +12,6 @@ import ControlPanel from './components/ControlPanel'
 import ContactPanel from './components/ContactPanel'
 import ListAllAdherents from './components/ListAllAdherents';
 import InfoPanel from './components/InfoPanel.vue';
-const AuthService = require('./services/AuthenticationService').service;
 
 export default {
     name: 'app',
@@ -29,8 +24,7 @@ export default {
     data: function() {
 	return {
 	    messages: [],
-	    timeoutMessages: 5000,
-	    isConnected: JSON.parse(localStorage._isAuthenticated)
+	    timeoutMessages: 5000
 	};
     },
     methods: {
@@ -44,19 +38,7 @@ export default {
 		setTimeout(() => {
 		    this.shiftMessages();
 		}, this.timeoutMessages);
-	},
-	connectUser: function() {
-	    //receive signal from Login vue
-	    this.isConnected = true;
-	    console.log(this.$router);
-	    this.$router.replace('welcome');
-	},
-	logout: function() {
-	    AuthService.logout();
-	    this.isConnected = false;
-	    this.$router.replace('/login');
-	}
-	
+	}	
     },
     beforeUpdate() {
 	this.purgeMessages();

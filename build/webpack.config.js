@@ -77,7 +77,9 @@ module.exports = {
 	    {
 		test: /\.js$/,
 		exclude: /(node_modules|bower_components)/,
-		use: { loader: 'babel-loader' }
+		use: {
+		    loader: 'babel-loader'
+		}
 	    },
 	    {
 		test: /\.(sa|sc|cs)s$/,

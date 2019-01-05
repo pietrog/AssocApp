@@ -2,7 +2,7 @@
   <h2>Bienvenue {{user}}</h2>
 </template>
 <script>
-const AuthService = require('../services/AuthenticationService').service;
+import AuthService from '../services/AuthenticationService';
 
 export default {
     name: 'welcome',

@@ -4,16 +4,19 @@ const util = require('util');
 
 const proxy = require('./BackServerProxy').proxy;
 
+import store from '../store';
+
 class AuthenticationService extends proxy{
     
     constructor() {
 	super('/admin');
+
+	if (localStorage._token) {
+	    console.log('user may be already connected');
+	    store.commit('connect');
+	}
     }
 
-    isAuthenticated() {	
-	return localStorage._isAuthenticated;
-    }
-    
     getUser() {
 	return localStorage._userLogin;
     }
@@ -45,7 +48,6 @@ class AuthenticationService extends proxy{
 		localStorage._userLogin = loggedUser.login;
 		localStorage._token = loggedUser.token;
 		localStorage._loginDate = new Date(Date.now());
-		localStorage._isAuthenticated = true;
 		localStorage._isAdmin = loggedUser.isAdmin;
 		localStorage._email = loggedUser.email;
 		return true;
@@ -67,10 +69,11 @@ class AuthenticationService extends proxy{
 	localStorage._token = null;
 	localStorage._loginDate = null;
 	localStorage._email = null;
-	localStorage._isAuthenticated = false;
 	localStorage._isAdmin = false;
     }
     
 };
 
-module.exports.service = new AuthenticationService();
+const service = new AuthenticationService();
+
+export default service;

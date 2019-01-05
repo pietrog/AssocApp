@@ -1,11 +1,16 @@
+'use strict';
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import ListAllAdherents from '../components/ListAllAdherents'
+
+import store from '../store';
+
 import Calendar from '../components/Calendar';
 import Blog from '../components/Blog';
 import Login from '../components/Login';
 import Welcome from '../components/Welcome';
-const AuthService = require( '../services/AuthenticationService').service;
+import AuthService from '../services/AuthenticationService';
 
 const util = require('util');
 
@@ -46,9 +51,9 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.name === 'Login')
-	next();    
+	next()
     else {
-	if (JSON.parse(localStorage._isAuthenticated)) {
+	if (store.state.isConnected) {
 	    next();
 	}
 	else {
