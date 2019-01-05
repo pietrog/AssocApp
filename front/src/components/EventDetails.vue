@@ -42,10 +42,6 @@ export default {
 	    type: Object,
 	    required: true
 	},
-	'messages': { //info messages displayed in infopanel
-	    type: Array,
-	    required: true
-	}
     },
     methods: {
 	//hide details vue when user clicks on back user details div
@@ -68,11 +64,11 @@ export default {
 	},
 	deleteOneAndExit: async function() {
 	    const result = await EventService.deleteOneEvent(this.event._id);
-	    tools.sendMessage(this.messages, result);
+	    tools.sendMessage(this.$store, result);
 	},
 	deleteAllAndExit: async function() {
 	    const result = await EventService.deleteAllEventsByName(this.event.name);
-	    tools.sendMessage(this.messages, result);
+	    tools.sendMessage(this.$store, result);
 	}
 	
     }

@@ -15,13 +15,36 @@ export default {
 	Info
     },
     name: 'info-panel',
-    props: {
+    computed: {
 	'messages': { //info messages displayed in infopanel
 	    type: Array,
 	    required: true
 	}
 
-    }	
+    },
+    computed: {
+	messages() {
+	    return this.$store.state.messages;
+	}
+    },
+    data: function() {
+	return {
+	    timeoutMessages: 5000
+	};
+    },    
+    methods: {
+	purgeMessages: function() {
+	    if (this.$store.state.messages.length > 0)
+		setTimeout(() => {
+		    this.$store.commit('popMessage');
+		    this.purgeMessages();
+		}, this.timeoutMessages);
+	}	
+    },
+    beforeUpdate() {
+	this.purgeMessages();
+    }
+    
 }
 </script>
 

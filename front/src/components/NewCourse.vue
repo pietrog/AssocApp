@@ -108,12 +108,6 @@ export default {
 
 	}
     },
-    props: {
-	'messages': { //info messages displayed in infopanel
-	    type: Array,
-	    required: true
-	}	
-    },
     methods: {
 	saveEvent: async function() {
 	    //if this is a single or recurrent event
@@ -137,7 +131,7 @@ export default {
 	    else {
 		result = await EventService.createEvent(this.event);
 	    }
-	    tools.sendMessage(this.messages, result);
+	    tools.sendMessage(this.$store, result);
 	    this.$emit('hide-box', true);
 	},
 	addUsersInIDs: function() {

@@ -21,6 +21,7 @@ import Publication from './Publication';
 import NewEntry from './NewEntry';
 
 const BlogService = require('../services/BlogService').service;
+const tools = require('./tools');
 
 export default {
     name: 'blog',
@@ -38,11 +39,10 @@ export default {
 	getAllEntriesFromBack: async function() {
 	    try {
 		const res = await BlogService.getAllEntries();
-		console.log(res);
 		this.entries = res.data.data;
 	    }
 	    catch (err) {
-		this.messages.push({status: 1, content: "Vous devez vous identifier"});
+		tools.sendMessage(this.$store, {status: 1, content: "Vous devez vous identifier"});
 	    }
 	},
 	displayNewEntry: function() {
@@ -50,14 +50,8 @@ export default {
 	},
 	createEntry: async function(entry) {
 	    const res = await BlogService.createEntry(entry);
-	    console.log(res);
+	    tools.sendMessage(this.$store, res);
 	    this.displayedNewEntry = false;
-	}
-    },
-    props: {
-	'messages': { //info messages displayed in infopanel
-	    type: Array,
-	    required: true
 	}
     },
     mounted() {

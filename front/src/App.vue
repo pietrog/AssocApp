@@ -1,47 +1,24 @@
 <template>
 <div id="app">
   <control-panel />
-  <router-view class="router-main-view" v-bind:messages="messages"/>
+  
+  <router-view class="router-main-view"/>
 
-  <info-panel v-bind:messages="messages"/>
+  <info-panel/>
 </div>
 </template>
 
 <script lang='js'>
 import ControlPanel from './components/ControlPanel'
-import ContactPanel from './components/ContactPanel'
 import ListAllAdherents from './components/ListAllAdherents';
 import InfoPanel from './components/InfoPanel.vue';
 
 export default {
     name: 'app',
     components: {
-	ContactPanel,
 	ControlPanel,
 	ListAllAdherents,
 	InfoPanel
-    },
-    data: function() {
-	return {
-	    messages: [],
-	    timeoutMessages: 5000
-	};
-    },
-    methods: {
-	shiftMessages: function() {
-	    this.messages.shift();
-	    if (this.messages.length > 0)
-		this.purgeMessages();	    
-	},
-	purgeMessages: function() {
-	    if (this.messages.length > 0)
-		setTimeout(() => {
-		    this.shiftMessages();
-		}, this.timeoutMessages);
-	}	
-    },
-    beforeUpdate() {
-	this.purgeMessages();
     }
 }
 </script>

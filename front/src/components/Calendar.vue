@@ -25,13 +25,11 @@
       v-if="hiddenBoxCourse === false"
       v-bind:events="events"
       v-on:hide-box="hideBoxCourse"
-      :messages="messages"
       />
     <event-details
       v-if="event"
       v-bind:event="event"
       v-on:hide-event-details="hideEventDetails"
-      :messages="messages"
       />
 </div>
 </template>
@@ -94,13 +92,6 @@ export default {
 	    this.event = null;
 	}
     },
-    props: {
-	'messages': { //info messages displayed in infopanel
-	    type: Array,
-	    required: true
-	}
-    },
-
     mounted: async function() {
 	const result = await EventService.getAllEvents();
 	this.events = result.data.data;

@@ -10,9 +10,9 @@ class AuthenticationService extends proxy{
     
     constructor() {
 	super('/admin');
-
-	if (localStorage._token) {
-	    console.log('user may be already connected');
+	
+	if (localStorage._token && localStorage._token != null) {
+	    console.log('user may be already connected: ' + localStorage._token);
 	    store.commit('connect');
 	}
     }

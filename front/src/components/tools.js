@@ -120,13 +120,13 @@ module.exports.moveEltWithinArrays = moveEltWithinArrays;
 /**
  * Extract status and data from http response from the back and build the InfoMessage corresponding
  */
-const sendMessage = (messageArray, response) => {
+const sendMessage = (store, response) => {
     //response should always contain status part and message part
     const message = {
 	status: response.data.status,
 	content: response.data.message
     };
-    messageArray.push(message);
+    store.commit('pushMessage', message);
     
 };
 module.exports.sendMessage = sendMessage;

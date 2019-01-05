@@ -72,12 +72,12 @@ export default {
 		this.users = res.data.data;
 	    }
 	    catch(err) {
-		this.messages.push({status: 1, content: 'Vous devez vous authentifier'});
+		tools.sendMessage(this.$store, {status: 1, content: 'Vous devez vous authentifier'});
 	    }
 	},
 	deleteUser: async function(id) {
 	    const result = await UserService.deleteUser(id);
-	    tools.sendMessage(this.messages, result);
+	    tools.sendMessage(this.$store, result);
 	    if (result.data.status === 0) {
 		const index = this.users.findIndex( elt => { return elt._id === id});	    
 		this.users.splice(index, 1);
@@ -88,7 +88,7 @@ export default {
 	},
 	createUser: async function(newUser) {
 	    let res = await UserService.createStudent(newUser);
-	    tools.sendMessage(this.messages, res);
+	    tools.sendMessage(this.$store, res);
 	    if (res.data.status === 0) {
 		newUser._id = res.data.data.id;
 		this.users.push(newUser);
@@ -101,13 +101,6 @@ export default {
 	ListAdherents,
 	UserDetails,
 	NewUser
-    },
-
-    props: {
-	'messages': { //info messages displayed in infopanel
-	    type: Array,
-	    required: true
-	}
     },
 
     mounted() {
