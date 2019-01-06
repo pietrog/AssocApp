@@ -6,7 +6,8 @@
   <ul v-if="entries && entries.length > 0">
     <publication v-for="current in entries"
 		 v-bind:entry="current"
-		 v-bind:key="current._id" />		 
+		 v-bind:key="current._id"
+		 v-on:delete-entry="deleteEntry"/>
   </ul>
 
   <new-entry v-if="displayedNewEntry"
@@ -50,8 +51,20 @@ export default {
 	},
 	createEntry: async function(entry) {
 	    const res = await BlogService.createEntry(entry);
+	    if (res.data.status === 0) {
+		console.log(res);
+		this.entries.push(entry);
+	    }
 	    tools.sendMessage(this.$store, res);
 	    this.displayedNewEntry = false;
+	},
+	deleteEntry: async function(id) {
+	    const result = await BlogService.deleteEntry(id);
+	    tools.sendMessage(this.$store, result);
+	    if (result.data.status === 0) {
+		const index = this.entries.findIndex( elt => { return elt._id === id});	    
+		this.entries.splice(index, 1);
+	    }
 	}
     },
     mounted() {

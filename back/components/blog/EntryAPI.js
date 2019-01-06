@@ -17,3 +17,8 @@ const getEntries = (minPublicationDate, minCreationDate, maxExpiryDate) => {
     return EntryDAL.getAllEntry(minPublicationDate, minCreationDate, maxExpiryDate);
 }
 module.exports.getEntries = getEntries;
+
+const removeEntryByID = (id) => {
+    return EntryDAL.removeOneEntry(id);
+};
+module.exports.removeEntryByID = removeEntryByID;

@@ -30,5 +30,16 @@ app.post('/addEntry', async (req, res) => {
     }
 });
 
+app.delete('/:id', async (req, res) => {
+    try {
+	const result = await BlogAPI.removeEntryByID(req.params.id);
+	const message = result.title + ' a été supprimé'
+	http_h.success(res, message);
+    }
+    catch (err) {
+	http_h.error(res, "La suppression a échouée"+err);
+    }
+});
+
 
 module.exports = app;

@@ -12,16 +12,17 @@ class EntryDAL {
     constructor() {}
 
     /**
-     *
+     * Return entry object identified by its title, shoule be unique
+     * @param {string} title entry title
+     * @returns {object} object found entry or null
      */
     getEntryByName(title) {
 	assert.equal(typeof(title), 'string', 'Title should be a string');
-
 	return EntrySchema.findOne({title: title});
     }
 
     /**
-     *
+     * Creates a new entry
      */
     async createNewEntry(title, publicationDate, expiryDate, message, priority, pictureArray, otherDocArray) {
 
@@ -89,7 +90,20 @@ class EntryDAL {
 	return found;	
     }
 
-    
+
+    /**
+     * Delete entry identified by id
+     * @param {object} id object id of the entry to delete
+     */
+    async removeOneEntry(id) {
+	const entry = await EntrySchema.find({_id: id});
+	if (entry.length === 0) {
+	    Logger.trace('Entry with id '+ id +' not found');
+	    return null;
+	}
+	Logger.trace('Entry ' + entry.title + ' removed');
+	return entry[0].remove();
+    }
     
 };
 
