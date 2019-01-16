@@ -1,53 +1,139 @@
 <template>
-<div id="back-popup-box" v-on:click="$emit('hide-box', true)">
-  <div id="popup-box" v-on:click.stop="">
-    Nouveau cours
-    <table>
-      <tr>
-	<td>Nom du cours</td>
-	<td><input v-model="event.title" /></td>
-      </tr>
-      <tr>
-	<td>Color</td>
-	<td>
-	  <input type="color" name="color" id="color" v-model="eventColor">
-	</td>
-      </tr>
-      <tr>
-	<td>Description</td>
-	<td><textarea type="text" v-model="event.description" /></td>
-      </tr>
-      <tr>
-	<td>Premier cours</td>
-	<td><input v-model="startDate" type="date"/>-<input v-model="startDateTime" type="time"/></td>
-      </tr>
-      <input type="checkbox" v-model="recurrentEvent">Récurrent</input>
-      <tr v-if="recurrentEvent">
-	<td>Date de fin</td>
-	<td><input v-model="endDate" type="date"/>-<input v-model="endDateTime" type="time"/></td>
-      </tr>    
-      <tr v-if="recurrentEvent">
-	<td>Occurence</td>
-	<td>
-	  Tous les 
-	  <select multiple="true" class="days" v-model="frequency">
-	    <option value="1">lundis</option>
-	    <option value="2">mardis</option>
-	    <option value="3">mercredis</option>
-	    <option value="4">jeudis</option>
-	    <option value="5">vendredis</option>
-	    <option value="6">samedis</option>
-	    <option value="0">dimanches</option>
-	  </select>
-	</td>
-      </tr>
-      <tr>
-	<td>Durée</td>
-	<td><input v-model="event.duration"/></td>
-      </tr>
-    </table>
+<b-modal ref="newCourseModal" hide-footer
+	 title="Création d'un évènement">
+  <b-form @submit="onSubmit">
 
-    <div class="group">
+    <!-- switch between single and multi events -->
+    <b-form-group horizontal
+		  label="Récurrent"
+		  label-class="font-weight-bold pt-0"
+		  >
+      <b-form-checkbox v-model="recurrentEvent" />
+    </b-form-group>
+
+    <!-- Event title -->
+    <b-form-group horizontal
+		  label="Nom du cours"
+		  label-class="font-weight-bold pt-0"
+		  >
+      <b-form-input type="text"
+		    required
+		    v-model="event.title"
+		    placeholder="Entrer le nom du cours">	
+      </b-form-input>
+    </b-form-group>
+
+    <!-- Event color in calendar -->
+    <b-form-group horizontal
+		  label="Couleur de l'évènement"
+		  label-class="font-weight-bold pt-0"
+		  >
+      <b-form-input type="color"
+		    required		    
+		    v-model="eventColor" >	
+      </b-form-input>
+    </b-form-group>
+
+    <!-- Event description -->
+    <b-form-group horizontal
+		  label="Description"
+		  label-class="font-weight-bold pt-0"
+		  >
+      <b-form-textarea required		    
+		       v-model="event.description"
+		       :rows="3"
+		       placeholder="Entrez la description"
+		       >	
+      </b-form-textarea>
+    </b-form-group>
+
+    <!-- First occurence -->
+    <b-card bg-variant="light">
+      <b-form-group label="Premier cours"
+		    label-class="font-weight-bold pt-0"
+		    >
+	
+	<b-form-group horizontal
+		      label-for="nestedDate"		    
+		      label="Date: ">
+	  <b-form-input id="nestedDate"
+			type="date"
+			required		    
+			v-model="startDate" >		    
+	  </b-form-input>
+	</b-form-group>
+	
+	<b-form-group horizontal
+		      label-for="nestedTime"		    
+		      label="Heure: ">	
+	  <b-form-input id="nestedTime"
+			type="time"
+			required		    
+			v-model="startDateTime"
+			placeholder="Entrer l'heure">	
+	  </b-form-input>
+	</b-form-group>
+	
+      </b-form-group>
+    </b-card>
+
+    <!-- Event duration in minutes -->
+    <b-form-group horizontal
+		  label="Durée (min)"
+		  label-class="font-weight-bold pt-0"
+		  >
+      <b-form-input type="number"
+		    required		    
+		    v-model="event.duration" >	
+      </b-form-input>
+    </b-form-group>
+
+    
+
+    <!-- End course -->
+    <b-card v-if="recurrentEvent"
+	    bg-variant="light">
+
+
+      <b-form-group label="Paramétrage de la récurrence"
+		    label-class="font-weight-bold pt-0"
+		    >
+
+	<!-- select the frequency -->
+	<b-form-group horizontal
+		      label="Tous les:"
+		      label-for="nestedFreq"
+		      >
+	  <b-form-select id="nestedFreq"
+			 multiple
+			 :options="weekFrequency"
+			 v-model="frequency" />
+	</b-form-group>
+	
+	<!-- last course date -->	
+	<b-form-group horizontal
+		      label="Jusqu'au:"
+		      label-for="nestedLastDate"
+		      >
+	  <b-form-input id="nestedLastDate"
+			type="date"
+			required		    
+			v-model="endDate"
+			placeholder="Entrer la date du dernier cours">	
+	  </b-form-input>
+	</b-form-group>
+	
+      </b-form-group>
+    </b-card>
+    
+    <b-button type="submit">Créer</b-button>
+
+  </b-form>
+</b-modal>
+
+
+
+    <!-- div class="group">
       <list-adherents-left
 	v-bind:users="usersIn"
 	v-bind:dateFilter="dateFilter"
@@ -65,11 +151,9 @@
 	class="left"
 	/>
 
-    </div>
+    </div -->
 
-    <button v-on:click="saveEvent">Créer</button>
-  </div>
-</div>
+
 </template>
 
 <script>
@@ -101,15 +185,22 @@ export default {
 	    startDate: "",
 	    startDateTime: "",
 	    endDate: "",
-	    endDateTime: "",
-
+	    weekFrequency: [
+		{ value: 1, text: "Lundi"},
+		{ value: 2, text: "Mardi"},
+		{ value: 3, text: "Mercredi"},
+		{ value: 4, text: "Jeudi"},
+		{ value: 5, text: "Vendredi"},
+		{ value: 6, text: "Samedi"},
+		{ value: 0, text: "Dimanche"},
+	    ],
 	    eventColor: "#AADD55",
 	    recurrentEvent: false
 
 	}
     },
     methods: {
-	saveEvent: async function() {
+	onSubmit: async function() {
 	    //if this is a single or recurrent event
 	    if (this.recurrentEvent) {
 		let freq = "";
@@ -118,7 +209,7 @@ export default {
 		});
 		let _freq = "* * * * " + freq.substr(0, freq.length-1);
 		this.event.frequency = _freq;
-		this.event.endDate = tools.toJSDate(this.endDate, this.endDateTime);
+		this.event.endDate = tools.toJSDate(this.endDate, "23:59");
 	    }
 	    this.event.startDate = tools.toJSDate(this.startDate, this.startDateTime);
 	    this.event.style = "background-color: "+this.eventColor;
@@ -149,6 +240,9 @@ export default {
 	getAllAdherentsFromBack: async function() {	    
 	    const res = await userService.getAllStudents();	    
 	    this.usersOut = res.data.data;
+	},
+	show: function() {
+	    this.$refs.newCourseModal.show();
 	}
 	
     },
@@ -161,14 +255,5 @@ export default {
     }
 }
 </script>
-<style scoped>
-.days {
-    font-size: 15px;
-}
-.left {
-    float: left;
-    width: 44%;
-    margin: 1vh;
-}
-
+<style>
 </style>

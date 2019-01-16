@@ -1,16 +1,16 @@
 <template>
-<tr id="adherent" v-on:click="$emit('send-user-details', adherent)">
-  <td>
+<b-tr id="adherent" v-on:click="$emit('send-user-details', adherent)">
+  <b-td>
     {{ adherent.firstname }}
-  </td>
-  <td>
+  </b-td>
+  <b-td>
     {{ adherent.lastname }}
-  </td>
-  <td>
+  </b-td>
+  <b-td>
     {{ adherent.birthdate | niceDate }}
-  </td>
-  <td><button  v-on:click.stop="$emit('delete-user', adherent._id)">X</button></td>
-</tr>
+  </b-td>
+  <b-td><button  v-on:click.stop="$emit('delete-user', adherent._id)">X</button></b-td>
+</b-tr>
 </template>
 
 <script>
@@ -30,18 +30,5 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-/*#adherent {
-    background-color: coral;
-}
-
-#adherent:hover {
-    background-color: white;
-    cursor: pointer;
-}
-
-.show-details {
-    display: inline-block;
-}
-*/
+<style>
 </style>

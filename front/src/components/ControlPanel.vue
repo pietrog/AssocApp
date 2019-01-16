@@ -1,10 +1,15 @@
 <template>
-  <nav id="control-panel" v-if="isConnected" class="group">
-    <router-link to="/users" class="base-button">Adhérents</router-link>
-    <router-link to="/calendar" class="base-button">Calendrier</router-link>
-    <router-link to="/blog" class="base-button">Blog</router-link>
-    <button class="" v-if="isConnected" v-on:click="logout">Deconnecter</button>
-  </nav>
+<b-navbar toggleable="md"  variant="warning" type="light" v-if="isConnected">
+  <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+  <b-collapse is-nav id="nav_collapse">
+    <b-navbar-nav>
+      <b-nav-item to="/users">Adhérents</b-nav-item>
+      <b-nav-item to="/calendar">Calendrier</b-nav-item>
+      <b-nav-item to="/blog">Blog</b-nav-item>
+      <b-button size="sm"  v-if="isConnected" v-on:click="logout">Se déconnecter</b-button>
+    </b-navbar-nav>
+  </b-collapse>
+</b-navbar>
 </template>
 
 <script>
@@ -28,12 +33,5 @@ export default {
 }
 </script>
 
-<style scoped>
-#control-panel {
-    /*background-color: #00539C;*/
-    position: relative;
-    top: 0;
-    right: 0;
-    left: 0;
-}
+<style>
 </style>

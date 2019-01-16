@@ -1,22 +1,36 @@
 <template>
-<div id="login-main">
-  <h1>Identification</h1>
-  <form>    
-    <table class="">
-      <tr>
-	<td><label>Adresse e-mail</label></td>
-	<td><input required type="text" v-model="user" /></td>
-      </tr>
-      <tr>
-	<td><label>Mot de passe</label></td>
-	<td><input required type="password" v-model="password"/></td>
-      </tr>
-    </table>
-    <hr/>
-    <h1 class="error-identification" v-if="message">{{message}}</h1>
-    <button type="submit" v-on:click="login">Soumettre</button>
-  </form>
-</div>
+<b-modal ref="loginModal" hide-footer title="Authentification">
+  
+  <b-form @submit="onSubmit"  >
+  
+    <b-form-group id="login-group"
+                  label="Login"
+                  label-for="exampleInput1">
+      <b-form-input id="login"
+		    type="text"
+		    v-model="user"
+		    required
+		    placeholder="Entrer le login" >
+      </b-form-input>
+      
+    </b-form-group>
+
+
+    <b-form-group id="password-group"
+                  label="Mot de passe"
+                  label-for="exampleInput2">
+      <b-form-input id="password"
+                    type="password"
+                    v-model="password"
+                    required
+                    placeholder="Mot de passe">
+      </b-form-input>
+    </b-form-group>
+    
+    <b-button type="submit" variant="primary">Submit</b-button>
+    <h1 v-if="message">{{message}}</h1>
+  </b-form>
+</b-modal>  
 </template>
 
 <script lang='js'>
@@ -32,6 +46,14 @@ export default {
 	};
     },
     methods: {
+	onSubmit: async function (event) {
+	    const res = await AuthService.authenticate(this.user, this.password);
+	    this.message = AuthService.getMessage();
+	    if (res) {
+		this.$store.commit('connect');
+		this.$router.replace('Welcome');
+	    }	    
+	},
 	login: async function() {
 	    const res = await AuthService.authenticate(this.user, this.password);
 	    this.message = AuthService.getMessage();
@@ -40,23 +62,13 @@ export default {
 		this.$router.replace('Welcome');
 	    }
 	}
+    },
+    mounted() {
+	this.$refs.loginModal.show();
     }
 }
 </script>
 
-<style scoped>
-#login-main {
-    /*background-color: #00539C;*/
+<style>
 
-    /*position: fixed;
-    top: 0;
-    left: 0;*/
-
-
-    /*color: white;*/
-}
-
-.error-identification {
-    
-}
 </style>

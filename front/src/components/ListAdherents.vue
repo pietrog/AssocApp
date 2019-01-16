@@ -1,38 +1,131 @@
 <template>
-<div id="iadherents-list" class="group">
-  <table id="iadherents-list-table">
-    <tr>
-      <th>Prénom</th>
-      <th>Nom</th>
-      <th v-if="!readOnly">Année de naissance</th>
-      <th v-if="!readOnly">Supprimer</th>
-    </tr>
-    <one-adherent
-      v-for="current in users"
-      v-if="filterUser(current)"
-      v-bind:adherent="current"
-      v-bind:key="current._id"
-      v-on:send-user-details="$emit('send-user-details', $event)"
-      v-on:delete-user="$emit('delete-user', $event)"
-      v-bind:read-only="readOnly"
-      v-on:move-left="$emit('move-left', $event)"
-      v-on:move-right="$emit('move-right', $event)"
-      >
-    </one-adherent>    
-  </table>  
-</div>
+<b-container fluid>
+  <b-row>
+    <b-col cols="6">
+      <b-form-group horizontal label="Nom" class="mb-0">
+        <b-input-group>
+          <b-form-input v-model="stringFilter" placeholder="Nom/Prénom" />
+          <b-input-group-append>
+            <b-btn :disabled="!stringFilter" @click="stringFilter = ''">Effacer</b-btn>
+          </b-input-group-append>
+        </b-input-group>
+      </b-form-group>
+    </b-col>
+  </b-row>
+  <b-row>
+    <b-col cols="6">
+      <b-form-group horizontal label="Date" class="mb-0">
+        <b-input-group>
+          <b-form-input v-model="dateFilter" placeholder="Date" />
+          <b-input-group-append>
+            <b-btn :disabled="!dateFilter" @click="dateFilter = ''">Effacer</b-btn>
+          </b-input-group-append>
+        </b-input-group>
+      </b-form-group>
+    </b-col>
+  </b-row>
+  <b-row>
+    <b-col md="6" class="my-1">
+      <b-form-group horizontal label="Per page" class="mb-0">
+        <b-form-select :options="[5, 10, 15]" v-model="perPage" />
+      </b-form-group>
+    </b-col>
+  </b-row>
+  
+  <b-row >
+    <b-col>
+      <b-table striped
+	       hover	       
+	       :sort-by.sync="sortBy"
+	       :sort-desc.sync="sortDesc"
+	       :filter="filterUser"
+	       responsive="true"
+	       head-variant="light"
+	       :items="users"
+	       :fields="fields"
+	       :per-page="perPage"
+	       :currentPage="currentPage"
+	       v-on:row-clicked="showDetails">
+
+	<!-- Delete button -->
+	<template slot="delete"
+		  slot-scope="data"
+		  >
+	  <b-button size="sm" v-on:click.stop="$emit('delete-user', data.item._id)">
+	    X
+	  </b-button>
+	  
+	</template>
+	
+      </b-table>
+    </b-col>
+  </b-row>
+  <b-row>
+    <b-col md="6" class="my-1">
+      <b-pagination :total-rows="users.length" :per-page="perPage" v-model="currentPage" class="my-0" />
+    </b-col>
+  </b-row>
+  
+  <new-user ref="editUserComponent"
+	    v-bind:users="users" />
+  
+</b-container>
 </template>
 
 <script>
-import OneAdherent from './OneAdherent'
+import NewUser from './NewUser'
+import tools from './tools';
 
 export default {
     name: 'list-adherents',
     props: {
-	'users': {type: Array, require: true, default: []},
-	'stringFilter': {type: String, default: ""},
-	'dateFilter': {type: Number, default: 0},
-	'read-only': {type: Boolean, default: true}
+	'users': {
+	    type: Array,
+	    required: true
+	}
+    },
+    data: function() {
+	return {
+	    fields: [
+		{
+		    key: "firstname",
+		    label: "Prénom",
+		    sortable: true
+		},
+				{
+		    key: "lastname",
+		    label: "Nom",
+		    sortable: true
+		},
+		{
+		    key: "birthdate",
+		    label: "Date de naissance",
+		    sortable: true,
+		    formatter: (value, key, item) => {
+			return tools.toInputDate(value);
+		    }
+		},
+		{
+		    key: "firstname",
+		    label: "Prénom"
+		},
+		{
+		    key: "show_details",
+		    label: "show_details"
+		},
+		{
+		    key: "delete",
+		    label: "Del",
+		    variant: "danger"
+		}
+	    ],
+	    stringFilter: "",
+	    dateFilter: 0,
+	    currentPage: 1,
+	    perPage: 10,
+	    sortDesc: false,
+	    sortBy: "lastname",
+	}
     },
     methods: {
 	filterUser: function(current) {
@@ -50,21 +143,21 @@ export default {
 
 	    return filterResult;
 	},
+	showDetails: function(item) {
+	    if (!item.birthdateHtml) {
+		item.birthdateHtml = tools.toInputDate(item.birthdate);
+	    }
+	    this.$refs.editUserComponent.show(item);
+	}
 
     },
-
     components: {
-	OneAdherent,
+	NewUser
     }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-#iadherents-list-table {
-    width: 100%;
-}
-
+<style>
 
 </style>

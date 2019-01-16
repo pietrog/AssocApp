@@ -1,26 +1,55 @@
 <template>
-<div id="back-popup-box" v-on:click="hide">
-  <div id="popup-box" v-on:click.stop="">
-    {{event.title}}
-    <table>
-      <tr>
-	<td>Nom de l'évènement</td>
-	<td><input v-model="event.title" /></td>
-      </tr>
-      <tr>
-	<td>Date de début</td>
-	<td><input v-model="startDateT" type="date" />-<input v-model="startDateTime" type="time"/></td>
-      </tr>
-      <tr>
-	<td>Date de fin</td>
-	<td><input v-model="endDateT" type="date"/>-<input v-model="endDateTime" type="time"/></td>
-      </tr>    
-    </table>
-    <button v-on:click="saveAndExit">Mise a jour</button>
-    <button v-on:click="deleteOneAndExit">Supprimer cet évènement</button>
-    <button v-on:click="deleteAllAndExit">Supprimer tous les évènements similaires</button>
-  </div>
-</div>
+<b-modal ref="eventDetailsModal" hide-footer
+	 title="Création d'un évènement">
+  <b-form @submit="onSubmit">
+    
+    <!-- switch between single and multi events -->
+    <b-form-group horizontal
+		  label="Nom"
+		  label-class="font-weight-bold pt-0"
+		  >
+      <b-form-input v-model="event.title" />
+    </b-form-group>
+
+    <!-- switch between single and multi events -->
+    <b-card>
+      
+      <b-form-group horizontal
+		    label="Date de début"
+		    label-class="font-weight-bold pt-0"
+		    >
+	<b-form-input type="date"
+		      v-model="startDateT" />
+	<b-form-input type="time"
+		      v-model="startDateTime" />
+	
+      </b-form-group>
+      
+    </b-card>
+
+    <!-- switch between single and multi events -->
+    <b-card>
+      
+      <b-form-group horizontal
+		    label="Date de fin"
+		    label-class="font-weight-bold pt-0"
+		    >
+	<b-form-input type="date"
+		      v-model="endDateT" />
+	<b-form-input type="time"
+		      v-model="endDateTime" />
+	
+      </b-form-group>
+      
+    </b-card>
+
+    <b-button type="submit">Mise à jour</b-button>
+    <b-button v-on:click="deleteOneAndExit">Supprimer une instance</b-button>
+    <b-button v-on:click="deleteAllAndExit">Supprimer toutes les instances</b-button>    
+    
+  </b-form>
+</b-modal>
+
 </template>
 
 <script>
@@ -44,12 +73,7 @@ export default {
 	},
     },
     methods: {
-	//hide details vue when user clicks on back user details div
-	hide: function(event) {
-	    if (event.srcElement.id === "back-popup-box")
-		this.$emit('hide-event-details')
-	},
-	saveAndExit: function() {
+	onSubmit: function() {
 	    const jsStartDate = tools.toJSDate(this.startDateT, this.startDateTime);
 	    const jsEndDate = tools.toJSDate(this.endDateT, this.endDateTime);
 	    if (!tools.validateStartEndDates(jsStartDate, jsEndDate))
@@ -69,12 +93,15 @@ export default {
 	deleteAllAndExit: async function() {
 	    const result = await EventService.deleteAllEventsByName(this.event.name);
 	    tools.sendMessage(this.$store, result);
+	},
+	show: function() {
+	    this.$refs.eventDetailsModal.show();
 	}
 	
     }
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

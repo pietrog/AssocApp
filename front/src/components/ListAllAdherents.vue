@@ -1,28 +1,24 @@
 <template>
-<div id="iadherents-all-list" class="group">
-  <button title="Ajouter un adhérent" class="fixed-button" v-on:click="displayNewUser">+</button>
-  Nom/Prénom: <input v-model="stringFilter"></input> <br/>
-  Année de naissance <input v-model="dateFilter" ></input>
+<b-container fluid>
+  <b-row>
+    <b-col cols="6">
+      <b-button label="Ajouter un adhérent"
+		v-on:click="showNewUser">Nouveau membre</b-button>
+    </b-col>
+  </b-row>
+
   <list-adherents
-    
     v-bind:users="users"
-    v-bind:dateFilter="dateFilter"
-    v-bind:stringFilter="stringFilter"
     v-on:send-user-details="setUser"
     v-on:delete-user="deleteUser"
-    v-bind:read-only="false"
     />
   <user-details v-bind:user="user"
 		v-bind:key="user._id"
-		v-bind:class="{'hidden': hiddenUserDetails}"
-		v-on:hide-user-details="hiddenUserDetails = true"
 		/>
-  <new-user v-if="displayedNewUser"
-	    v-on:save-user="createUser"
-	    v-on:hide-new-user="displayedNewUser = false"
-	    />
+  <new-user ref="newUserComponent"
+	    v-bind:users="users"/>
   
-</div>
+</b-container>
 </template>
 
 <script>
@@ -38,33 +34,16 @@ export default {
     name: 'list-all-adherents',
     data: function() {
 	return {
-	    stringFilter: "",
-	    dateFilter: 0,
 	    users: [],
 	    user: {},
-	    displayedNewUser: false,
-	    hiddenUserDetails: true
 	}
     },
     methods: {
+	showNewUser: function() {
+	    this.$refs.newUserComponent.show();
+	},
 	setUser: function(user) {
 	    this.user = user;
-	    this.hiddenUserDetails = false;
-	},
-	filterUser: function(current) {
-	    let filterResult = true;
-
-	    //filter on firstname and lastname
-	    if (this.stringFilter.length > 0) {
-		filterResult = current.firstname.toLowerCase().includes(this.stringFilter.toLowerCase()) ||
-		current.lastname.toLowerCase().includes(this.stringFilter.toLowerCase());
-	    }
-	    //filter on year of birth (inputed date will be greather)
-	    if (this.dateFilter && this.dateFilter > 1970 && this.dateFilter < 2020) {
-		filterResult &= current.birthdate.getFullYear() <= this.dateFilter;
-	    }
-	    
-	    return filterResult;
 	},
 	getAllAdherentsFromBack: async function() {
 	    try {
@@ -83,18 +62,6 @@ export default {
 		this.users.splice(index, 1);
 	    }
 	},
-	displayNewUser: function() {
-	    this.displayedNewUser = true;
-	},
-	createUser: async function(newUser) {
-	    let res = await UserService.createStudent(newUser);
-	    tools.sendMessage(this.$store, res);
-	    if (res.data.status === 0) {
-		newUser._id = res.data.data.id;
-		this.users.push(newUser);
-		this.displayedNewUser = false;
-	    }
-	}
     },
 
     components: {
@@ -111,11 +78,6 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-#iadherents-all-list {
-    float: left;
-    width: 98%;
-}
-
+<style>
 
 </style>

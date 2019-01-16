@@ -1,11 +1,19 @@
 <template>
-<div id="child-view" class="group">
-    <button class="fixed-button" v-on:click="hideBoxCourse(false)">+</button>
-    <select v-model="displayPeriodUom">
-      <option value="week">Semaine</option>
-      <option value="month">Mois</option>
-      <option value="year">Année</option>
-    </select>
+<b-container fluid>
+  <b-row>
+    <b-col cols="2">
+      <b-button v-on:click="showNewCourseModal()">+</b-button>
+    </b-col>
+  </b-row>
+  <b-row >
+    <b-col cols="2">
+      <b-form-select v-model="displayPeriodUom"
+		     :options="options"
+		     class="mb-3">
+      </b-form-select>      
+    </b-col>
+  </b-row>
+
     <div id="main-view" class="calendar-container">
       <calendar-view
 	:show-date="showDate"
@@ -21,17 +29,13 @@
 	<calendar-view-header slot="header" slot-scope="t" :header-props="t.headerProps" @input="setShowDate"/>
       </calendar-view>
     </div>
-    <new-course
-      v-if="hiddenBoxCourse === false"
-      v-bind:events="events"
-      v-on:hide-box="hideBoxCourse"
+    <new-course ref="newCourse"
+		v-bind:events="events" />
+    <event-details ref="eventDetails"
+		   v-if="event"
+		   v-bind:event="event"
       />
-    <event-details
-      v-if="event"
-      v-bind:event="event"
-      v-on:hide-event-details="hideEventDetails"
-      />
-</div>
+</b-container>
 </template>
 
 <script>
@@ -54,12 +58,16 @@ export default {
     },
     data: function() {
 	return {
-	    hiddenBoxCourse: true,
 	    showDate: new Date(),
 	    enableDragAndDrop: true,
 	    showEventTimes: false,
 	    displayPeriodUom: "month",
 	    displayPeriodCount: 1,
+	    options: [
+		{ value: "week", text: "Semaine"},
+		{ value: "month", text: "Mois"},
+		{ value: "year", text: "Année"}
+	    ],
 	    event: null,
 	    events: []
 	}
@@ -67,9 +75,6 @@ export default {
     methods: {
 	setShowDate: function(d) {
 	    this.showDate = d;
-	},
-	hideBoxCourse: function(hide) {
-	    this.hiddenBoxCourse = hide;
 	},
 	updateEvent: function(event) {
 	    //send update to server !
@@ -87,10 +92,15 @@ export default {
 	},
 	clickEvent: function(event) {
 	    this.event = event.originalEvent;
+	    this.showEventDetails();
 	},
-	hideEventDetails: function() {
-	    this.event = null;
+	showNewCourseModal: function() {
+	    this.$refs.newCourse.show();
+	},
+	showEventDetails: function() {
+	    this.$refs.eventDetails.show();
 	}
+
     },
     mounted: async function() {
 	const result = await EventService.getAllEvents();

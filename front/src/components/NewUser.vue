@@ -1,45 +1,69 @@
 <template>
-<div id="back-popup-box" v-on:click="hide">
-  <div id="popup-box" >
-    Ajout User
-    <table>
-      <tr>
-	<td>Prenom</td>
-	<td><input v-model="user.firstname" /></td>
-      </tr>
-      <tr>
-	<td>Nom de famille</td>
-	<td><input v-model="user.lastname" /></td>
-      </tr>
-      <tr>
-	<td>Date de naissance</td>
-	<td><input type="date" v-model="user.birthdate_html" /></td>
-      </tr>
-      <tr>
-	<td>Emails<button v-if="user.emails.length < 3" v-on:click="addElt(user.emails)">+</button></td>
-	<td>
-	  <ul v-for="(mail, index) in user.emails">
-	    <li><input type="email" v-model="user.emails[index]"/><button v-on:click="removeElt(user.emails, index)">-</button></li>
-	  </ul>
-	</td>
-      </tr>
-      <tr>
-	<td>Téléphones<button v-if="user.phone_number.length < 3" v-on:click="addElt(user.phone_number)">+</button></td>
-	<td>
-	  <ul v-for="(phone, index) in user.phone_number">
-	    <li><input type="tel" v-model="user.phone_number[index]"/><button v-on:click="removeElt(user.phone_number, index)">-</button></li>
-	  </ul>
-	</td>
-      </tr>
+<b-modal ref="newUserModal" hide-footer title="Ajout d'un membre">
+  <b-form @submit="onSubmit">
 
-    </table>
-    <button class= "base-button" v-on:click="saveAndExit">Ajouter</button>
-  </div>
-</div>
+    <!-- Prénom -->
+    <b-form-group label="Prénom">
+      <b-form-input type="text"
+		    required
+		    v-model="user.firstname"
+		    placeholder="Entrer le prénom">	
+      </b-form-input>
+    </b-form-group>
+
+    <!-- Nom de famille -->
+    <b-form-group label="Nom de famille">
+      <b-form-input type="text"
+		    required
+		    v-model="user.lastname"
+		    placeholder="Entrer le nom de famille">	
+      </b-form-input>
+    </b-form-group>
+
+    <!-- Birthdate -->
+    <b-form-group label="Date de naissance">
+      <b-form-input type="date"
+		    required		    
+		    v-model="user.birthdateHtml"
+		    placeholder="Entrer la date de naissance">	
+      </b-form-input>
+    </b-form-group>
+    
+
+    <!-- Emails -->
+    <b-form-group label="Email(s)">
+      <b-button v-if="user.emails.length < 3" v-on:click="addElt(user.emails)">+</b-button>
+      <div v-for="(mail, index) in user.emails">
+	<b-form-input type="text"		      
+		      v-model="user.emails[index]"
+		      placeholder="Entrer une adresse mail">	
+	</b-form-input>
+	<b-button v-on:click="removeElt(user.emails, index)">-</b-button>
+      </div>
+    </b-form-group>
+
+    <!-- Phones -->
+    <b-form-group label="Téléphone(s)">
+      <b-button v-if="user.phone_number.length < 3" v-on:click="addElt(user.phone_number)">+</b-button>
+      <div v-for="(mail, index) in user.phone_number">
+	<b-form-input type="text"		      
+		      v-model="user.phone_number[index]"
+		      placeholder="Entrer un numéro de téléphone">	
+	</b-form-input>
+	<b-button v-on:click="removeElt(user.phone_number, index)">-</b-button>
+      </div>
+    </b-form-group>
+
+    <b-button type="submit">{{buttonLabel}}</b-button>    
+  </b-form>
+</b-modal>
+
 </template>
 
 <script>
 const tools = require('./tools');
+
+const UserService = require('../services/UserService').service;
 
 export default {
     name: 'new-user',
@@ -48,33 +72,65 @@ export default {
 	    user: {
 		firstname: "",
 		lastname: "",
-		birthdate_html: "2005-01-01",
+		birthdateHtml: "2005-01-01",
 		emails: [],
 		phone_number: []
 	    },
+	    editUser: false,
+	    buttonLabel: "Ajouter"
+	}
+    },
+    props: {
+	"users": {
+	    type: Array,
+	    required: true
 	}
     },
     methods: {
-	//hide details vue when user clicks on back user details div
-	hide: function(event) {
-	    if (event.srcElement.id === "back-popup-box")
-		this.$emit('hide-new-user');
-	},
-	saveAndExit: async function() {
-	    let jsdate = tools.toJSDate(this.user.birthdate_html, "00:00");	    
+	onSubmit: async function() {
+	    //parse js date
+	    let jsdate = tools.toJSDate(this.user.birthdateHtml, "00:00");	    
 	    this.user.birthdate = jsdate.getTime();
-	    this.$emit('save-user', this.user);
+	    
+	    if (!this.editUser) this.createAndExit();
+	    else this.updateAndExit();
 	},
+
+	createAndExit: async function() {
+	    let res = await UserService.createStudent(this.user);
+	    tools.sendMessage(this.$store, res);
+
+	    if (res.data.status === 0) {
+		this.user._id = res.data.data;
+		this.users.push(this.user);
+	    }
+	},
+	updateAndExit: async function() {
+	    console.log('udpate');
+	    const res = await UserService.updateUser(this.user);
+	    console.log(res);
+	},
+
 	addElt: function(array) {
 	    array.push("");
 	},
 	removeElt: function(array, index) {
 	    array.splice(index, 1);
+	},
+	show: function(user) {
+
+	    if (user) {
+		this.user = user;
+		this.editUser = true;
+		this.buttonLabbel = "Appliquer"
+	    }
+	    this.$refs.newUserModal.show();
+
 	}
     }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 </style>

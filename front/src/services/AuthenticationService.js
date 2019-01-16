@@ -12,7 +12,7 @@ class AuthenticationService extends proxy{
 	super('/admin');
 
 	//if there is a token in the store, try to connect with it !
-	if (localStorage._token && localStorage._token != null) {
+	if (localStorage._token && localStorage._token != "null") {
 	    store.commit('connect');
 	}
     }
