@@ -31,27 +31,44 @@
     
 
     <!-- Emails -->
-    <b-form-group label="Email(s)">
-      <b-button v-if="user.emails.length < 3" v-on:click="addElt(user.emails)">+</b-button>
-      <div v-for="(mail, index) in user.emails">
-	<b-form-input type="text"		      
+    <b-form-group label="Email(s)"
+		  >
+      <b-button v-if="user.emails.length < 3"
+		v-on:click="addElt(user.emails)">
+	+
+      </b-button>
+      <b-input-group v-for="(mail, index) in user.emails"
+		     v-bind:key="user.emails[index]"
+		     label-for="nestedMail"
+		     label="">	
+	<b-form-input type="text"
+		      required
+		      id="nestedMail"
 		      v-model="user.emails[index]"
 		      placeholder="Entrer une adresse mail">	
 	</b-form-input>
-	<b-button v-on:click="removeElt(user.emails, index)">-</b-button>
-      </div>
+	<b-input-group-append>
+	  <b-button v-on:click="removeElt(user.emails, index)">-</b-button>
+	</b-input-group-append>
+      </b-input-group>
     </b-form-group>
 
     <!-- Phones -->
     <b-form-group label="Téléphone(s)">
       <b-button v-if="user.phone_number.length < 3" v-on:click="addElt(user.phone_number)">+</b-button>
-      <div v-for="(mail, index) in user.phone_number">
-	<b-form-input type="text"		      
+      <b-input-group v-for="(mail, index) in user.phone_number"
+		     v-bind:key="user.phone_number[index]"
+		     label-for="nestedPhone"
+		     label="">	
+	<b-form-input type="text"
+		      required
 		      v-model="user.phone_number[index]"
 		      placeholder="Entrer un numéro de téléphone">	
 	</b-form-input>
-	<b-button v-on:click="removeElt(user.phone_number, index)">-</b-button>
-      </div>
+	<b-input-group-append>
+	  <b-button v-on:click="removeElt(user.phone_number, index)">-</b-button>
+	</b-input-group-append>
+      </b-input-group>
     </b-form-group>
 
     <b-button type="submit">{{buttonLabel}}</b-button>    
@@ -94,6 +111,8 @@ export default {
 	    
 	    if (!this.editUser) this.createAndExit();
 	    else this.updateAndExit();
+
+	    this.$refs.newUserModal.hide();
 	},
 
 	createAndExit: async function() {
@@ -106,9 +125,7 @@ export default {
 	    }
 	},
 	updateAndExit: async function() {
-	    console.log('udpate');
 	    const res = await UserService.updateUser(this.user);
-	    console.log(res);
 	},
 
 	addElt: function(array) {

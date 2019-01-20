@@ -1,7 +1,52 @@
 <template>
-<div id="blog">
+  
+<b-container fluid>
+  <b-row>
+    <b-col>
+      
+      <b-button title="Ajouter une publication"
+		v-on:click="showNewEntry">
+	+
+      </b-button>
+      
+    </b-col>
+  </b-row>
+  <b-row>
+    <b-col>
+      
+      <b-table striped
+	       hover
+	       :sort-by.sync="sortBy"
+	       :sort-desc.sync="sortDesc"
+	       :items="entries"
+	       :fields="fields"
+	       :per-page="perPage"
+	       :currentPage="currentPage"
+	       v-on:row-clicked="showDetails">
 
-  <button title="Ajouter une publication" class="fixed-button" v-on:click="displayNewEntry">+</button>
+	<!-- delete button -->
+	<template slot="delete"
+		  slot-scope="data">
+	  <b-button size="sm"
+		    v-on:click.stop="deleteEntry(data.item._id)">
+	    X
+	  </b-button>
+	  
+	</template>
+	
+      </b-table>
+      
+    </b-col>
+  </b-row>
+  <new-entry ref="newEntry"
+	     v-bind:entries="entries"
+	     />
+  
+</b-container>
+  
+<!--div id="blog">
+
+
   <h1 v-if="!entries || entries.length == 0">Aucune publication</h1>
   <ul v-if="entries && entries.length > 0">
     <publication v-for="current in entries"
@@ -10,11 +55,8 @@
 		 v-on:delete-entry="deleteEntry"/>
   </ul>
 
-  <new-entry v-if="displayedNewEntry"
-	     v-on:hide-new-entry="displayedNewEntry = false"
-	     v-on:save-entry="createEntry"/>
   
-</div>
+</div -->
 </template>
 
 <script>
@@ -33,7 +75,41 @@ export default {
     data: function() {
 	return {
 	    entries: [],
-	    displayedNewEntry: false
+	    fields: [
+		{
+		    key: 'title',
+		    label: 'Titre',
+		    sortable: true
+		},
+		{
+		    key: 'publication_date',
+		    label: "Date de publication",
+		    sortable: true,
+		    formatter: (value, key, item) => {
+			return tools.toInputDate(value);
+		    }
+
+		},
+		{
+		    key: 'expiry_date',
+		    label: "Date de fin",
+		    sortable: true,
+		    formatter: (value, key, item) => {
+			return tools.toInputDate(value);
+		    }		    
+		},
+		
+		{
+		    key: 'delete',
+		    label: "DEL",
+		    variant: 'danger'
+		}
+	    ],
+	    perPage: 5,
+	    currentPage: 1,
+	    sortBy: 'expiry_date',
+	    sortDesc: false	    
+
 	}
     },
     methods: {
@@ -46,17 +122,8 @@ export default {
 		tools.sendMessage(this.$store, {status: 1, content: "Vous devez vous identifier"});
 	    }
 	},
-	displayNewEntry: function() {
-	    this.displayedNewEntry = true;
-	},
-	createEntry: async function(entry) {
-	    const res = await BlogService.createEntry(entry);
-	    if (res.data.status === 0) {
-		console.log(res);
-		this.entries.push(entry);
-	    }
-	    tools.sendMessage(this.$store, res);
-	    this.displayedNewEntry = false;
+	showNewEntry: function() {
+	    this.$refs.newEntry.show();
 	},
 	deleteEntry: async function(id) {
 	    const result = await BlogService.deleteEntry(id);
@@ -65,6 +132,8 @@ export default {
 		const index = this.entries.findIndex( elt => { return elt._id === id});	    
 		this.entries.splice(index, 1);
 	    }
+	},
+	showDetails: function() {
 	}
     },
     mounted() {
@@ -75,8 +144,4 @@ export default {
 </script>
 
 <style>
-#blog {
-    float: left;
-    width: 98%;
-}
 </style>

@@ -5,14 +5,14 @@
       <b-button v-on:click="showNewCourseModal()">+</b-button>
     </b-col>
   </b-row>
-  <b-row >
+  <!--b-row >
     <b-col cols="2">
       <b-form-select v-model="displayPeriodUom"
 		     :options="options"
 		     class="mb-3">
       </b-form-select>      
     </b-col>
-  </b-row>
+  </b-row-->
 
     <div id="main-view" class="calendar-container">
       <calendar-view

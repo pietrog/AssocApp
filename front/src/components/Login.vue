@@ -1,5 +1,8 @@
 <template>
-<b-modal ref="loginModal" hide-footer title="Authentification">
+<b-modal ref="loginModal"
+	 hide-footer
+	 centered
+	 title="Authentification">
   
   <b-form @submit="onSubmit"  >
   

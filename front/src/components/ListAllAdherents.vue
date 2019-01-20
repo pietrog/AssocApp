@@ -1,23 +1,25 @@
 <template>
 <b-container fluid>
   <b-row>
-    <b-col cols="6">
+    <b-col>
       <b-button label="Ajouter un adhérent"
 		v-on:click="showNewUser">Nouveau membre</b-button>
     </b-col>
   </b-row>
-
-  <list-adherents
-    v-bind:users="users"
-    v-on:send-user-details="setUser"
-    v-on:delete-user="deleteUser"
-    />
-  <user-details v-bind:user="user"
-		v-bind:key="user._id"
-		/>
-  <new-user ref="newUserComponent"
-	    v-bind:users="users"/>
-  
+  <b-row>
+    <b-col>
+      <list-adherents
+	v-bind:users="users"
+	v-on:send-user-details="setUser"
+	v-on:delete-user="deleteUser"
+	/>
+      <user-details v-bind:user="user"
+		    v-bind:key="user._id"
+		    />
+      <new-user ref="newUserComponent"
+		v-bind:users="users"/>
+    </b-col>
+  </b-row>
 </b-container>
 </template>
 
@@ -48,6 +50,10 @@ export default {
 	getAllAdherentsFromBack: async function() {
 	    try {
 		const res = await UserService.getAllStudents();
+		const users = res.data.data;
+		users.forEach((elt) => {
+		    elt.jsBirthdate = new Date(elt.birthdate);
+		});
 		this.users = res.data.data;
 	    }
 	    catch(err) {

@@ -8,7 +8,9 @@
   
   <b-row>
     <b-col>
-      <router-view class="router-main-view"></router-view>
+      <transition name="slide-fade">
+	<router-view class="router-main-view"></router-view>
+      </transition>
     </b-col>
   </b-row>
   
@@ -36,20 +38,13 @@ export default {
 
 <style>
 /* All elements base style*/
-/* * {
+* {
 
-    box-sizing: border-box;
-
-
-    font-size: 22px;
-    text-decoration: none;
-    text-align: center;
-    
+    font-size: 17px;
 
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}*/
-
+}
 
 </style>

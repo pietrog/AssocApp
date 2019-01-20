@@ -21,8 +21,16 @@ app.post('/addEntry', async (req, res) => {
     //user object from the client side
     const entry = req.body.entry;
     try {
-	const result = await BlogAPI.createNewEntry(entry.title, entry.publicationDate, entry.expiryDate,
-						     entry.message, entry.priority);
+	let pub_date = new Date(entry.publication_date);
+	pub_date = pub_date.getTime();
+	let exp_date = new Date(entry.expiry_date);
+	exp_date = exp_date.getTime();
+	
+	const result = await BlogAPI.createNewEntry(entry.title,
+						    pub_date,
+						    exp_date,
+						    entry.message,
+						    entry.priority);
 	http_h.success(res, "La publication " + result.title + " a été ajoutée au blog", result._id);
     }
     catch(err) {
