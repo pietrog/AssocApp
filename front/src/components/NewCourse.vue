@@ -199,6 +199,12 @@ export default {
 
 	}
     },
+    props: {
+	"events" : {
+	    type: Array,
+	    required: true
+	}
+    },
     methods: {
 	onSubmit: async function() {
 	    //if this is a single or recurrent event
@@ -222,8 +228,13 @@ export default {
 	    else {
 		result = await EventService.createEvent(this.event);
 	    }
+	    
+	    if (result.data.status === 0) {
+		this.events.push(this.event);
+	    }
+
 	    tools.sendMessage(this.$store, result);
-	    this.$emit('hide-box', true);
+	    this.$refs.newCourseModal.hide();
 	},
 	addUsersInIDs: function() {
 	    this.event.user_list = [];

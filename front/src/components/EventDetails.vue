@@ -43,10 +43,41 @@
       
     </b-card>
 
-    <b-button type="submit">Mise à jour</b-button>
-    <b-button v-on:click="deleteOneAndExit">Supprimer une instance</b-button>
-    <b-button v-on:click="deleteAllAndExit">Supprimer toutes les instances</b-button>    
-    
+    <b-row>
+      <b-col>
+	<b-button type="submit"
+		  variant="success">Mise à jour</b-button>
+      </b-col>
+    </b-row>
+    <b-btn v-b-toggle.collapse1
+	   variant="primary"
+	   size="sm">Options de suppression</b-btn>
+    <b-collapse id="collapse1" class="mt-2">
+      <b-card>
+	<b-row>
+	  <b-col>
+	    Supprimer une instance
+	  </b-col>
+	  <b-col>
+	    <b-button v-on:click="deleteOneAndExit"
+		      variant="danger"
+		      class="close"
+		      aria-label="close">X</b-button>
+	  </b-col>
+	</b-row>
+	<b-row>
+	  <b-col>
+	    Supprimer toutes les instances
+	  </b-col>
+	  <b-col>
+	    <b-button v-on:click="deleteAllAndExit"
+		      class="close"
+		      aria-label="close"
+		      variant="danger">X</b-button>
+	  </b-col>
+	</b-row>
+      </b-card>
+    </b-collapse>
   </b-form>
 </b-modal>
 
@@ -60,10 +91,10 @@ export default {
     name: 'event-details',
     data: function() {
 	return {
-	    startDateT: tools.toInputDate(this.event.startDate),
-	    endDateT: tools.toInputDate(this.event.endDate),
-	    startDateTime: tools.fromJSDateToInputTime(this.event.startDate),
-	    endDateTime: tools.fromJSDateToInputTime(this.event.endDate),
+	    startDateT: "2019-01-01",
+	    endDateT: "2019-01-01", 
+	    startDateTime: "10:00",
+	    endDateTime: "10:00"
 	}
     },
     props: {
@@ -95,9 +126,13 @@ export default {
 	    tools.sendMessage(this.$store, result);
 	},
 	show: function() {
+	    this.startDateT = tools.toInputDate(this.event.startDate);
+	    this.endDateT = tools.toInputDate(this.event.endDate);
+	    this.startDateTime = tools.fromJSDateToInputTime(this.event.startDate);
+	    this.endDateTime = tools.fromJSDateToInputTime(this.event.endDate);
+
 	    this.$refs.eventDetailsModal.show();
-	}
-	
+	}	
     }
 }
 </script>

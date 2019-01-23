@@ -26,14 +26,17 @@
 	v-on:click-event="clickEvent"
 	v-on:drop-on-date="dropOnDate"
 	>
-	<calendar-view-header slot="header" slot-scope="t" :header-props="t.headerProps" @input="setShowDate"/>
+	<calendar-view-header slot="header"
+			      slot-scope="t"
+			      :header-props="t.headerProps"
+			      @input="setShowDate"/>
       </calendar-view>
     </div>
     <new-course ref="newCourse"
 		v-bind:events="events" />
     <event-details ref="eventDetails"
-		   v-if="event"
 		   v-bind:event="event"
+		   
       />
 </b-container>
 </template>
@@ -68,7 +71,10 @@ export default {
 		{ value: "month", text: "Mois"},
 		{ value: "year", text: "Année"}
 	    ],
-	    event: null,
+	    event: {
+		startDate: new Date(Date.now()),
+		endDate: new Date(Date.now())
+	    },
 	    events: []
 	}
     },
@@ -105,6 +111,7 @@ export default {
     mounted: async function() {
 	const result = await EventService.getAllEvents();
 	this.events = result.data.data;
+	if (this.events.lenght > 0) this.event = this.events[0];
 	this.events.forEach((elt) => {
 	    elt.title = elt.name;
 	    elt.startDate = new Date(elt.begin_date);
@@ -115,7 +122,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .calendar-container {
     display: flex;
     flex-direction: column;

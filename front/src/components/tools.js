@@ -1,3 +1,5 @@
+const assert = require('assert');
+
 /**
  * Transforms a javascript date to an html input date
  * @param {date} object Javascript date object
@@ -130,3 +132,34 @@ const sendMessage = (store, response) => {
     
 };
 module.exports.sendMessage = sendMessage;
+
+
+/**
+ * Filters an array of string, returns true if one of them contains the value seeked
+ */
+const stringFilter = (in_array, filter) => {
+    assert(typeof(filter) === 'string', "expects filter to be a string");
+    assert(Array.isArray(in_array), "expects in_array to be an array");
+
+    if (filter.length=== 0)
+	return true;
+    
+    const _filter = filter.toLowerCase();
+    let res = false;
+    in_array.forEach((elt) => {
+	if (elt.toLowerCase().includes(_filter)) {
+	    res = true;
+	}
+    });
+
+    return res;
+}
+module.exports.stringFilter = stringFilter;
+
+
+const dateFilter = (date, filter) => {
+    if (filter > 1980 && filter < 2030)
+	return date.getFullYear() <= filter;
+    return true;
+};
+module.exports.dateFilter = dateFilter;

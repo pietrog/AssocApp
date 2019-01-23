@@ -3,9 +3,9 @@
 	  variant="primary"
 	  type="light"
 	  v-if="isConnected">
-  <b-nav-brand>
+  <b-navbar-brand>
     COMB TAEKWONDO
-  </b-nav-brand>
+  </b-navbar-brand>
   <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
   <b-collapse is-nav
 	      id="nav_collapse">

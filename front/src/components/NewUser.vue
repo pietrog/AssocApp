@@ -37,8 +37,7 @@
 		v-on:click="addElt(user.emails)">
 	+
       </b-button>
-      <b-input-group v-for="(mail, index) in user.emails"
-		     v-bind:key="user.emails[index]"
+      <b-input-group v-for="(mail, index) in user.emails"		     
 		     label-for="nestedMail"
 		     label="">	
 	<b-form-input type="text"
