@@ -1,6 +1,10 @@
 <template>
-<b-modal ref="newUserModal" hide-footer title="Ajout d'un membre">
-  <b-form @submit="onSubmit">
+<b-modal ref="newUserModal"
+	 hide-footer
+	 title="Ajouter un membre">
+  <b-form @submit="onSubmit"
+	  @reset="onReset"
+	  >
 
     <!-- Prénom -->
     <b-form-group label="Prénom">
@@ -31,47 +35,33 @@
     
 
     <!-- Emails -->
-    <b-form-group label="Email(s)"
+    <b-form-group label="Adresse e-mail"
 		  >
-      <b-button v-if="user.emails.length < 3"
-		v-on:click="addElt(user.emails)">
-	+
-      </b-button>
-      <b-input-group v-for="(mail, index) in user.emails"		     
-		     label-for="nestedMail"
-		     label="">	
-	<b-form-input type="text"
-		      required
-		      id="nestedMail"
-		      v-model="user.emails[index]"
-		      placeholder="Entrer une adresse mail">	
-	</b-form-input>
-	<b-input-group-append>
-	  <b-button v-on:click="removeElt(user.emails, index)">-</b-button>
-	</b-input-group-append>
-      </b-input-group>
+      <b-form-input type="text"
+		    v-model="email"
+		    placeholder="Entrer une adresse mail">	
+      </b-form-input>
     </b-form-group>
 
     <!-- Phones -->
-    <b-form-group label="Téléphone(s)">
-      <b-button v-if="user.phone_number.length < 3" v-on:click="addElt(user.phone_number)">+</b-button>
-      <b-input-group v-for="(mail, index) in user.phone_number"
-		     v-bind:key="user.phone_number[index]"
-		     label-for="nestedPhone"
-		     label="">	
-	<b-form-input type="text"
-		      required
-		      v-model="user.phone_number[index]"
-		      placeholder="Entrer un numéro de téléphone">	
-	</b-form-input>
-	<b-input-group-append>
-	  <b-button v-on:click="removeElt(user.phone_number, index)">-</b-button>
-	</b-input-group-append>
-      </b-input-group>
+    <b-form-group label="Téléphone">
+      <b-form-input type="text"
+		    v-model="phone"
+		    placeholder="Entrer un numéro de téléphone">	
+      </b-form-input>
     </b-form-group>
 
-    <b-button type="submit">{{buttonLabel}}</b-button>    
+    <b-button type="submit"
+	      variant="success"
+	      >Ajouter le membre</b-button>
+    <b-button type="reset"
+	      variant="danger"
+	      >Effacer</b-button>    
   </b-form>
+  <b-alert :show="showError"
+	   variant="danger">
+    {{error}}
+  </b-alert>
 </b-modal>
 
 </template>
@@ -88,12 +78,14 @@ export default {
 	    user: {
 		firstname: "",
 		lastname: "",
-		birthdateHtml: "2005-01-01",
+		birthdateHtml: "",
 		emails: [],
 		phone_number: []
 	    },
-	    editUser: false,
-	    buttonLabel: "Ajouter"
+	    email: "",
+	    phone: "",
+	    error: "",
+	    showError: false
 	}
     },
     props: {
@@ -108,40 +100,45 @@ export default {
 	    let jsdate = tools.toJSDate(this.user.birthdateHtml, "00:00");	    
 	    this.user.birthdate = jsdate.getTime();
 	    
-	    if (!this.editUser) this.createAndExit();
-	    else this.updateAndExit();
+	    this.createAndExit();
 
-	    this.$refs.newUserModal.hide();
+
+	},
+	onReset: function() {
+	    this.user.firstname = "";
+	    this.user.lastname = "";
+	    this.user.birthdateHtml = "";
+	    this.phone = "";
+	    this.email = "";
+	    this.error = null;
+	    this.showError = true;
 	},
 
 	createAndExit: async function() {
+	    if (this.email.length > 0)
+	    {
+		this.user.emails.push(this.email);
+	    }
+	    if (this.phone.length > 0)
+	    {
+		this.user.phone_number.push(this.phone);
+	    }
+	    
 	    let res = await UserService.createStudent(this.user);
-	    tools.sendMessage(this.$store, res);
-
+	    
 	    if (res.data.status === 0) {
+		tools.sendMessage(this.$store, res);
 		this.user._id = res.data.data;
 		this.users.push(this.user);
+		this.$refs.newUserModal.hide();
+	    }
+	    else {
+		this.error = res.data.message;
+		this.showError = true;
 	    }
 	},
-	updateAndExit: async function() {
-	    const res = await UserService.updateUser(this.user);
-	},
-
-	addElt: function(array) {
-	    array.push("");
-	},
-	removeElt: function(array, index) {
-	    array.splice(index, 1);
-	},
-	show: function(user) {
-
-	    if (user) {
-		this.user = user;
-		this.editUser = true;
-		this.buttonLabbel = "Appliquer"
-	    }
+	show: function() {
 	    this.$refs.newUserModal.show();
-
 	}
     }
 }

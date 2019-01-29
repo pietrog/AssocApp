@@ -38,6 +38,13 @@ app.post('/addEntry', async (req, res) => {
     }
 });
 
+app.post('/uploadFiles', async(req, res) => {
+    const data = req.files;
+    console.log('looook : ');
+    console.log(data);
+    http_h.success(res, "OKKKKK");
+});
+
 app.delete('/:id', async (req, res) => {
     try {
 	const result = await BlogAPI.removeEntryByID(req.params.id);

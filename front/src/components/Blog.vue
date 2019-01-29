@@ -3,17 +3,19 @@
 <b-container fluid>
   <b-row>
     <b-col>
-      
-      <b-button title="Ajouter une publication"
-		v-on:click="showNewEntry">
-	+
-      </b-button>
-      
+      <b-card title="Gestion du blog"
+	      class="mb-2"
+	      >
+	<b-button title="Ajouter une publication"
+		  v-on:click="showNewEntry">
+	  Nouvelle publication
+	</b-button>
+      </b-card>
     </b-col>
   </b-row>
+  
   <b-row>
-    <b-col>
-      
+    <b-col>      
       <b-table striped
 	       hover
 	       :sort-by.sync="sortBy"
@@ -43,20 +45,6 @@
 	     />
   
 </b-container>
-  
-<!--div id="blog">
-
-
-  <h1 v-if="!entries || entries.length == 0">Aucune publication</h1>
-  <ul v-if="entries && entries.length > 0">
-    <publication v-for="current in entries"
-		 v-bind:entry="current"
-		 v-bind:key="current._id"
-		 v-on:delete-entry="deleteEntry"/>
-  </ul>
-
-  
-</div -->
 </template>
 
 <script>

@@ -39,7 +39,7 @@ app.post('/addStudent', async (req, res) => {
 	http_h.success(res, user.firstname + " ajouté", result._id);
     }
     catch(err) {
-	http_h.error(res,  user.firstname + " " + user.lastname + " existe déjà");
+	http_h.error(res,  err + "");
     }
 });
 

@@ -25,6 +25,18 @@ class BackServerProxy {
 	return this._send_request('patch', path, data, config);
     }
 
+    _upload_files(path, file_array, config) {
+	let _config = config || {};
+	let data = new FormData();
+	file_array.forEach((f) => {
+	    data.append("files", f, f.name);
+	});
+	_config.headers = {
+            'Content-Type': 'multipart/form-data'
+	};
+	return this._send_request('post', path, data, _config);
+    }
+
     _send_request(method, path, data, config) {
 	const _config = config || {};
 	this._addTokenToHeaders(_config);

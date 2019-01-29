@@ -1,7 +1,7 @@
 <template>
-<b-modal ref="newEntryModal"
+<b-modal ref="entryDetailsModal"
 	 hide-footer
-	 title="Ajout d'une publication">
+	 title="Modification d'une publication">
   <b-form @submit="onSubmit">
     
     <!-- Publication title -->
@@ -47,11 +47,13 @@
 		  label-class="font-weight-bold pt-0"
 		  >
       <b-form-file v-model="files"
-		   multiple		   
-		   ref="fileInput"
-		   placeholder="Ajouter un fichier..."
-		   >
+		   multiple
+		   :state="files.lenght === 0"
+		   placeholder="Ajouter une image...">
       </b-form-file>
+      <div class="mt-3"
+	   v-for="f in files"
+	   >Photos: {{f.name}}</div>
     </b-form-group>
 
     
@@ -79,7 +81,7 @@ const tools = require('./tools');
 const BlogService = require('../services/BlogService').service;
 
 export default {
-    name: 'new-entry',
+    name: 'EntryDetails',
     props: {
 	"entries": {
 	    type: Array,
@@ -109,14 +111,12 @@ export default {
 	    this.entry.publication_date = tools.toJSDate(this.entry.publication_html, "00:00");
 	    this.entry.expiry_date = tools.toJSDate(this.entry.expiry_html, "00:00");
 
-	    //const res = await BlogService.createEntry(this.entry);
-	    const res_upload_files = await BlogService.uploadFilesEntry(this.files);
-	    console.log(res_upload_files);
-	    /*if (res.data.status === 0) {
+	    const res = await BlogService.createEntry(this.entry);
+	    if (res.data.status === 0) {
 		this.entries.push(this.entry);
 	    }
 	    tools.sendMessage(this.$store, res);
-	    this.$refs.newEntryModal.hide();*/
+	    this.$refs.newEntryModal.hide();
 	},
 	show: function() {
 	    this.$refs.newEntryModal.show();

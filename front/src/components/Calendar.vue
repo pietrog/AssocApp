@@ -1,43 +1,43 @@
 <template>
 <b-container fluid>
   <b-row>
-    <b-col cols="2">
-      <b-button v-on:click="showNewCourseModal()">+</b-button>
+    <b-col>
+      <b-card title="Gestion des cours"
+	      class="mb-2"
+	      >
+	<b-button v-on:click="showNewCourseModal()">Nouveau cours</b-button>
+      </b-card>
     </b-col>
   </b-row>
-  <!--b-row >
-    <b-col cols="2">
-      <b-form-select v-model="displayPeriodUom"
-		     :options="options"
-		     class="mb-3">
-      </b-form-select>      
-    </b-col>
-  </b-row-->
 
-    <div id="main-view" class="calendar-container">
-      <calendar-view
-	:show-date="showDate"
-	class="theme-default holiday-fr-traditional holiday-fr-official"
-	v-bind:events="events"
-	v-bind:displayPeriodUom="displayPeriodUom"
-	v-bind:displayPeriodCount="displayPeriodCount"
-	v-bind:enableDragDrop="enableDragAndDrop"
-	v-bind:showEventTimes="showEventTimes"
-	v-on:click-event="clickEvent"
-	v-on:drop-on-date="dropOnDate"
-	>
-	<calendar-view-header slot="header"
-			      slot-scope="t"
-			      :header-props="t.headerProps"
-			      @input="setShowDate"/>
-      </calendar-view>
-    </div>
-    <new-course ref="newCourse"
-		v-bind:events="events" />
-    <event-details ref="eventDetails"
-		   v-bind:event="event"
-		   
-      />
+  <b-row>
+    <b-col>
+      <div id="main-view" class="calendar-container">
+	<calendar-view
+	  :show-date="showDate"
+	  class="theme-default holiday-fr-traditional holiday-fr-official"
+	  v-bind:events="events"
+	  v-bind:displayPeriodUom="displayPeriodUom"
+	  v-bind:displayPeriodCount="displayPeriodCount"
+	  v-bind:enableDragDrop="enableDragAndDrop"
+	  v-bind:showEventTimes="showEventTimes"
+	  v-on:click-event="clickEvent"
+	  v-on:drop-on-date="dropOnDate"
+	  >
+	  <calendar-view-header slot="header"
+				slot-scope="t"
+				:header-props="t.headerProps"
+				@input="setShowDate"/>
+	</calendar-view>
+      </div>
+    </b-col>
+  </b-row>
+  <new-course ref="newCourse"
+	      v-bind:events="events" />
+  <event-details ref="eventDetails"
+		 v-bind:event="event"
+		 
+		 />
 </b-container>
 </template>
 

@@ -5,6 +5,7 @@ const express  = require('express'),
       output_folder = require('../build/webpack.config').output_folder;
 
 const bodyParser  = require('body-parser');
+const fileUpload = require('express-fileupload');
 
 const userRoutes = require('./express/user_routes');
 const eventRoutes = require('./express/event_routes');
@@ -16,6 +17,7 @@ const util = require('util');
 //body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); //extract json from requests
+app.use(fileUpload());
 
 app.use(express.static(output_folder)); //plugged on the output of webpack config
 

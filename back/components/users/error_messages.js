@@ -7,8 +7,8 @@ module.exports = {
     error_no_email: "Moyen de contact obligatoire",
     error_no_role: "Status de l'utilisateur manquant",
 
-    error_firstname_validity: "Le prénom doit contenir au moins une lettre",
-    error_lastname_validity: "Le nom doit contenir au moins une lettre",
+    error_firstname_validity: "Le prénom doit contenir au moins deux lettres",
+    error_lastname_validity: "Le nom doit contenir au moins deux lettres",
     error_email_validity: "Les emails doivent etre valides (ex: toto@domain.com)",
     error_phone_validity: "Les numéros de téléphone doivent etre valides (ex: 0607080900)",
     error_role_validity: "Ce status d'utilisateur n'existe pas",

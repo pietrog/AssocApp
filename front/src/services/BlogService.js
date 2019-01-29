@@ -14,10 +14,12 @@ class BlogService extends proxy {
 	return this._get('/getAll');
     }
 
-    createEntry(entry) {
-	console.log('before');
-	console.log(entry);
+    createEntry(entry) {	
 	return this._post('/addEntry', {entry: entry});
+    }
+
+    uploadFilesEntry(files) {
+	return this._upload_files('/uploadFiles', files);
     }
 
     deleteEntry(id) {

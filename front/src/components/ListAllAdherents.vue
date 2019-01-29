@@ -83,7 +83,7 @@
     </b-col>
   </b-row>
   
-  <new-user ref="editUserComponent"
+  <UserDetails ref="editUserComponent"
 	    v-bind:users="users" />
   
   <new-user ref="newUserComponent"
@@ -93,6 +93,7 @@
 
 <script>
 import NewUser from './NewUser';
+import UserDetails from './UserDetails';
 const tools = require('./tools');
 
 const UserService = require('../services/UserService').service;
@@ -182,7 +183,8 @@ export default {
     },
 
     components: {
-	NewUser
+	NewUser,
+	UserDetails
     },
 
     mounted() {
