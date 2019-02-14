@@ -15,8 +15,8 @@ const authenticationRoutes = require('./express/authentication_routes');
 const util = require('util');
 
 //body parser middleware
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); //extract json from requests
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(fileUpload());
 
 app.use(express.static(output_folder)); //plugged on the output of webpack config

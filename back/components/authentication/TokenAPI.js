@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt'),
 
 const SALT_ROUNDS = 10;
 const PRIVATE_KEY = 'MEGASECRETPRIVATE_KEY_SILESSIO';
-const MAX_VALIDITY_TOKEN = "2h"; // Number of ms for a token validity (3 hours)
+const MAX_VALIDITY_TOKEN = "60s"; // Number of ms for a token validity (3 hours)
 
 
 /**
@@ -15,18 +15,18 @@ const generateToken = async (name) => {
     //generate the token to send to the user
     const now = Date.now();
     const payload = { login: name, date: now }; //payload -> valid json object
-    const options = { expiriesIn: MAX_VALIDITY_TOKEN };
-    const token = await jwt.sign(payload, PRIVATE_KEY);
+    const options = { expiresIn: MAX_VALIDITY_TOKEN };
+    const token = await jwt.sign(payload, PRIVATE_KEY, options);
     return token;
 };
 
-const verifyToken = async (user_name, token) => {
+const verifyToken = async (token) => {
     try {
-	const isValid = await jwt.verify(token, PRIVATE_KEY);
-	return isValid;
+	const decoded = await jwt.verify(token, PRIVATE_KEY);
+	return decoded;
     }
     catch (err) {
-	Logger.warn('Wrong token received, user ' + user_name);
+	Logger.warn('Wrong token or expired received');
 	return false;
     }
 };

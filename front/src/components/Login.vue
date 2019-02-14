@@ -56,14 +56,6 @@ export default {
 		this.$store.commit('connect');
 		this.$router.replace('Welcome');
 	    }	    
-	},
-	login: async function() {
-	    const res = await AuthService.authenticate(this.user, this.password);
-	    this.message = AuthService.getMessage();
-	    if (res) {
-		this.$store.commit('connect');
-		this.$router.replace('Welcome');
-	    }
 	}
     },
     mounted() {

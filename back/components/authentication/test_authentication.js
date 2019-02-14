@@ -83,7 +83,7 @@ describe('Authentication Component', function() {
 	    await AuthenticatedUserAPI.createAdmin("Vador", password, "dark@vador.com");
 	    const res = await AuthenticatedUserAPI.loginUser("Vador", password);
 	    const token = res.token;
-	    const isAuthentic = await AuthenticatedUserAPI.authenticateUser("Vador", token);
+	    const isAuthentic = await AuthenticatedUserAPI.authenticateUser(token);
 	    assert(isAuthentic, "Expects the user to be authenticated");
 	});
 
@@ -91,8 +91,8 @@ describe('Authentication Component', function() {
 	    const password = "lqhdf87à;,$Jùdz9!%dopPAJ";
 	    await AuthenticatedUserAPI.createAdmin("Vador", password, "dark@vador.com");
 	    const res = await AuthenticatedUserAPI.loginUser("Vador", password);
-	    const token = res.token + "r";
-	    const isAuthentic = await AuthenticatedUserAPI.authenticateUser("Vador", token);
+	    const token = res.token + "rss";
+	    const isAuthentic = await AuthenticatedUserAPI.authenticateUser(token);
 	    assert(!isAuthentic, "Expects the user to be authenticated");
 	});
 

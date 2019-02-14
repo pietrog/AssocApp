@@ -45,9 +45,9 @@ module.exports.createNotAdmin = createNotAdmin;
 const loginUser = async (name, plain_text_password) => {
     const user = await AuthenticatedUserDAL.findAuthenticatedUserByName(name);
     if (user === null) {
+	Logger.warn('Anonymous user ?');
 	return null;
     }
-
     //compare passwords
     const valid_password = await TokenAPI.comparePasswords(plain_text_password, user.hash);
     if (!valid_password) {
@@ -66,7 +66,6 @@ const loginUser = async (name, plain_text_password) => {
 	isAdmin: user.isAdmin,
 	token: token
     };
-
     return result;
 }
 module.exports.loginUser = loginUser;
@@ -74,8 +73,8 @@ module.exports.loginUser = loginUser;
 /**
  * Check if the token is valid
  */
-const authenticateUser = async (name, token) => {
-    const isValidToken = await TokenAPI.verifyToken(name, token);
+const authenticateUser = async (token) => {
+    const isValidToken = await TokenAPI.verifyToken(token);
     return isValidToken;
 };
 module.exports.authenticateUser = authenticateUser;

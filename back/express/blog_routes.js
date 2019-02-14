@@ -4,11 +4,14 @@ const express  = require('express'),
 const BlogAPI  = require("../components/blog").EntryAPI,
       http_h   = require('./http_handlers');
 
+const logger   = require("../components/logger").logger;
 
 const util = require('util');
 
 app.get('/getAll', async (req, res) => {
     try {
+	console.log("blog routes");
+	console.log(req.body);
 	const entries = await BlogAPI.getEntries();
 	http_h.success(res, "", entries);
     }
@@ -39,10 +42,27 @@ app.post('/addEntry', async (req, res) => {
 });
 
 app.post('/uploadFiles', async(req, res) => {
-    const data = req.files;
-    console.log('looook : ');
-    console.log(data);
-    http_h.success(res, "OKKKKK");
+
+    //process files
+    const files = req.files.files; //the second files comes from the server/multipart form
+    const id = req.body.data;
+    const nb_files = files.length;
+    
+    if (nb_files === 0) {
+	http_h.success(res, "Aucun fichier téléchargé");
+	return;
+    }
+    
+    //mv each file to dl folder
+    files.forEach(async (file) => {
+	const name = file.name;
+	logger.info('Copy file named ' + name + ' on the server');
+	await file.mv('./uploads/' + name);
+    });
+
+    //process data (entry id)    
+    http_h.success(res, nb_files + " fichiers téléchargés");
+    
 });
 
 app.delete('/:id', async (req, res) => {

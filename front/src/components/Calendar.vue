@@ -109,14 +109,19 @@ export default {
 
     },
     mounted: async function() {
-	const result = await EventService.getAllEvents();
-	this.events = result.data.data;
-	if (this.events.lenght > 0) this.event = this.events[0];
-	this.events.forEach((elt) => {
-	    elt.title = elt.name;
-	    elt.startDate = new Date(elt.begin_date);
-	    elt.endDate = new Date(elt.end_date);
-	});
+	try {
+	    const result = await EventService.getAllEvents();
+	    this.events = result.data.data;
+	    if (this.events.lenght > 0) this.event = this.events[0];
+	    this.events.forEach((elt) => {
+		elt.title = elt.name;
+		elt.startDate = new Date(elt.begin_date);
+		elt.endDate = new Date(elt.end_date);
+	    });	   
+	}
+	catch (err) {
+	    this.$router.replace('Login');	    
+	}
     }
     
 }

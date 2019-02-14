@@ -11,7 +11,6 @@ const { AuthAPI } = require('../components/authentication');
  * @todo make something more robust, cf auth0
  */
 const basic_authenticate = async (req, res, next) => {
-    
     //get the token
     const token = req.headers['x-access-token'];
 
@@ -21,16 +20,15 @@ const basic_authenticate = async (req, res, next) => {
 	protocol: req.protocol
     };
     const host_desc_str = "IP:"+host_desc.ip+";HOST:"+host_desc.host+";PROTOCOL:"+host_desc.protocol;
-    Logger.warn('Un utilisateur souhaite se connecter: ' + host_desc_str);
+    Logger.trace('Un utilisateur souhaite se connecter: ' + host_desc_str);
+
     //if 
     if (token) {
-	const user_name = req.body.login;
 	try {
-	    console.log(req.body);
-	    const isValidToken = await AuthAPI.authenticateUser(user_name, token);
+	    const decoded = await AuthAPI.authenticateUser(token);
 	    
-	    if (isValidToken) {
-		Logger.info(user_name + ' successfully authenticated');
+	    if (decoded) {
+		Logger.info(decoded.login + ' successfully authenticated');
 		next();
 	    }
 	    else {

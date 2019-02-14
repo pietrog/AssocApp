@@ -153,7 +153,8 @@ export default {
 		this.users = res.data.data;
 	    }
 	    catch(err) {
-		tools.sendMessage(this.$store, {status: 1, content: 'Vous devez vous authentifier'});
+		this.$router.replace('Login');
+		//tools.sendMessage(this.$store, {status: 1, content: 'Vous devez vous authentifier'});
 	    }
 	},
 	deleteUser: async function(id) {

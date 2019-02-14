@@ -99,7 +99,7 @@ export default {
 	    //parse js date
 	    let jsdate = tools.toJSDate(this.user.birthdateHtml, "00:00");	    
 	    this.user.birthdate = jsdate.getTime();
-	    
+	    this.user.jsBirthdate = jsdate;
 	    this.createAndExit();
 
 

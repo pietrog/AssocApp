@@ -110,13 +110,21 @@ export default {
 	    this.entry.expiry_date = tools.toJSDate(this.entry.expiry_html, "00:00");
 
 	    //const res = await BlogService.createEntry(this.entry);
-	    const res_upload_files = await BlogService.uploadFilesEntry(this.files);
-	    console.log(res_upload_files);
-	    /*if (res.data.status === 0) {
+	    /*try {
+		const res_upload_files = await BlogService.uploadFilesEntry(res.data.data, this.files);
+	    }
+	    catch(err) {
+		console.log(typeof(err));
+		console.log(err);
+	    }*/
+		
+
+	    if (res.data.status === 0) {
 		this.entries.push(this.entry);
 	    }
 	    tools.sendMessage(this.$store, res);
-	    this.$refs.newEntryModal.hide();*/
+	    this.$refs.newEntryModal.hide();
+	    
 	},
 	show: function() {
 	    this.$refs.newEntryModal.show();

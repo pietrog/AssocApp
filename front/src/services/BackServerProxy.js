@@ -25,21 +25,26 @@ class BackServerProxy {
 	return this._send_request('patch', path, data, config);
     }
 
-    _upload_files(path, file_array, config) {
+    _upload_files(path, data, file_array, config) {
 	let _config = config || {};
-	let data = new FormData();
+
+	//create form data to send to server
+	let _data = new FormData();
 	file_array.forEach((f) => {
-	    data.append("files", f, f.name);
+	    _data.append("files", f, f.name);
 	});
+	//appends data
+	_data.append("data", data);
+	
+	//set headers
 	_config.headers = {
             'Content-Type': 'multipart/form-data'
 	};
-	return this._send_request('post', path, data, _config);
+	return this._send_request('post', path, _data, _config);
     }
 
     _send_request(method, path, data, config) {
-	const _config = config || {};
-	this._addTokenToHeaders(_config);
+	const _config = this._addTokenToHeaders(config);
 	
 	const request = {
 	    method: method,
@@ -54,6 +59,7 @@ class BackServerProxy {
      * Add token stored in local storage if found, null otherwise
      */
     _addTokenToHeaders(config) {
+	//add token to headers
 	const _config = config || {};
 	const _headers = _config.headers || {};
 	_headers['x-access-token'] = localStorage._token || null;

@@ -104,10 +104,11 @@ export default {
 	getAllEntriesFromBack: async function() {
 	    try {
 		const res = await BlogService.getAllEntries();
+		console.log(res);
 		this.entries = res.data.data;
 	    }
 	    catch (err) {
-		tools.sendMessage(this.$store, {status: 1, content: "Vous devez vous identifier"});
+		this.$router.replace('Login');
 	    }
 	},
 	showNewEntry: function() {

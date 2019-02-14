@@ -122,17 +122,21 @@ module.exports.moveEltWithinArrays = moveEltWithinArrays;
 /**
  * Extract status and data from http response from the back and build the InfoMessage corresponding
  */
-const sendMessage = (store, response) => {
+const sendMessage = (store, message) => {
     //response should always contain status part and message part
-    const message = {
-	status: response.data.status,
-	content: response.data.message
-    };
     store.commit('pushMessage', message);
     
 };
 module.exports.sendMessage = sendMessage;
 
+const sendMessageWithHTTPResponse = (store, response) => {
+    const message = {
+	status: response.data.status,
+	content: response.data.message
+    };
+    sendMessage(store, response);    
+}
+module.exports.sendMessageWithHTTPResponse = sendMessageWithHTTPResponse;
 
 /**
  * Filters an array of string, returns true if one of them contains the value seeked

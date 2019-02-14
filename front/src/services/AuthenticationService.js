@@ -41,7 +41,6 @@ class AuthenticationService extends proxy{
 	try {
 	    const result = await this._post('/login', {login: user, password: password});
 	    const data = result.data;
-	    console.log(data);
 	    const status = data.status;
 	    if (status === 0) {
 		const loggedUser = data.data;

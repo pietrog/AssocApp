@@ -10,8 +10,14 @@ app.post('/login', async (req, res) => {
     const password = req.body.password;
     
     try {
+	if (!login || !password) {
+	    http_h.error(res, "Il est nécessaire de s'authentifier");
+	    return;
+	}
+	
 	const loggedUser = await AuthAPI.loginUser(login, password);
-	if (loggedUser === null) {
+
+	if (!loggedUser) {
 	    http_h.error(res, "Echec de l'identification de " + login);
 	}
 	else {
@@ -19,7 +25,7 @@ app.post('/login', async (req, res) => {
 	}
     }
     catch(err) {
-	http_h.error(res,  "Echec de l'identification de " /*+ login + ": "+err*/);
+	http_h.error(res,  "Echec de l'identification: " + err /*+ login + ": "+err*/);
     }
 });
 

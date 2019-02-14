@@ -18,8 +18,8 @@ class BlogService extends proxy {
 	return this._post('/addEntry', {entry: entry});
     }
 
-    uploadFilesEntry(files) {
-	return this._upload_files('/uploadFiles', files);
+    uploadFilesEntry(entry_id, files) {
+	return this._upload_files('/uploadFiles', entry_id,  files);
     }
 
     deleteEntry(id) {
