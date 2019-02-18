@@ -2,7 +2,8 @@
 <b-modal ref="userDetailsModal"
 	 hide-footer
 	 title="Fiche de membre">
-  <b-form @submit="onSubmit">
+  <b-form v-if="user"
+	  @submit="onSubmit">
 
     <!-- Prénom -->
     <b-form-group label="Prénom">
@@ -88,13 +89,7 @@ export default {
     name: 'UserDetails',
     data: function() {
 	return {
-	    user: {
-		firstname: "",
-		lastname: "",
-		birthdateHtml: "2005-01-01",
-		emails: [],
-		phone_number: []
-	    },
+	    user: null,
 	    editUser: false,
 	    buttonLabel: "Ajouter"
 	}
@@ -118,7 +113,6 @@ export default {
 	updateAndExit: async function() {
 	    const res = await UserService.updateUser(this.user);
 	},
-
 	addElt: function(array) {
 	    array.push("");
 	},
@@ -126,7 +120,7 @@ export default {
 	    array.splice(index, 1);
 	},
 	show: function(user) {
-
+	    
 	    this.user = user;
 	    this.$refs.userDetailsModal.show();
 

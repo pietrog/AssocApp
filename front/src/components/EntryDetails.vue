@@ -2,7 +2,8 @@
 <b-modal ref="entryDetailsModal"
 	 hide-footer
 	 title="Modification d'une publication">
-  <b-form @submit="onSubmit">
+  <b-form v-if="entry"
+	  @submit="onSubmit">
     
     <!-- Publication title -->
     <b-form-group label="Titre">
@@ -70,7 +71,7 @@
 
     
 
-    <b-button type="submit">Ajouter</b-button>
+    <b-button type="submit" variant="success">Mise à jour</b-button>
     
   </b-form>
 </b-modal>
@@ -90,13 +91,7 @@ export default {
     },
     data: function() {
 	return {
-	    entry: {
-		title: "",
-		message: "",
-		priority: 1,
-		publication_html: "2018-01-01",
-		expiry_html: "2018-01-01",
-	    },
+	    entry: null,
 	    priorities: [
 		{ value: 1, text: 'Haute' },
 		{ value: 2, text: 'Moyenne' },
@@ -116,12 +111,22 @@ export default {
 		this.entries.push(this.entry);
 	    }
 	    tools.sendMessage(this.$store, res);
-	    this.$refs.newEntryModal.hide();
+	    this.$refs.entryDetailsModal.hide();
 	},
-	show: function() {
-	    this.$refs.newEntryModal.show();
+	show: function(entry) {
+	    if (!entry.publication_html)
+	    {
+		entry.publication_html = tools.toInputDate(entry.publication_date);
+	    }
+	    if (!entry.expiry_html)
+	    {
+		entry.expiry_html = tools.toInputDate(entry.expiry_date);
+	    }
+	    this.entry = entry;
+	    this.$refs.entryDetailsModal.show();
 	}
-    }
+    },
+
 };
 </script>
 <style>

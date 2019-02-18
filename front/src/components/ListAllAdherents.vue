@@ -159,7 +159,7 @@ export default {
 	},
 	deleteUser: async function(id) {
 	    const result = await UserService.deleteUser(id);
-	    tools.sendMessage(this.$store, result);
+	    tools.sendMessageWithHTTPResponse(this.$store, result);
 	    if (result.data.status === 0) {
 		const index = this.users.findIndex( elt => { return elt._id === id});	    
 		this.users.splice(index, 1);

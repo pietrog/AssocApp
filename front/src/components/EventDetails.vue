@@ -1,7 +1,8 @@
 <template>
 <b-modal ref="eventDetailsModal" hide-footer
 	 title="Création d'un évènement">
-  <b-form @submit="onSubmit">
+  <b-form v-if="event"
+	  @submit="onSubmit">
     
     <!-- switch between single and multi events -->
     <b-form-group horizontal
@@ -91,17 +92,12 @@ export default {
     name: 'event-details',
     data: function() {
 	return {
+	    event: null,
 	    startDateT: "2019-01-01",
 	    endDateT: "2019-01-01", 
 	    startDateTime: "10:00",
 	    endDateTime: "10:00"
 	}
-    },
-    props: {
-	'event': { 
-	    type: Object,
-	    required: true
-	},
     },
     methods: {
 	onSubmit: function() {
@@ -125,12 +121,12 @@ export default {
 	    const result = await EventService.deleteAllEventsByName(this.event.name);
 	    tools.sendMessage(this.$store, result);
 	},
-	show: function() {
-	    this.startDateT = tools.toInputDate(this.event.startDate);
-	    this.endDateT = tools.toInputDate(this.event.endDate);
-	    this.startDateTime = tools.fromJSDateToInputTime(this.event.startDate);
-	    this.endDateTime = tools.fromJSDateToInputTime(this.event.endDate);
-
+	show: function(event) {
+	    this.startDateT = tools.toInputDate(event.startDate);
+	    this.endDateT = tools.toInputDate(event.endDate);
+	    this.startDateTime = tools.fromJSDateToInputTime(event.startDate);
+	    this.endDateTime = tools.fromJSDateToInputTime(event.endDate);
+	    this.event = event;
 	    this.$refs.eventDetailsModal.show();
 	}	
     }

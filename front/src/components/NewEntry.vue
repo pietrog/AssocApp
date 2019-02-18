@@ -109,7 +109,7 @@ export default {
 	    this.entry.publication_date = tools.toJSDate(this.entry.publication_html, "00:00");
 	    this.entry.expiry_date = tools.toJSDate(this.entry.expiry_html, "00:00");
 
-	    //const res = await BlogService.createEntry(this.entry);
+	    const res = await BlogService.createEntry(this.entry);
 	    /*try {
 		const res_upload_files = await BlogService.uploadFilesEntry(res.data.data, this.files);
 	    }
@@ -118,11 +118,11 @@ export default {
 		console.log(err);
 	    }*/
 		
-
+	    
 	    if (res.data.status === 0) {
 		this.entries.push(this.entry);
 	    }
-	    tools.sendMessage(this.$store, res);
+	    tools.sendMessageWithHTTPResponse(this.$store, res);
 	    this.$refs.newEntryModal.hide();
 	    
 	},

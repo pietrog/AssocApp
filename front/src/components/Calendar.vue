@@ -35,8 +35,7 @@
   <new-course ref="newCourse"
 	      v-bind:events="events" />
   <event-details ref="eventDetails"
-		 v-bind:event="event"
-		 
+		 v-bind:event="event"		 
 		 />
 </b-container>
 </template>
@@ -97,15 +96,12 @@ export default {
 	    this.updateEvent(event.originalEvent);
 	},
 	clickEvent: function(event) {
-	    this.event = event.originalEvent;
-	    this.showEventDetails();
+	    //this.event = event.originalEvent;
+	    this.$refs.eventDetails.show(event.originalEvent);
 	},
 	showNewCourseModal: function() {
 	    this.$refs.newCourse.show();
 	},
-	showEventDetails: function() {
-	    this.$refs.eventDetails.show();
-	}
 
     },
     mounted: async function() {

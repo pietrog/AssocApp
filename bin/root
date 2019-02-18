@@ -3,14 +3,13 @@
 const chalk = require('chalk') // terminal string styling
 
 const usage = 'Usage: root --mode MODE\n\n\
-MODE: development | production \
-    ';
+MODE: development | production \n';
 
 //parse the mode
-/*if (process.argv.length < 4) {
+if (process.argv.length < 4) {
     process.stdout.write(usage);
     process.exit(1);
-}*/
+}
 
 const setMode = (mode) => {
     if (mode === 'development' || mode === 'production')

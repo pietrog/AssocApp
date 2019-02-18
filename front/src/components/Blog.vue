@@ -30,7 +30,9 @@
 	<template slot="delete"
 		  slot-scope="data">
 	  <b-button size="sm"
-		    v-on:click.stop="deleteEntry(data.item._id)">
+		    v-on:click.stop="deleteEntry(data.item._id)"
+		    class="de"
+		    >
 	    X
 	  </b-button>
 	  
@@ -43,6 +45,9 @@
   <new-entry ref="newEntry"
 	     v-bind:entries="entries"
 	     />
+  <entry-details ref="entryDetails"
+		 v-bind:entries="entries"
+		 />
   
 </b-container>
 </template>
@@ -50,6 +55,7 @@
 <script>
 import Publication from './Publication';
 import NewEntry from './NewEntry';
+import EntryDetails from './EntryDetails';
 
 const BlogService = require('../services/BlogService').service;
 const tools = require('./tools');
@@ -58,7 +64,8 @@ export default {
     name: 'blog',
     components: {
 	Publication,
-	NewEntry
+	NewEntry,
+	EntryDetails
     },
     data: function() {
 	return {
@@ -90,13 +97,14 @@ export default {
 		{
 		    key: 'delete',
 		    label: "DEL",
-		    variant: 'danger'
+		    class: "w-auto "
 		}
 	    ],
 	    perPage: 5,
 	    currentPage: 1,
 	    sortBy: 'expiry_date',
-	    sortDesc: false	    
+	    sortDesc: false,
+	    selected: null
 
 	}
     },
@@ -104,7 +112,7 @@ export default {
 	getAllEntriesFromBack: async function() {
 	    try {
 		const res = await BlogService.getAllEntries();
-		console.log(res);
+
 		this.entries = res.data.data;
 	    }
 	    catch (err) {
@@ -122,7 +130,9 @@ export default {
 		this.entries.splice(index, 1);
 	    }
 	},
-	showDetails: function() {
+	showDetails: function(selected) {
+	    this.$refs.entryDetails.show(selected);
+
 	}
     },
     mounted() {

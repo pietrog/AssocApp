@@ -134,7 +134,7 @@ const sendMessageWithHTTPResponse = (store, response) => {
 	status: response.data.status,
 	content: response.data.message
     };
-    sendMessage(store, response);    
+    sendMessage(store, message);    
 }
 module.exports.sendMessageWithHTTPResponse = sendMessageWithHTTPResponse;
 

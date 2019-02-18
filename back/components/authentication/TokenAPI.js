@@ -5,7 +5,8 @@ const bcrypt = require('bcrypt'),
 
 const SALT_ROUNDS = 10;
 const PRIVATE_KEY = 'MEGASECRETPRIVATE_KEY_SILESSIO';
-const MAX_VALIDITY_TOKEN = "60s"; // Number of ms for a token validity (3 hours)
+//const MAX_VALIDITY_TOKEN = "60s"; // Number of ms for a token validity (3 hours)
+const MAX_VALIDITY_TOKEN = "1h"; // Number of ms for a token validity (3 hours)
 
 
 /**

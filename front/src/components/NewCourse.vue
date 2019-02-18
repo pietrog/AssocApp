@@ -228,7 +228,7 @@ export default {
 	    else {
 		result = await EventService.createEvent(this.event);
 	    }
-	    
+	    console.log(result);
 	    if (result.data.status === 0) {
 		this.events.push(this.event);
 	    }
