@@ -4,7 +4,7 @@
 	 centered
 	 title="Authentification">
   
-  <b-form @submit="onSubmit"  >
+  <b-form>
   
     <b-form-group id="login-group"
                   label="Login"
@@ -30,7 +30,7 @@
       </b-form-input>
     </b-form-group>
     
-    <b-button type="submit" variant="primary">Submit</b-button>
+    <b-button v-on:click="login" variant="primary">Submit</b-button>
     <h1 v-if="message">{{message}}</h1>
   </b-form>
 </b-modal>  
@@ -49,9 +49,10 @@ export default {
 	};
     },
     methods: {
-	onSubmit: async function (event) {
+	login: async function (event) {
 	    const res = await AuthService.authenticate(this.user, this.password);
 	    this.message = AuthService.getMessage();
+	    console.log(res);
 	    if (res) {
 		this.$store.commit('connect');
 		this.$router.replace('Welcome');
