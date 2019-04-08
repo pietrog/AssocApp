@@ -72,7 +72,7 @@ class AuthenticatedUserDAL {
      * @return true if it is the first connection, false otherwise
      */
     async isFirstConnection() {
-	const found = await Schema.find({isAdmin: true});
+	const found = await Schema.find({isAdmin: true});	
 	return found.length === 0;
     }
 

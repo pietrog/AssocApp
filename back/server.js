@@ -12,6 +12,8 @@ const env         = process.env.NODE_ENV || 'development',
       mongoose    = require('mongoose'),
       config      = require('./config.js');
 
+const { AuthAPI, TokenAPI } = require('./components/authentication');
+
 const util = require('util');
 
 /*
@@ -41,6 +43,7 @@ class NodeServer {
 	try {
 	    this.start_server();
 	    await this.connect_to_database();
+	    this.is_first_start();
 	    logger.info(this.m_app_name + " has been successfully fully started ");
 	}
 	catch(err) {
@@ -67,6 +70,24 @@ class NodeServer {
 	const db = this.isProduction() ? config.database : config.testdatabase;
 	const connection = await mongoose.connect(db, { useNewUrlParser: true});
 	logger.info(this.m_app_name + " is now connected to database " + db);
+    }
+
+    /*
+     * Check if it is the first connection: look for an existing authenticated user. 
+     *   --> If it finds it, it is not the first start, continue to normal process
+     *   --> If it does not find it, add the default user: login = admin; password = password
+     */
+    async is_first_start() {
+	const fc = await AuthAPI.isFirstConnection();
+	if (fc) {
+	    logger.info("Première connection au site de production, création de l'utilisateur par défault");
+	    await AuthAPI.createAdmin("admin", "password", "achanger@email.fr");
+	    logger.info("Utilisateur par défault créé, bienvenue !");
+	}
+	else
+	{
+	    logger.info("Démarrage normal");
+	}
     }
 
 };
