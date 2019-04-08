@@ -10,6 +10,7 @@ import Calendar from '../components/Calendar';
 import Blog from '../components/Blog';
 import Login from '../components/Login';
 import Welcome from '../components/Welcome';
+import Admin from '../components/Admin';
 import AuthService from '../services/AuthenticationService';
 
 const util = require('util');
@@ -42,6 +43,11 @@ const routes = [
 	path: '/login',
 	name: 'Login',
 	component: Login
+    },
+    {
+	path: '/admin',
+	name: 'Admin',
+	component: Admin
     }
 ];
 

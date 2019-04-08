@@ -15,6 +15,9 @@
       <b-nav-item to="/blog">Blog</b-nav-item>
     </b-navbar-nav>
   </b-collapse>
+  <b-navbar-nav>
+    <b-nav-item to="/admin">Administration</b-nav-item>
+  </b-navbar-nav>
   <b-button size="sm"
 	    v-if="isConnected"
 	    v-on:click="logout">

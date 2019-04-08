@@ -64,7 +64,8 @@ const loginUser = async (name, plain_text_password) => {
 	login: name,
 	email: user.email,
 	isAdmin: user.isAdmin,
-	token: token
+	token: token,
+	_id: user._id
     };
     return result;
 }
@@ -78,3 +79,22 @@ const authenticateUser = async (token) => {
     return isValidToken;
 };
 module.exports.authenticateUser = authenticateUser;
+
+
+/**
+ * Update admin user
+ */
+const updateLoginAdmin = async (id, newLogin) => {
+    return AuthenticatedUserDAL.updateLogin(id, newLogin);
+};
+module.exports.updateLoginAdmin = updateLoginAdmin;
+
+const updateEmailAdmin = async (id, newMail) => {
+    return AuthenticatedUserDAL.updateEmail(id, newMail);
+};
+module.exports.updateEmailAdmin = updateEmailAdmin;
+
+const updatePasswordAdmin = async (id, newPwd) => {
+    return AuthenticatedUserDAL.updatePassword(id, newPwd);
+};
+module.exports.updatePasswordAdmin = updatePasswordAdmin;

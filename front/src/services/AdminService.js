@@ -6,7 +6,7 @@ const proxy = require('./BackServerProxy').proxy;
 
 import store from '../store';
 
-class AuthenticationService extends proxy{
+class AdminService extends proxy{
     
     constructor() {
 	super('/admin');
@@ -19,10 +19,6 @@ class AuthenticationService extends proxy{
 
     getUser() {
 	return localStorage._userLogin;
-    }
-
-    getEmail() {
-	return localStorage._email;
     }
 
     isAdmin() {
@@ -53,7 +49,7 @@ class AuthenticationService extends proxy{
 		localStorage._loginDate = new Date(Date.now());
 		localStorage._isAdmin = loggedUser.isAdmin;
 		localStorage._email = loggedUser.email;
-		localStorage._user_id = loggedUser._id;
+		this.m_user_id = loggedUser._id;
 		return true;
 	    }
 	    else {
@@ -67,43 +63,7 @@ class AuthenticationService extends proxy{
 
     }
 
-    async updateLogin(newLogin) {
-	try {
-	    const result = await this._post('/updateLoginAdmin', { id_user: localStorage._user_id, login: newLogin });
-	    if (result.data.status === 0) {
-		localStorage._userLogin = newLogin;
-	    }
-	}
-	catch(err)
-	{
-	    this._message = "Echec mise a jour du login";
-	}	
-    }
-
-    async updatePassword(newPassword) {
-	try {
-	    const result = await this._post('/updatePasswordAdmin', { id_user: localStorage._user_id, password: newPassword });
-	}
-	catch(err)
-	{
-	    this._message = "Echec mise a jour du mot de passe";
-	}	
-    }
     
-    async updateEmail(newEmail) {
-	try {
-	    const result = await this._post('/updateEmailAdmin', { id_user: localStorage._user_id, email: newEmail });
-	    if (result.data.status === 0) {
-		localStorage._email = newEmail;
-	    }
-	}
-	catch(err)
-	{
-	    this._message = "Echec mise a jour de l'adresse email";
-	}	
-    }
-
-
     logout() {
 	//@todo communication with server
 	localStorage._userLogin = null;
@@ -111,11 +71,10 @@ class AuthenticationService extends proxy{
 	localStorage._loginDate = null;
 	localStorage._email = null;
 	localStorage._isAdmin = false;
-	localStorage._user_id = null;
     }
     
 };
 
-const service = new AuthenticationService();
+const service = new AdminService();
 
 export default service;

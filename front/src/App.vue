@@ -20,7 +20,6 @@
 
 <script lang='js'>
 import ControlPanel from './components/ControlPanel'
-import ListAllAdherents from './components/ListAllAdherents';
 import InfoPanel from './components/InfoPanel.vue';
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -30,7 +29,6 @@ export default {
     name: 'app',
     components: {
 	ControlPanel,
-	ListAllAdherents,
 	InfoPanel
     }
 }

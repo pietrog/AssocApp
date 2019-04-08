@@ -74,7 +74,58 @@ class AuthenticatedUserDAL {
     async isFirstConnection() {
 	const found = await Schema.find({isAdmin: true});
 	return found.length === 0;
-    }    
+    }
+
+    /**
+     * Update login of a authenticated user
+     * @param {string} id user id
+     * @param {string} newLogin login that will replace the old one
+     */
+    async updateLogin(id, newLogin) {
+	assert.ok(newLogin.length > 5, 'string', "Login should be longer");
+	try {
+	    let mod = await Schema.findOneAndUpdate({_id: id}, { login: newLogin }, {new: true});
+	    return mod;
+	}
+	catch(err) {
+	    Logger.error('An error occured while trying to update admin login: ' + err);
+	}
+	return null;
+    }
+
+    /**
+     * Update login of a authenticated user
+     * @param {string} id user id
+     * @param {string} newPassword new password hash
+     */
+    async updatePassword(id, newPassword) {
+	try {
+	    const mod = await Schema.findOneAndUpdate({_id: id}, { hash: newPassword }, {new: true});
+	    return mod;
+	}
+	catch(err) {
+	    Logger.error('An error occured while trying to update admin password ' + err);
+	}
+	return null;
+    }
+
+    /**
+     * Update email of a authenticated user
+     * @param {string} id user id
+     * @param {string} newMail new email
+     */
+    async updateEmail(id, newMail) {	
+	assert.ok(newMail.length > 5, 'string', "E-mail not valid");
+	try {
+	    const mod = await Schema.findOneAndUpdate({_id: id}, { email: newMail }, {new: true});
+	    return mod;
+	}
+	catch(err) {
+	    Logger.error('An error occured while trying to update admin email ' + err);
+	}
+	return null;
+    }
+
     
 };
 
