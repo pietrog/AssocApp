@@ -12,6 +12,8 @@ if (process.argv.length < 4) {
 }
 
 const setMode = (mode) => {
+    if (mode === 'dev') mode = 'development';
+    if (mode === 'prod') mode = 'production';
     if (mode === 'development' || mode === 'production')
 	process.env['NODE_ENV'] = mode;
     else
