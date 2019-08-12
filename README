@@ -1,0 +1,17 @@
+Welcome to the Assoc App !
+
+Launch the app:
+
+       1) Have a mongo daemon running
+       
+       2) Launch the server side:
+       	  -> development mode: npm run dev
+	  -> production mode: npm run build
+	  
+       3) Launch the client side
+       	  -> development mode: node bin/root --mode dev
+	  -> production mode: node bin/root --mode prod
+
+Launch the unit tests (via mocha)
+
+       1) npm run test
