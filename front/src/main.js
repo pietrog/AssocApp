@@ -2,12 +2,22 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import App from '@/App';
-import router from './router';
-import store from './store';
+import router from '@/router';
+import store from '@/store';
 import BootstrapVue from 'bootstrap-vue'
 
+import VueMaterial from "vue-material";
+import "vue-material/dist/vue-material.min.css";
+import "@/assets/scss/material-dashboard.scss";
+
+import SideBar from '@/components/vue-material/SidebarPlugin/SideBar';
+
 Vue.use(BootstrapVue);
+Vue.use(SideBar);
+Vue.use(VueMaterial);
+
 Vue.config.productionTip = false
+
 
 /* eslint-disable no-new */
 new Vue({

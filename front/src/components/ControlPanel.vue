@@ -1,29 +1,27 @@
 <template>
-<b-navbar toggleable="md"
-	  variant="primary"
-	  type="light"
-	  v-if="isConnected">
-  <b-navbar-brand>
+<div
+  v-if="isConnected">
+  <div>
     COMB TAEKWONDO
-  </b-navbar-brand>
-  <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-  <b-collapse is-nav
+  </div>
+  <div target="nav_collapse"></div>
+  <div is-nav
 	      id="nav_collapse">
-    <b-navbar-nav>
-      <b-nav-item to="/users">Adhérents</b-nav-item>
-      <b-nav-item to="/calendar">Calendrier</b-nav-item>
-      <b-nav-item to="/blog">Blog</b-nav-item>
-    </b-navbar-nav>
-  </b-collapse>
-  <b-navbar-nav>
-    <b-nav-item to="/admin">Administration</b-nav-item>
-  </b-navbar-nav>
-  <b-button size="sm"
+    <div>
+      <div to="/users">Adhérents</div>
+      <div to="/calendar">Calendrier</div>
+      <div to="/blog">Blog</div>
+    </div>
+  </div>
+  <div>
+    <div to="/admin">Administration</div>
+  </div>
+  <div size="sm"
 	    v-if="isConnected"
 	    v-on:click="logout">
     Se déconnecter
-  </b-button>
-</b-navbar>
+  </div>
+</div>
 </template>
 
 <script>

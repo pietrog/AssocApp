@@ -1,35 +1,40 @@
 <template>
-<b-container fluid id="app" >
-  <b-row>
-    <b-col>
+<div id="app" >
+  <side-bar
+    title="AssocApp"
+    v-bind:sidebarLinks="[coucou, caca]"
+    >
+  </side-bar>
+
+  <div>
+    <div>
       <control-panel></control-panel>
-    </b-col>
-  </b-row>
+    </div>
+  </div>
   
-  <b-row>
-    <b-col>
+  <div>
+    <div>
       <transition name="slide-fade">
 	<router-view class="router-main-view"></router-view>
       </transition>
-    </b-col>
-  </b-row>
+    </div>
+  </div>
   
   <info-panel/>
-</b-container>
+</div>
 </template>
 
 <script lang='js'>
 import ControlPanel from './components/ControlPanel'
 import InfoPanel from './components/InfoPanel.vue';
-
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import SideBar from '@/components/vue-material/SidebarPlugin/SideBar';
 
 export default {
     name: 'app',
     components: {
 	ControlPanel,
-	InfoPanel
+	InfoPanel,
+	SideBar
     }
 }
 </script>
