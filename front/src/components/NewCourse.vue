@@ -1,135 +1,124 @@
 <template>
-<b-modal ref="newCourseModal" hide-footer
-	 title="Création d'un évènement">
-  <b-form @submit="onSubmit">
+<div class="modal modal-bg"
+     :class="{ show: display }"
+     >
+  <modal v-if="display">
 
-    <!-- switch between single and multi events -->
-    <b-form-group horizontal
-		  label="Récurrent"
-		  label-class="font-weight-bold pt-0"
-		  >
-      <b-form-checkbox v-model="recurrentEvent" />
-    </b-form-group>
+    <template slot="header">
+      <h2 class="modal-title">Creation d'un evenement</h2>
+      <md-button
+        class="md-simple md-close md-just-icon md-round modal-default-button"
+        @click="display = false"
+        >
+        <md-icon>clear</md-icon>
+      </md-button>
+    </template>
 
-    <!-- Event title -->
-    <b-form-group horizontal
-		  label="Nom du cours"
-		  label-class="font-weight-bold pt-0"
-		  >
-      <b-form-input type="text"
-		    required
-		    v-model="event.title"
-		    placeholder="Entrer le nom du cours">	
-      </b-form-input>
-    </b-form-group>
-
-    <!-- Event color in calendar -->
-    <b-form-group horizontal
-		  label="Couleur de l'évènement"
-		  label-class="font-weight-bold pt-0"
-		  >
-      <b-form-input type="color"
-		    required		    
-		    v-model="eventColor" >	
-      </b-form-input>
-    </b-form-group>
-
-    <!-- Event description -->
-    <b-form-group horizontal
-		  label="Description"
-		  label-class="font-weight-bold pt-0"
-		  >
-      <b-form-textarea required		    
-		       v-model="event.description"
-		       :rows="3"
-		       placeholder="Entrez la description"
-		       >	
-      </b-form-textarea>
-    </b-form-group>
-
-    <!-- First occurence -->
-    <b-card bg-variant="light">
-      <b-form-group label="Premier cours"
-		    label-class="font-weight-bold pt-0"
-		    >
+    <template slot="body">
+      <form class="md-layout">
 	
-	<b-form-group horizontal
-		      label-for="nestedDate"		    
-		      label="Date: ">
-	  <b-form-input id="nestedDate"
-			type="date"
-			required		    
-			v-model="startDate" >		    
-	  </b-form-input>
-	</b-form-group>
-	
-	<b-form-group horizontal
-		      label-for="nestedTime"		    
-		      label="Heure: ">	
-	  <b-form-input id="nestedTime"
-			type="time"
-			required		    
-			v-model="startDateTime"
-			placeholder="Entrer l'heure">	
-	  </b-form-input>
-	</b-form-group>
-	
-      </b-form-group>
-    </b-card>
+	<div class="md-layout-item">
+	  <md-field>
+	    <md-switch v-model="recurrentEvent">
+              {{ recurrentEvent ? "Liste" : "Solo" }}
+            </md-switch>
+	  </md-field>
+	</div>
 
-    <!-- Event duration in minutes -->
-    <b-form-group horizontal
-		  label="Durée (min)"
-		  label-class="font-weight-bold pt-0"
-		  >
-      <b-form-input type="number"
-		    required		    
-		    v-model="event.duration" >	
-      </b-form-input>
-    </b-form-group>
+	<div class="md-layout-item">
+	  <md-field>
+	    <label for="title">Nom du cours</label>
+	    <md-input name="title"
+		      id="title"
+		      v-model="event.title"
+		      />
+	  </md-field>
+	</div>
 
-    
+	<div class="md-layout-item">
+	  <md-field>
+	    <label for="color">Couleur</label>
+	    <md-input name="color"
+		      id="color"
+		      type="color"
+		      v-model="eventColor"
+		      />
+	  </md-field>
+	</div>
 
-    <!-- End course -->
-    <b-card v-if="recurrentEvent"
-	    bg-variant="light">
+	<div class="md-layout-item">
+	  <md-field>
+	    <label for="description">Description</label>
+	    <md-input name="description"
+		      id="description"
+		      v-model="event.description"
+		      />
+	  </md-field>
+	</div>
 
+	<!-- First occurence -->
+	<div class="md-layout-item">
+	  <md-field>
+	    <md-datepicker name="first"
+			   id="first"
+			   v-model="startDate"
+			   md-immediately
+			   >
+	      <label for="first">Premier cours</label>
+	    </md-datepicker>
+	  </md-field>
+	</div>
 
-      <b-form-group label="Paramétrage de la récurrence"
-		    label-class="font-weight-bold pt-0"
-		    >
+	<!-- Event duration in minutes -->
+	<div class="md-layout-item">
+	  <md-field>
+	    <label for="duration">Durée (min)</label>
+	    <md-input name="duration"
+		      id="duration"
+		      type="number"
+		      v-model="event.duration"
+		      />
+	  </md-field>
+	</div>
 
-	<!-- select the frequency -->
-	<b-form-group horizontal
-		      label="Tous les:"
-		      label-for="nestedFreq"
-		      >
-	  <b-form-select id="nestedFreq"
-			 multiple
-			 :options="weekFrequency"
-			 v-model="frequency" />
-	</b-form-group>
-	
-	<!-- last course date -->	
-	<b-form-group horizontal
-		      label="Jusqu'au:"
-		      label-for="nestedLastDate"
-		      >
-	  <b-form-input id="nestedLastDate"
-			type="date"
-			required		    
-			v-model="endDate"
-			placeholder="Entrer la date du dernier cours">	
-	  </b-form-input>
-	</b-form-group>
-	
-      </b-form-group>
-    </b-card>
-    
-    <b-button type="submit">Créer</b-button>
+	<!-- End course -->
+	<div class="md-layout-item"
+	     v-if="recurrentEvent">
+	  <md-field>
+	    <md-datepicker name="first"
+			   id="first"
+			   v-model="startDate"
+			   md-immediately
+			   >
+	      <label for="first">Last cours</label>
+	    </md-datepicker>
+	  </md-field>
+	</div>
 
-  </b-form>
-</b-modal>
+      </form>
+    </template>
+
+    <template slot="footer">
+      <div class="md-layout">
+      	<div class="md-layout-item md-alignment-center-right md-size-100">
+	  <md-button v-on:click="onSubmit"
+		     class="md-success md-round">
+	    Créer
+	  </md-button>
+	</div>
+	<div class="md-layout-item ">
+	  <div class="container">
+	    <span class="alert alert-danger"
+		  v-if="error">
+	      {{ error }}
+	    </span>
+	  </div>
+	</div>
+      </div>
+    </template>
+
+  </modal>
+</div>
 
 
 
@@ -163,6 +152,8 @@ const tools = require('./tools');
 const EventService = require('../services/EventService').service;
 const userService = require('../services/UserService').service;
 
+import Modal from "./Modal";
+
 const util = require('util');
 
 export default {
@@ -195,7 +186,9 @@ export default {
 		{ value: 0, text: "Dimanche"},
 	    ],
 	    eventColor: "#AADD55",
-	    recurrentEvent: false
+	    recurrentEvent: false,
+	    error: "",
+	    display: false
 
 	}
     },
@@ -253,11 +246,12 @@ export default {
 	    this.usersOut = res.data.data;
 	},
 	show: function() {
-	    this.$refs.newCourseModal.show();
+	    this.display = true;
 	}
 	
     },
     components: {
+	Modal,
 	ListAdherentsLeft,
 	ListAdherentsRight,
     },

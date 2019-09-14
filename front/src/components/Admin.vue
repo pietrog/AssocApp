@@ -1,72 +1,74 @@
 <template>
-<b-container fluid>
-  <b-row>
-    <b-col></b-col>
-    <b-col>
-      <b-card title="Administration du site"
-	      class="mb-2">
+<div class="wrapper">
+  <parallax
+    class="page-header header-filter clear-filter back-img"
+    parallax-active="true"
+    :style="headerStyle"
+    >
+    <div class="md-layout">
+      <div class="md-layout-item">
+        <div class="image-wrapper">
+          <div class="brand">
+            <h1>
+              Taekwondo
+            </h1>
+            <span class="pro-badge">
+              COMB
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </parallax>
+  
+  <div class="section">
+    <div class="container">
+      <md-button class="md-fab md-fab-top-right md-round md-danger"
+		 v-on:click="showNewUser"
+		 >
+	<md-icon>add</md-icon>
+      </md-button>
+      
+      <div class="main ">
+        <div class="md-layout">
+	  
+	  <div class="md-layout-item">
+	    <md-field>
+	      <label for="login">Pseudo</label>
+	      <md-input name="login"
+			id="login"
+			v-model="login"
+			/>
+	    </md-field>
+	  </div>
 
-	<b-input-group
-	  prepend="Pseudo"
-	  size="lg"
-	  >
-	  <b-form-input	
-	    type="text"
-	    v-model="login"
-	    size="sm"
-	    />
-	  <b-input-group-append>
-	    <b-button type="reset"
-		      variant="success"
-		      size="sm"
-		      v-on:click="updateLogin"
-		      >
-	      Envoyer
-	    </b-button>
-	  </b-input-group-append>
-	</b-input-group>
-	
-	<b-input-group
-	  prepend="Mot de passe"
-	  size="lg"
-	  >
-	  <b-form-input	
-	    type="password"
-	    v-model="password"
-	    size="sm"
-	    />
-	  <b-input-group-append>
-	    <b-button type="reset"
-		      v-on:click="updatePassword"
-		      variant="success">
-	      Envoyer
-	    </b-button>
-	  </b-input-group-append>
-	</b-input-group>
+	  <div class="md-layout-item">
+	    <md-field>
+	      <label for="pwd">Mot de passe</label>
+	      <md-input name="pwd"
+			id="pwd"
+			v-model="password"
+			/>
+	    </md-field>
+	  </div>
 
-	<b-input-group
-	  prepend="@"
-	  size="lg"
-	  >
-	  <b-form-input	
-	    type="text"
-	    v-model="email"
-	    />
-	  <b-input-group-append>
-	    <b-button type="reset"
-		      v-on:click="updateEmail"
-		      variant="success">
-	      Envoyer
-	    </b-button>
-	  </b-input-group-append>
-	</b-input-group>
+	  <div class="md-layout-item">
+	    <md-field>
+	      <label for="email">Adresse e-mail</label>
+	      <md-input name="email"
+			id="email"
+			v-model="email"
+			/>
+	    </md-field>
+	  </div>
 
-	
-      </b-card>
-    </b-col>
-    <b-col></b-col>
-  </b-row>
-</b-container>
+
+	</div>
+      </div>
+    </div>
+  </div>
+
+</div>
 </template>
 
 <script>
@@ -91,9 +93,27 @@ export default {
 	updateEmail: async function() {
 	    await AuthService.updateEmail(this.email);
 	}
-
+	
 	
     },
+    
+    props: {
+	image: {
+	    type: String,
+	    default: require("@/assets/img/back-taek-dojo-2.jpg")
+	}
+	
+    },
+    
+    
+    computed: {
+	headerStyle() {
+	    return {
+		backgroundImage: `url(${this.image})`
+	    };
+	}
+    },
+    
     mounted() {
     }
 };

@@ -1,43 +1,66 @@
 <template>
-<b-container fluid>
-  <b-row>
-    <b-col>
-      <b-card title="Gestion des cours"
-	      class="mb-2"
-	      >
-	<b-button v-on:click="showNewCourseModal()">Nouveau cours</b-button>
-      </b-card>
-    </b-col>
-  </b-row>
-
-  <b-row>
-    <b-col>
-      <div id="main-view" class="calendar-container">
-	<calendar-view
-	  :show-date="showDate"
-	  class="theme-default holiday-fr-traditional holiday-fr-official"
-	  v-bind:events="events"
-	  v-bind:displayPeriodUom="displayPeriodUom"
-	  v-bind:displayPeriodCount="displayPeriodCount"
-	  v-bind:enableDragDrop="enableDragAndDrop"
-	  v-bind:showEventTimes="showEventTimes"
-	  v-on:click-event="clickEvent"
-	  v-on:drop-on-date="dropOnDate"
-	  >
-	  <calendar-view-header slot="header"
-				slot-scope="t"
-				:header-props="t.headerProps"
-				@input="setShowDate"/>
-	</calendar-view>
+<div class="wrapper">
+  <parallax
+    class="page-header header-filter clear-filter back-img"
+    parallax-active="true"
+    :style="headerStyle"
+    >
+    <div class="md-layout">
+      <div class="md-layout-item">
+        <div class="image-wrapper">
+          <div class="brand">
+            <h1>
+              Taekwondo
+            </h1>
+            <span class="pro-badge">
+              COMB
+            </span>
+          </div>
+        </div>
       </div>
-    </b-col>
-  </b-row>
+    </div>
+  </parallax>
+
+  <div class="section">
+    <div class="container">
+
+      <md-button class="md-fab md-fab-top-right md-round md-danger"
+		 v-on:click="showNewCourseModal"
+		 >
+	<md-icon>Nouveau cours</md-icon>
+      </md-button>
+
+      <div class="main">
+	<div class="md-layout">
+	  <calendar-view
+	    :show-date="showDate"
+	    class="theme-default holiday-fr-traditional holiday-fr-official"
+	    v-bind:events="events"
+	    v-bind:displayPeriodUom="displayPeriodUom"
+	    v-bind:displayPeriodCount="displayPeriodCount"
+	    v-bind:enableDragDrop="enableDragAndDrop"
+	    v-bind:showEventTimes="showEventTimes"
+	    v-on:click-event="clickEvent"
+	    v-on:drop-on-date="dropOnDate"
+	    >
+	    <calendar-view-header slot="header"
+				  slot-scope="t"
+				  :header-props="t.headerProps"
+				  @input="setShowDate"/>
+	  </calendar-view>
+
+	</div>
+      </div>
+    </div>
+  </div>
+
   <new-course ref="newCourse"
 	      v-bind:events="events" />
   <event-details ref="eventDetails"
 		 v-bind:event="event"		 
 		 />
-</b-container>
+
+</div>
 </template>
 
 <script>
@@ -104,6 +127,15 @@ export default {
 	},
 
     },
+
+    props: {
+	  image: {
+	      type: String,
+	      default: require("@/assets/img/back-taek-dojo-2.jpg")
+	  }
+	  
+      },
+
     mounted: async function() {
 	try {
 	    const result = await EventService.getAllEvents();
@@ -118,7 +150,16 @@ export default {
 	catch (err) {
 	    this.$router.replace('Login');	    
 	}
-    }
+    },
+
+    computed: {
+	headerStyle() {
+	    return {
+		backgroundImage: `url(${this.image})`
+	    };
+	}
+    },
+    
     
 }
 </script>

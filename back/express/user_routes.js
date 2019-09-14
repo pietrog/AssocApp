@@ -32,8 +32,6 @@ app.post('/addStudent', async (req, res) => {
 	if (user.phone_number && user.phone_number.length > 0) {
 	    u.phone_number = user.phone_number;
 	}
-	console.log("looook: ");
-	console.log(u);
 	await UserAPI.updateUserByID(result._id, u);	    
 
 	http_h.success(res, user.firstname + " ajouté", result._id);

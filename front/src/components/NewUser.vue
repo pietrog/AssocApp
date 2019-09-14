@@ -1,68 +1,96 @@
 <template>
-<b-modal ref="newUserModal"
-	 hide-footer
-	 title="Ajouter un membre">
-  <b-form @submit="onSubmit"
-	  @reset="onReset"
-	  >
+<div class="modal modal-bg"
+     :class="{ show: display }"
+     >
+  <modal v-if="display">
 
-    <!-- Prénom -->
-    <b-form-group label="Prénom">
-      <b-form-input type="text"
-		    required
-		    v-model="user.firstname"
-		    placeholder="Entrer le prénom">	
-      </b-form-input>
-    </b-form-group>
+    <template slot="header">
+      <h2 class="modal-title">Nouveau membre</h2>
+      <md-button
+        class="md-simple md-close md-just-icon md-round modal-default-button"
+        @click="display = false"
+        >
+        <md-icon>clear</md-icon>
+      </md-button>
+    </template>
 
-    <!-- Nom de famille -->
-    <b-form-group label="Nom de famille">
-      <b-form-input type="text"
-		    required
-		    v-model="user.lastname"
-		    placeholder="Entrer le nom de famille">	
-      </b-form-input>
-    </b-form-group>
+    <template slot="body">
+      <form class="md-layout">
+	
+	<div class="md-layout-item">
+	  <md-field>
+	    <label for="firstname">Prénom</label>
+	    <md-input name="firstname"
+		      id="firstname"
+		      v-model="user.firstname"
+		      />
+	  </md-field>
+	</div>
 
-    <!-- Birthdate -->
-    <b-form-group label="Date de naissance">
-      <b-form-input type="date"
-		    required		    
-		    v-model="user.birthdateHtml"
-		    placeholder="Entrer la date de naissance">	
-      </b-form-input>
-    </b-form-group>
-    
+	<div class="md-layout-item">
+	  <md-field>
+	    <label for="lastname">Nom de famille</label>
+	    <md-input name="lastname"
+		      id="lastname"
+		      v-model="user.lastname"
+		      />
+	  </md-field>
+	</div>
 
-    <!-- Emails -->
-    <b-form-group label="Adresse e-mail"
-		  >
-      <b-form-input type="text"
-		    v-model="email"
-		    placeholder="Entrer une adresse mail">	
-      </b-form-input>
-    </b-form-group>
+	<div class="md-layout-item md-size-75">
+	    <md-datepicker name="birthdate"
+			   id="birthdate"
+			   v-model="user.birthdateHtml"
+			   md-immediately
+			   >
+	      <label for="lastname">Date de naissance</label>
+	    </md-datepicker>
+	</div>
 
-    <!-- Phones -->
-    <b-form-group label="Téléphone">
-      <b-form-input type="text"
-		    v-model="phone"
-		    placeholder="Entrer un numéro de téléphone">	
-      </b-form-input>
-    </b-form-group>
+	<div class="md-layout-item md-size-75">
+	  <md-field>
+	    <label for="email">Adresse e-mail</label>
+	    <md-input name="email"
+		      id="email"
+		      v-model="email"
+		      />
+	  </md-field>
+	</div>
 
-    <b-button type="submit"
-	      variant="success"
-	      >Ajouter le membre</b-button>
-    <b-button type="reset"
-	      variant="danger"
-	      >Effacer</b-button>    
-  </b-form>
-  <b-alert :show="showError"
-	   variant="danger">
-    {{error}}
-  </b-alert>
-</b-modal>
+	<div class="md-layout-item ">
+	  <md-field>
+	    <label for="email">Telephone</label>
+	    <md-input name="phone"
+		      id="phone"
+		      v-model="phone"
+		      />
+	  </md-field>
+	</div>
+	
+      </form>
+    </template>
+
+    <template slot="footer">
+      <div class="md-layout">
+      	<div class="md-layout-item md-alignment-center-right md-size-100">
+	  <md-button v-on:click="onSubmit"
+		     class="md-success md-round">
+	    Ajouter
+	  </md-button>
+	</div>
+	<div class="md-layout-item ">
+	  <div class="container">
+	    <span class="alert alert-danger"
+		  v-if="error">
+	      {{ error }}
+	    </span>
+	  </div>
+	</div>
+      </div>
+    </template>
+
+  </modal>
+</div>
 
 </template>
 
@@ -71,8 +99,13 @@ const tools = require('./tools');
 
 const UserService = require('../services/UserService').service;
 
+import Modal from "./Modal";
+
 export default {
     name: 'new-user',
+    components: {
+	Modal
+    },
     data: function() {
 	return {
 	    user: {
@@ -85,7 +118,8 @@ export default {
 	    email: "",
 	    phone: "",
 	    error: "",
-	    showError: false
+	    showError: false,
+	    display: false
 	}
     },
     props: {
@@ -130,7 +164,7 @@ export default {
 		tools.sendMessage(this.$store, res);
 		this.user._id = res.data.data;
 		this.users.push(this.user);
-		this.$refs.newUserModal.hide();
+		this.display = false;
 	    }
 	    else {
 		this.error = res.data.message;
@@ -138,7 +172,7 @@ export default {
 	    }
 	},
 	show: function() {
-	    this.$refs.newUserModal.show();
+	    this.display = true;
 	}
     }
 }
@@ -146,4 +180,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+
 </style>

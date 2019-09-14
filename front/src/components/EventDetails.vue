@@ -1,102 +1,156 @@
 <template>
-<b-modal ref="eventDetailsModal" hide-footer
-	 title="Création d'un évènement">
-  <b-form v-if="event"
-	  @submit="onSubmit">
-    
-    <!-- switch between single and multi events -->
-    <b-form-group horizontal
-		  label="Nom"
-		  label-class="font-weight-bold pt-0"
-		  >
-      <b-form-input v-model="event.title" />
-    </b-form-group>
+<div class="modal modal-bg"
+     :class="{ show: display }"
+     >
+  <modal v-if="display">
 
-    <!-- switch between single and multi events -->
-    <b-card>
-      
-      <b-form-group horizontal
-		    label="Date de début"
-		    label-class="font-weight-bold pt-0"
-		    >
-	<b-form-input type="date"
-		      v-model="startDateT" />
-	<b-form-input type="time"
-		      v-model="startDateTime" />
+    <template slot="header">
+      <h2 class="modal-title">Creation d'un evenement</h2>
+      <md-button
+        class="md-simple md-close md-just-icon md-round modal-default-button"
+        @click="display = false"
+        >
+        <md-icon>clear</md-icon>
+      </md-button>
+    </template>
+
+    <template slot="body">
+      <form class="md-layout">
 	
-      </b-form-group>
-      
-    </b-card>
+	<div class="md-layout-item">
+	  <md-field>
+	    <md-switch v-model="recurrentEvent">
+              {{ recurrentEvent ? "Liste" : "Solo" }}
+            </md-switch>
+	  </md-field>
+	</div>
 
-    <!-- switch between single and multi events -->
-    <b-card>
-      
-      <b-form-group horizontal
-		    label="Date de fin"
-		    label-class="font-weight-bold pt-0"
-		    >
-	<b-form-input type="date"
-		      v-model="endDateT" />
-	<b-form-input type="time"
-		      v-model="endDateTime" />
-	
-      </b-form-group>
-      
-    </b-card>
+	<div class="md-layout-item">
+	  <md-field>
+	    <label for="title">Nom du cours</label>
+	    <md-input name="title"
+		      id="title"
+		      v-model="event.title"
+		      />
+	  </md-field>
+	</div>
 
-    <b-row>
-      <b-col>
-	<b-button type="submit"
-		  variant="success">Mise à jour</b-button>
-      </b-col>
-    </b-row>
-    <b-btn v-b-toggle.collapse1
-	   variant="primary"
-	   size="sm">Options de suppression</b-btn>
-    <b-collapse id="collapse1" class="mt-2">
-      <b-card>
-	<b-row>
-	  <b-col>
-	    Supprimer une instance
-	  </b-col>
-	  <b-col>
-	    <b-button v-on:click="deleteOneAndExit"
-		      variant="danger"
-		      class="close"
-		      aria-label="close">X</b-button>
-	  </b-col>
-	</b-row>
-	<b-row>
-	  <b-col>
-	    Supprimer toutes les instances
-	  </b-col>
-	  <b-col>
-	    <b-button v-on:click="deleteAllAndExit"
-		      class="close"
-		      aria-label="close"
-		      variant="danger">X</b-button>
-	  </b-col>
-	</b-row>
-      </b-card>
-    </b-collapse>
-  </b-form>
-</b-modal>
+	<div class="md-layout-item">
+	  <md-field>
+	    <label for="color">Couleur</label>
+	    <md-input name="color"
+		      id="color"
+		      type="color"
+		      v-model="eventColor"
+		      />
+	  </md-field>
+	</div>
 
+	<div class="md-layout-item">
+	  <md-field>
+	    <label for="description">Description</label>
+	    <md-input name="description"
+		      id="description"
+		      v-model="event.description"
+		      />
+	  </md-field>
+	</div>
+
+	<!-- First occurence -->
+	<div class="md-layout-item">
+	  <md-field>
+	    <md-datepicker name="first"
+			   id="first"
+			   v-model="startDate"
+			   md-immediately
+			   >
+	      <label for="first">Premier cours</label>
+	    </md-datepicker>
+	  </md-field>
+	</div>
+
+	<!-- Event duration in minutes -->
+	<div class="md-layout-item">
+	  <md-field>
+	    <label for="duration">Durée (min)</label>
+	    <md-input name="duration"
+		      id="duration"
+		      type="number"
+		      v-model="event.duration"
+		      />
+	  </md-field>
+	</div>
+
+	<!-- End course -->
+	<div class="md-layout-item">
+	  <md-field>
+	    <md-datepicker name="first"
+			   id="first"
+			   v-model="startDate"
+			   md-immediately
+			   >
+	      <label for="first">Last cours</label>
+	    </md-datepicker>
+	  </md-field>
+	</div>
+
+      </form>
+    </template>
+
+    <template slot="footer">
+      <div class="md-layout">
+      	<div class="md-layout-item md-alignment-center-right md-size-100">
+	  <md-button v-on:click="onSubmit"
+		     class="md-success md-round">
+	    Mise à jour
+	  </md-button>
+	  <md-button v-on:click="deleteOneAndExit"
+		     class="md-success md-round">
+	    Supprimer 1
+	  </md-button>
+	  <md-button v-on:click="deleteAllAndExit"
+		     class="md-success md-round">
+	    Supprimer tous
+	  </md-button>
+
+
+	</div>
+	<div class="md-layout-item ">
+	  <div class="container">
+	    <span class="alert alert-danger"
+		  v-if="error">
+	      {{ error }}
+	    </span>
+	  </div>
+	</div>
+      </div>
+    </template>
+
+  </modal>
+</div>
 </template>
 
 <script>
 const tools = require('./tools');
 const EventService = require('../services/EventService').service;
 
+import Modal from "./Modal";
+
 export default {
     name: 'event-details',
+
+    components: {
+	Modal
+    },
+    
     data: function() {
 	return {
 	    event: null,
 	    startDateT: "2019-01-01",
 	    endDateT: "2019-01-01", 
 	    startDateTime: "10:00",
-	    endDateTime: "10:00"
+	    endDateTime: "10:00",
+	    display: false
 	}
     },
     methods: {
@@ -116,10 +170,12 @@ export default {
 	deleteOneAndExit: async function() {
 	    const result = await EventService.deleteOneEvent(this.event._id);
 	    tools.sendMessage(this.$store, result);
+	    this.display = false;
 	},
 	deleteAllAndExit: async function() {
 	    const result = await EventService.deleteAllEventsByName(this.event.name);
 	    tools.sendMessage(this.$store, result);
+	    this.display = false;
 	},
 	show: function(event) {
 	    this.startDateT = tools.toInputDate(event.startDate);
@@ -127,7 +183,7 @@ export default {
 	    this.startDateTime = tools.fromJSDateToInputTime(event.startDate);
 	    this.endDateTime = tools.fromJSDateToInputTime(event.endDate);
 	    this.event = event;
-	    this.$refs.eventDetailsModal.show();
+	    this.display = true;;
 	}	
     }
 }

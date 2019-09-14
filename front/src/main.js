@@ -4,17 +4,27 @@ import Vue from 'vue';
 import App from '@/App';
 import router from '@/router';
 import store from '@/store';
-import BootstrapVue from 'bootstrap-vue'
 
-import VueMaterial from "vue-material";
-import "vue-material/dist/vue-material.min.css";
-import "@/assets/scss/material-dashboard.scss";
 
-import SideBar from '@/components/vue-material/SidebarPlugin/SideBar';
+import MaterialKit from "@/plugins/material-kit";
+//import VueMaterial from "vue-material"; //import full bundle of vue material
+//import "vue-material/dist/vue-material.min.css";
+//
 
-Vue.use(BootstrapVue);
-Vue.use(SideBar);
-Vue.use(VueMaterial);
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default.css'
+//import 'vue-material/dist/theme/all.scss' // This line here
+/*@import 'vue-material/dist/theme/engine'; // Import the theme engine
+
+@include md-register-theme("default", (
+  primary: md-get-palette-color(blue, A200), // The primary color of your application
+  accent: md-get-palette-color(red, A200), // The accent or secondary color
+  theme: dark // This can be dark or light
+));
+
+@import "vue-material/dist/theme/all";*/ // Apply the theme
+
+Vue.use(MaterialKit);
 
 Vue.config.productionTip = false
 
